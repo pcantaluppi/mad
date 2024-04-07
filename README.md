@@ -2,36 +2,40 @@
 
 Train-Tracker is a Flutter app for tracking custormer cargo data
 
-## Installation
+### Prerequisites
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+- Flutter <br>https://flutter.dev/docs/get-started/install
+- Your preferred IDE (e.g. VS Code)
+- Suitable Flutter SDK version
 
-```bash
-pip install foobar
+### Installation
+
+Clone the repository:
+
+```sh
+git https://github.com/pcantaluppi/mad/
+cd mad
+flutter pub get
 ```
 
 ## Usage
 
-```python
-import foobar
+To run the app:
 
-# returns 'words'
-foobar.pluralize('word')
-
-# returns 'geese'
-foobar.pluralize('goose')
-
-# returns 'phenomenon'
-foobar.singularize('phenomena')
+```sh
+flutter run
 ```
 
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first
-to discuss what you would like to change.
+To contribute:
 
-Please make sure to update tests as appropriate.
+- Fork this repository.
+- Create a branch: git checkout -b <branch_name>.
+- Make your changes and commit: git commit -m '<commit_message>'
+- Push to the original branch: git push origin mad/<branch_name>
+- Create the pull request.
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+This project uses [MIT](https://choosealicense.com/licenses/mit/).
