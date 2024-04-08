@@ -1,11 +1,13 @@
 # Train-Tracker
 
-Train-Tracker is a Flutter app for tracking custormer cargo data
+Train-Tracker is a Flutter app for tracking custormer cargo data.
 
 ### Prerequisites
 
-- Flutter <br>https://flutter.dev/docs/get-started/install
-- Your preferred IDE (e.g. VS Code)
+- Flutter
+  <br />https://flutter.dev/docs/get-started/install
+- Your preferred IDE
+  <br />https://code.visualstudio.com/download
 - Suitable Flutter SDK version
 
 ### Installation
@@ -35,7 +37,3 @@ To contribute:
 - Make your changes and commit: git commit -m '<commit_message>'
 - Push to the original branch: git push origin mad/<branch_name>
 - Create the pull request.
-
-## License
-
-This project uses [MIT](https://choosealicense.com/licenses/mit/).
