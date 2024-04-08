@@ -2,6 +2,8 @@
 
 Train-Tracker is a Flutter app for tracking custormer cargo data.
 
+<img src="https://github.com/pcantaluppi/mad/blob/main/assets/logo.png?raw=true" alt="Train Tracker" />
+
 ### Prerequisites
 
 - Flutter
