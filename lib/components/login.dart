@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:login_signup/components/common/custom_input_field.dart';
-import 'package:login_signup/components/common/page_header.dart';
-import 'package:login_signup/components/password_reset.dart';
-import 'package:login_signup/components/common/page_heading.dart';
-import 'package:login_signup/components/common/custom_form_button.dart';
+import '/components/common/custom_input_field.dart';
+import '/components/common/page_header.dart';
+import '/components/password_reset.dart';
+import '/components/common/page_heading.dart';
+import '/components/common/custom_form_button.dart';
 import 'package:email_validator/email_validator.dart';
 
 class LoginPage extends StatefulWidget {
@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                                           const PasswordReset()))
                             },
                             child: const Text(
-                              'Forgott password?',
+                              'Forgot password?',
                               style: TextStyle(
                                 color: Color(0xff939393),
                                 fontSize: 13,

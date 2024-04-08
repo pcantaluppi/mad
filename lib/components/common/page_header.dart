@@ -9,7 +9,7 @@ class PageHeader extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: size.height * 0.3,
-      child: Image.asset('assets/images/friendship.png'),
+      child: Image.asset('assets/images/logo.png'),
     );
   }
 }

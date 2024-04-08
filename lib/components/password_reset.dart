@@ -1,10 +1,10 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:login_signup/components/common/custom_form_button.dart';
-import 'package:login_signup/components/common/page_header.dart';
-import 'package:login_signup/components/common/page_heading.dart';
-import 'package:login_signup/components/login.dart';
-import 'package:login_signup/components/common/custom_input_field.dart';
+import 'common/custom_form_button.dart';
+import 'common/custom_input_field.dart';
+import 'common/page_header.dart';
+import 'common/page_heading.dart';
+import 'login.dart';
 
 class PasswordReset extends StatefulWidget {
   const PasswordReset({Key? key}) : super(key: key);
