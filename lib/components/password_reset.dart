@@ -7,7 +7,7 @@ import 'common/page_heading.dart';
 import 'login.dart';
 
 class PasswordReset extends StatefulWidget {
-  const PasswordReset({Key? key}) : super(key: key);
+  const PasswordReset({super.key});
 
   @override
   State<PasswordReset> createState() => _PasswordResetState();

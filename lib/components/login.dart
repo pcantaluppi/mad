@@ -7,14 +7,13 @@ import '/components/common/custom_form_button.dart';
 import 'package:email_validator/email_validator.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  //
   final _loginFormKey = GlobalKey<FormState>();
 
   @override
