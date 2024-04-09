@@ -28,9 +28,9 @@ class SplashScreenState extends State<SplashScreen> {
       backgroundColor: Colors.white,
       body: Center(
         child: Image.asset(
-          'assets/logo.png', // Change this to the path of your logo
-          width: 200, // Adjust width as needed
-          height: 200, // Adjust height as needed
+          'assets/images/logo.png',
+          width: 200,
+          height: 400,
         ),
       ),
     );
