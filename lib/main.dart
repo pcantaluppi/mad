@@ -1,24 +1,8 @@
-// import 'package:flutter/material.dart';
-// import 'splash.dart';
-
-// void main() {
-//   runApp(const MainApp());
-// }
-
-// class MainApp extends StatelessWidget {
-//   const MainApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       home: SplashScreen(),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'components/login.dart';
+import 'splash.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter is initialized
@@ -26,7 +10,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   // Initialize Supabase asynchronously
   Future<void> initializeSupabase() async {
@@ -36,24 +20,26 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      // Initialize Supabase and wait for completion
-      future: initializeSupabase(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          // Once Supabase is initialized, return MaterialApp
-          return const MaterialApp(
-            debugShowCheckedModeBanner: false,
-            home: LoginPage(),
-          );
-        } else {
-          // Show loading indicator while Supabase is initializing
-          return const CircularProgressIndicator();
-        }
-      },
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: FutureBuilder(
+        // Initialize Supabase and wait for completion
+        future: Future.wait([
+          initializeSupabase(),
+          Future.delayed(const Duration(seconds: 4)), // Timer for splash screen
+        ]),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            // Once Supabase is initialized and timer is done, return LoginPage
+            return const LoginPage();
+          } else {
+            // Show SplashScreen while waiting
+            return const SplashScreen();
+          }
+        },
+      ),
     );
   }
 }
