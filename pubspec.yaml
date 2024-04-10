@@ -11,8 +11,9 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   email_validator: ^2.0.1
-  image_picker: ^0.8.5+3
+  image_picker: ^1.0.7
   supabase_flutter: ^2.0.0
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -26,8 +27,8 @@ flutter:
     - assets/images/
 
   fonts:
-    - family: NotoSerif
+    - family: Roboto
       fonts:
-        - asset: assets/fonts/NotoSerif-Regular.ttf
-        - asset: assets/fonts/NotoSerif-Bold.ttf
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Bold.ttf
           weight: 700

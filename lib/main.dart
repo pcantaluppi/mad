@@ -1,10 +1,12 @@
+// main.dart
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'components/splash.dart';
 import 'components/login.dart';
+import 'config.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter is initialized
   runApp(const MyApp());
 }
@@ -14,10 +16,7 @@ class MyApp extends StatelessWidget {
 
   // Initialize Supabase asynchronously
   Future<void> initializeSupabase() async {
-    await Supabase.initialize(
-      url: 'YOUR_SUPABASE_URL',
-      anonKey: 'YOUR_SUPABASE_ANON_KEY',
-    );
+    await Supabase.initialize(url: supabaseUrl, anonKey: supabaseAnonKey);
   }
 
   @override
