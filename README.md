@@ -2,7 +2,7 @@
 
 Train-Tracker is a Flutter app for tracking custormer cargo data.
 
-<img src="https://github.com/pcantaluppi/mad/blob/main/assets/images/logo.png?raw=true" width="100px" alt="Train Tracker" />
+<img src="https://github.com/pcantaluppi/mad/blob/main/assets/images/logo.png?raw=true" width="100px" alt="Train-Tracker" />
 
 ### Prerequisites
 
@@ -14,7 +14,7 @@ Train-Tracker is a Flutter app for tracking custormer cargo data.
 
 ### Installation
 
-Clone the repository:
+Clone the git repository:
 
 ```sh
 git https://github.com/pcantaluppi/mad/
@@ -22,9 +22,16 @@ cd mad
 flutter pub get
 ```
 
+Create a .env with your backend:
+
+```js
+URL = your_supabase_url;
+KEY = your_supabase_anon_key;
+```
+
 ## Usage
 
-To run the app:
+To run the app from the cli:
 
 ```sh
 flutter run

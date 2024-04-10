@@ -3,7 +3,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'common/custom_form_button.dart';
 import 'common/custom_input_field.dart';
-import 'common/page_header.dart';
+import 'common/page_header_login.dart';
 import 'common/page_heading.dart';
 import 'login.dart';
 
@@ -24,7 +24,7 @@ class _PasswordResetState extends State<PasswordReset> {
         backgroundColor: const Color(0xffEEF1F3),
         body: Column(
           children: [
-            const PageHeader(),
+            const PageHeaderLogin(),
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(

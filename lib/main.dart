@@ -1,21 +1,28 @@
 // main.dart
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'components/splash.dart';
 import 'components/login.dart';
-import 'config.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter is initialized
+  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await dotenv.load(fileName: ".env");
+  } catch (e) {
+    print('!!!! Failed to load env variables: $e');
+  }
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // Initialize Supabase asynchronously
+  // Initialize Supabase
   Future<void> initializeSupabase() async {
+    final String supabaseUrl = dotenv.env['URL'] ?? '';
+    final String supabaseAnonKey = dotenv.env['KEY'] ?? '';
     await Supabase.initialize(url: supabaseUrl, anonKey: supabaseAnonKey);
   }
 
@@ -24,17 +31,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: FutureBuilder(
-        // Initialize Supabase and wait for completion
+        // Initialize Supabase
         future: Future.wait([
           initializeSupabase(),
-          Future.delayed(const Duration(seconds: 4)), // Timer for splash screen
+          // Timer for splash screen
+          Future.delayed(const Duration(seconds: 4)),
         ]),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            // Once Supabase is initialized and timer is done, return LoginPage
             return const LoginPage();
           } else {
-            // Show SplashScreen while waiting
             return const SplashScreen();
           }
         },

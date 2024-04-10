@@ -1,13 +1,13 @@
 // login.dart
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:email_validator/email_validator.dart';
 import '/components/home.dart';
 import '/components/password_reset.dart';
 import '/components/common/custom_input_field.dart';
-import '/components/common/page_header.dart';
+import '/components/common/page_header_login.dart';
 import '/components/common/page_heading.dart';
 import '/components/common/custom_form_button.dart';
-import 'package:email_validator/email_validator.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
         backgroundColor: const Color(0xffEEF1F3),
         body: Column(
           children: [
-            const PageHeader(),
+            const PageHeaderLogin(),
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
@@ -110,7 +110,6 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: _handleLoginUser,
                         ),
                         const SizedBox(height: 18),
-                        // If there is any other widget you'd like to add, place it here
                       ],
                     ),
                   ),
@@ -124,24 +123,38 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _handleLoginUser() async {
-    if (_loginFormKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Submitting data...')),
-      );
+    try {
+      if (_loginFormKey.currentState!.validate()) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Submitting data...')),
+        );
 
-      final response = await Supabase.instance.client.auth.signUp(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
+        final response = await Supabase.instance.client.auth.signInWithPassword(
+          email: _emailController.text,
+          password: _passwordController.text,
+        );
 
-      if (response.user == null) {
-        String errorMessage = 'Login failed';
+        if (!mounted) return;
+
+        if (response.user != null) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const HomePage()),
+          );
+        }
+      }
+    } on AuthException catch (error) {
+      print(error.message.toString());
+      if (mounted) {
+        String errorMessage = 'Login failed. Please try again.';
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(errorMessage)),
         );
-      } else {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const HomePage()),
+      }
+    } catch (error) {
+      if (mounted) {
+        String errorMessage = 'Unexpected error occurred.';
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage)),
         );
       }
     }

@@ -1,5 +1,5 @@
 name: train_tracker
-description: "Train Tracker"
+description: "Train-Tracker"
 publish_to: "none"
 version: 0.1.0
 
@@ -25,6 +25,7 @@ flutter:
 
   assets:
     - assets/images/
+    - .env
 
   fonts:
     - family: Roboto
