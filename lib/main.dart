@@ -11,6 +11,7 @@ void main() async {
   try {
     await dotenv.load(fileName: ".env");
   } catch (e) {
+    // ignore: avoid_print
     print('!!!! Failed to load env variables: $e');
   }
   runApp(const MyApp());

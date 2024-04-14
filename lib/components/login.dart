@@ -143,6 +143,7 @@ class _LoginPageState extends State<LoginPage> {
         }
       }
     } on AuthException catch (error) {
+      // ignore: avoid_print
       print(error.message.toString());
       if (mounted) {
         String errorMessage = 'Login failed. Please try again.';
