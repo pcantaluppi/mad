@@ -10,7 +10,8 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   late GoogleMapController mapController;
-  final LatLng _center = const LatLng(47.547805680410434, 7.5827125296898545);
+  final LatLng _basel = const LatLng(47.5596, 7.5886); // Basel, Switzerland
+  final LatLng _freiburg = const LatLng(47.9990, 7.8421); // Freiburg, Germany
   final Set<Marker> _markers = {};
   final Set<Polyline> _polylines = {};
 
@@ -23,52 +24,54 @@ class _MapPageState extends State<MapPage> {
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+    _updateCameraBounds();
   }
 
   void _addMarker() {
     _markers.add(
       Marker(
-        markerId: const MarkerId('center_marker'),
-        position: _center,
+        markerId: const MarkerId('basel'),
+        position: _basel,
         infoWindow: const InfoWindow(
-          title: 'Train 1234567890',
-          snippet: 'Current location.',
-        ),
-        icon: BitmapDescriptor.defaultMarker,
+            title: 'Current Location', snippet: 'Basel, Switzerland'),
       ),
     );
   }
 
   void _createRoute() {
-    final List<LatLng> routeCoords = [
-      const LatLng(46.2932, 7.8810), // Visp, Switzerland
-      const LatLng(47.5596, 7.5886), // Basel, Switzerland
-      const LatLng(48.7758, 9.1829), // Stuttgart, Germany
-      const LatLng(50.1109, 8.6821), // Frankfurt, Germany
+    List<LatLng> routePoints = [
+      _basel,
+      const LatLng(47.7410, 7.6200), // Weil am Rhein, Germany
+      const LatLng(47.8060, 7.6600), // Neuenburg am Rhein, Germany
+      const LatLng(47.8750, 7.7190), // Müllheim, Germany
+      _freiburg
     ];
 
     final Polyline route = Polyline(
-      polylineId: const PolylineId('route1'),
+      polylineId: const PolylineId('route'),
       visible: true,
-      points: routeCoords,
-      width: 6,
+      points: routePoints,
+      width: 5,
       color: Colors.blue,
     );
-    setState(() {
-      _polylines.add(route);
-    });
+    _polylines.add(route);
+  }
+
+  void _updateCameraBounds() {
+    final LatLngBounds bounds = LatLngBounds(
+      southwest: const LatLng(47.5596, 7.5886),
+      northeast: const LatLng(47.9990, 7.8421),
+    );
+    mapController.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50));
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: const Color.fromARGB(255, 212, 224, 230),
-      ),
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Map Demo'),
+          title: const Text('Train 1234567890'),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () => Navigator.of(context).pop(),
@@ -77,19 +80,23 @@ class _MapPageState extends State<MapPage> {
         body: GoogleMap(
           onMapCreated: _onMapCreated,
           initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 17.0,
+            target: _basel,
+            zoom: 8.0,
           ),
           markers: _markers,
           polylines: _polylines,
           mapType: MapType.normal,
           zoomControlsEnabled: false,
-          zoomGesturesEnabled: false,
-          scrollGesturesEnabled: false,
-          rotateGesturesEnabled: false,
-          tiltGesturesEnabled: false,
+          zoomGesturesEnabled: true,
+          scrollGesturesEnabled: true,
+          rotateGesturesEnabled: true,
+          tiltGesturesEnabled: true,
         ),
       ),
     );
   }
+}
+
+void main() {
+  runApp(const MapPage());
 }
