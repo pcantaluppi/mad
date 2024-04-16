@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'login.dart';
+import 'map.dart';
 import '/components/common/page_header.dart';
 import '/components/common/page_heading.dart';
 
@@ -35,17 +36,27 @@ class HomePage extends StatelessWidget {
                     top: Radius.circular(20),
                   ),
                 ),
-                child: const SingleChildScrollView(
+                child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      PageHeading(title: 'Home'),
+                      const PageHeading(title: 'Home'),
                       Padding(
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         child: Column(
                           children: [
-                            Text(
+                            const Text(
                               'Welcome to the Home Page',
                               style: TextStyle(fontSize: 24),
+                            ),
+                            const SizedBox(height: 20),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => const MapPage()),
+                                );
+                              },
+                              child: const Text('Go to Detail Page'),
                             ),
                           ],
                         ),
