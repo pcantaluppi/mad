@@ -1,6 +1,7 @@
 // home.dart
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:train_tracker/components/common/custom_form_button.dart';
 import 'login.dart';
 import 'map.dart';
 import '/components/common/page_header.dart';
@@ -45,18 +46,18 @@ class HomePage extends StatelessWidget {
                         child: Column(
                           children: [
                             const Text(
-                              'Welcome to the Home Page',
+                              'TODO: Add grid here',
                               style: TextStyle(fontSize: 24),
                             ),
                             const SizedBox(height: 20),
-                            ElevatedButton(
+                            CustomFormButton(
                               onPressed: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                       builder: (context) => const MapPage()),
                                 );
                               },
-                              child: const Text('Go to Detail Page'),
+                              innerText: 'Map',
                             ),
                           ],
                         ),
