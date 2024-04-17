@@ -1,5 +1,5 @@
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapPage extends StatefulWidget {
@@ -11,8 +11,9 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   late GoogleMapController mapController;
-  // todo: read from state
+  // TODO: Read from state
   final LatLng _start = const LatLng(47.5596, 7.5886); // Basel, Switzerland
+  // TODO: Read from state
   final LatLng _end = const LatLng(47.9990, 7.8421); // Freiburg, Germany
   final Set<Marker> _markers = {};
   final Set<Polyline> _polylines = {};
@@ -34,10 +35,11 @@ class _MapPageState extends State<MapPage> {
   void _addMarker() {
     _markers.add(
       Marker(
-        markerId: const MarkerId('basel'),
+        markerId: const MarkerId('basel'), // TODO: Read from state
         position: _start,
         infoWindow: const InfoWindow(
-            title: 'Current Location', snippet: 'Basel, Switzerland'),
+            title: 'Current Location',
+            snippet: 'Basel, Switzerland'), // TODO: Read from state
       ),
     );
   }
@@ -45,7 +47,7 @@ class _MapPageState extends State<MapPage> {
   void _createRoute() {
     List<LatLng> routePoints = [
       _start,
-      // todo: add points dynamically
+      // TODO: Add points dynamically
       const LatLng(47.7410, 7.6200), // Weil am Rhein, Germany
       const LatLng(47.8060, 7.6600), // Neuenburg am Rhein, Germany
       const LatLng(47.8750, 7.7190), // Müllheim, Germany
@@ -80,34 +82,20 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    // todo: convert it to a widget
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Train 123456789'),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ),
-        body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _start,
-            zoom: 8.0,
-          ),
-          markers: _markers,
-          polylines: _polylines,
-          mapType: MapType.normal,
-          style: _mapStyle, // Apply the style directly here
-          zoomControlsEnabled: false,
-          zoomGesturesEnabled: true,
-          scrollGesturesEnabled: true,
-          rotateGesturesEnabled: true,
-          tiltGesturesEnabled: true,
-        ),
+    return GoogleMap(
+      onMapCreated: _onMapCreated,
+      initialCameraPosition: CameraPosition(
+        target: _start,
+        zoom: 8.0,
       ),
+      markers: _markers,
+      polylines: _polylines,
+      mapType: MapType.normal,
+      zoomControlsEnabled: false,
+      zoomGesturesEnabled: true,
+      scrollGesturesEnabled: true,
+      rotateGesturesEnabled: true,
+      tiltGesturesEnabled: true,
     );
   }
 }
