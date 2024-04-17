@@ -11,35 +11,35 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   late GoogleMapController mapController;
+  // todo: read from state
   final LatLng _start = const LatLng(47.5596, 7.5886); // Basel, Switzerland
   final LatLng _end = const LatLng(47.9990, 7.8421); // Freiburg, Germany
   final Set<Marker> _markers = {};
   final Set<Polyline> _polylines = {};
-  String? _mapStyle;
-  bool _isStyleLoaded = false;
+  Future<String>? _styleFuture;
 
   @override
   void initState() {
     super.initState();
-    _loadMapStyle().then((_) {
-      _isStyleLoaded = true;
-      setState(() {});
-    });
+    _styleFuture = _loadMapStyle();
     _addMarker();
     _createRoute();
   }
 
-  Future<void> _loadMapStyle() async {
-    _mapStyle = await rootBundle.loadString('assets/map/style.json');
+  Future<String> _loadMapStyle() async {
+    return await rootBundle.loadString('assets/map/style.json');
   }
 
   void _addMarker() {
     _markers.add(
       Marker(
+        // todo: read from state
         markerId: const MarkerId('basel'),
         position: _start,
         infoWindow: const InfoWindow(
-            title: 'Current Location', snippet: 'Basel, Switzerland'),
+            title: 'Current Location',
+            // todo: read from state
+            snippet: 'Basel, Switzerland'),
       ),
     );
   }
@@ -47,6 +47,7 @@ class _MapPageState extends State<MapPage> {
   void _createRoute() {
     List<LatLng> routePoints = [
       _start,
+      // todo: add points dynamically
       const LatLng(47.7410, 7.6200), // Weil am Rhein, Germany
       const LatLng(47.8060, 7.6600), // Neuenburg am Rhein, Germany
       const LatLng(47.8750, 7.7190), // Müllheim, Germany
@@ -65,14 +66,11 @@ class _MapPageState extends State<MapPage> {
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
-    if (_mapStyle != null) {
-      mapController.setMapStyle(_mapStyle);
-    }
-    _updateCameraBounds();
   }
 
   void _updateCameraBounds() {
     final LatLngBounds bounds = LatLngBounds(
+      // todo: add bounds dynamically
       southwest: const LatLng(47.5596, 7.5886),
       northeast: const LatLng(47.9990, 7.8421),
     );
@@ -81,34 +79,35 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Train 123456789'),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ),
-        body: _isStyleLoaded
-            ? GoogleMap(
-                onMapCreated: _onMapCreated,
-                initialCameraPosition: CameraPosition(
-                  target: _start,
-                  zoom: 8.0,
-                ),
-                markers: _markers,
-                polylines: _polylines,
-                mapType: MapType.normal,
-                zoomControlsEnabled: false,
-                zoomGesturesEnabled: true,
-                scrollGesturesEnabled: true,
-                rotateGesturesEnabled: true,
-                tiltGesturesEnabled: true,
-              )
-            : const Center(child: CircularProgressIndicator()),
-      ),
+    return FutureBuilder<String>(
+      future: _styleFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.hasData) {
+          return GoogleMap(
+            onMapCreated: (GoogleMapController controller) {
+              _onMapCreated(controller);
+              // todo: remove deprecated method
+              controller.setMapStyle(snapshot.data);
+              _updateCameraBounds();
+            },
+            initialCameraPosition: CameraPosition(
+              target: _start,
+              zoom: 8.0,
+            ),
+            markers: _markers,
+            polylines: _polylines,
+            mapType: MapType.normal,
+            zoomControlsEnabled: false,
+            zoomGesturesEnabled: true,
+            scrollGesturesEnabled: true,
+            rotateGesturesEnabled: true,
+            tiltGesturesEnabled: true,
+          );
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
     );
   }
 }
