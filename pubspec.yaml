@@ -28,6 +28,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/map/
     - .env
 
   fonts:
