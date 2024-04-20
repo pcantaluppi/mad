@@ -17,7 +17,6 @@ dependencies:
   email_validator: ^2.0.1
   image_picker: ^1.0.7
   provider: ^6.1.2
-  supabase_flutter: ^2.0.0
 
 dev_dependencies:
   flutter_test:

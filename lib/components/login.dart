@@ -1,6 +1,6 @@
 // login.dart
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:email_validator/email_validator.dart';
 import '/components/home.dart';
 import '/components/password_reset.dart';
@@ -123,39 +123,39 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _handleLoginUser() async {
-    try {
-      if (_loginFormKey.currentState!.validate()) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Submitting data...')),
-        );
+    if (_loginFormKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Submitting data...')),
+      );
 
-        final response = await Supabase.instance.client.auth.signInWithPassword(
+      try {
+        UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text,
           password: _passwordController.text,
         );
 
-        if (!mounted) return;
-
-        if (response.user != null) {
+        if (userCredential.user != null) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => const HomePage()),
           );
+        } else {
+          throw Exception('No user found');
         }
-      }
-    } on AuthException catch (error) {
-      // ignore: avoid_print
-      print(error.message.toString());
-      if (mounted) {
+      } on FirebaseAuthException catch (e) {
         String errorMessage = 'Login failed. Please try again.';
+        if (e.code == 'user-not-found') {
+          errorMessage = 'No user found for that email.';
+        } else if (e.code == 'wrong-password') {
+          errorMessage = 'Wrong password provided.';
+        }
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(errorMessage)),
         );
-      }
-    } catch (error) {
-      if (mounted) {
-        String errorMessage = 'Unexpected error occurred.';
+      } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(errorMessage)),
+          const SnackBar(content: Text('Unexpected error occurred.')),
         );
       }
     }

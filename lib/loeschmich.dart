@@ -9,21 +9,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final TextEditingController _textFieldController = TextEditingController();
-
-  void _addItem() {
-    if (_textFieldController.text.isNotEmpty) {
-      FirebaseFirestore.instance.collection('tasks').add({
-        'title': _textFieldController.text,
-      }).then((value) {
-        print("Item Added");
-        _textFieldController.clear();
-      }).catchError((error) {
-        print("Failed to add item: $error");
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,22 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _textFieldController,
-              decoration: const InputDecoration(
-                labelText: 'New Item',
-              ),
-              onSubmitted: (_) => _addItem(),
-            ),
-          ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addItem,
-        tooltip: 'Add Item',
-        child: const Icon(Icons.add),
       ),
     );
   }

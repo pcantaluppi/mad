@@ -1,7 +1,6 @@
 // home.dart
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'login.dart';
+//import 'login.dart';
 import '/components/common/page_header.dart';
 import '/components/common/page_heading.dart';
 
@@ -10,16 +9,16 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final session = Supabase.instance.client.auth.currentSession;
+    // final session = Supabase.instance.client.auth.currentSession;
 
-    if (session == null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const LoginPage()),
-          (Route<dynamic> route) => false,
-        );
-      });
-    }
+    // if (session == null) {
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     Navigator.of(context).pushAndRemoveUntil(
+    //       MaterialPageRoute(builder: (context) => const LoginPage()),
+    //       (Route<dynamic> route) => false,
+    //     );
+    //   });
+    // }
 
     return SafeArea(
       child: Scaffold(
