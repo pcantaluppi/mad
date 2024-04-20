@@ -13,10 +13,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _addItem() {
     if (_textFieldController.text.isNotEmpty) {
-      FirebaseFirestore.instance.collection('items').add({
+      FirebaseFirestore.instance.collection('tasks').add({
         'title': _textFieldController.text,
+      }).then((value) {
+        print("Item Added");
+        _textFieldController.clear();
+      }).catchError((error) {
+        print("Failed to add item: $error");
       });
-      _textFieldController.clear();
     }
   }
 
@@ -31,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream:
-                  FirebaseFirestore.instance.collection('items').snapshots(),
+                  FirebaseFirestore.instance.collection('tasks').snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return const Text('Something went wrong');

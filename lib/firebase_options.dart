@@ -83,4 +83,5 @@ class DefaultFirebaseOptions {
     authDomain: 'api-project-1005616374074.firebaseapp.com',
     storageBucket: 'api-project-1005616374074.appspot.com',
   );
+
 }
