@@ -1,7 +1,7 @@
 // home.dart
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '/components/common/page_header.dart';
 import '/components/common/page_heading.dart';
 
@@ -10,17 +10,33 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final session = Supabase.instance.client.auth.currentSession;
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          if (snapshot.data == null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+                (Route<dynamic> route) => false,
+              );
+            });
+            // Return an empty container to handle the frame callback
+            return Container();
+          }
+          // User is logged in
+          return _buildHomePage(context);
+        }
 
-    if (session == null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const LoginPage()),
-          (Route<dynamic> route) => false,
+        // While waiting for the connection to establish, show a loading spinner
+        return Scaffold(
+          body: Center(child: CircularProgressIndicator()),
         );
-      });
-    }
+      },
+    );
+  }
 
+  Widget _buildHomePage(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xffEEF1F3),

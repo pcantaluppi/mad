@@ -1,8 +1,9 @@
 // main.dart
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'components/firebase/options.dart';
 import 'components/splash.dart';
 import 'components/login.dart';
 
@@ -20,11 +21,11 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // Initialize Supabase
-  Future<void> initializeSupabase() async {
-    final String supabaseUrl = dotenv.env['URL'] ?? '';
-    final String supabaseAnonKey = dotenv.env['KEY'] ?? '';
-    await Supabase.initialize(url: supabaseUrl, anonKey: supabaseAnonKey);
+  // Initialize Firebase
+  Future<void> initializeFirebase() async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
   }
 
   @override
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
       home: FutureBuilder(
         // Initialize Supabase
         future: Future.wait([
-          initializeSupabase(),
+          initializeFirebase(),
           // Timer for splash screen
           Future.delayed(const Duration(seconds: 4)),
         ]),
