@@ -1,8 +1,12 @@
 # Firebase setup
 
+Firebase CLI
+
 ```JavaScript
 npm i -g firebase-tools
 ```
+
+FlutterFire
 
 ```Shell
 dart pub global activate flutterfire_cli
