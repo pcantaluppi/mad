@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1005616374074:android:114b610cda39adfd23b003",
         "android_client_info": {
-          "package_name": "com.example.train_tracker"
+          "package_name": "ch.ffhs.train_tracker"
         }
       },
       "oauth_client": [],

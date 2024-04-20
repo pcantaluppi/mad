@@ -63,7 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1005616374074',
     projectId: 'api-project-1005616374074',
     storageBucket: 'api-project-1005616374074.appspot.com',
-    iosBundleId: 'com.example.trainTracker',
+    iosBundleId: 'ch.ffhs.trainTracker',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -72,7 +72,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1005616374074',
     projectId: 'api-project-1005616374074',
     storageBucket: 'api-project-1005616374074.appspot.com',
-    iosBundleId: 'com.example.trainTracker',
+    iosBundleId: 'ch.ffhs.trainTracker',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
