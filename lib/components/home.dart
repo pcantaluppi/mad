@@ -51,23 +51,9 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
   }
 
   void _filterTasks() {
-    if (_searchController.text.isEmpty) {
-      setState(() {
-        _tasksStream =
-            FirebaseFirestore.instance.collection('tasks').snapshots();
-      });
-    } else {
-      String searchText = _searchController.text;
-      String endString = searchText.substring(0, searchText.length - 1) +
-          String.fromCharCode(searchText.codeUnitAt(searchText.length - 1) + 1);
-      setState(() {
-        _tasksStream = FirebaseFirestore.instance
-            .collection('tasks')
-            .where('title', isGreaterThanOrEqualTo: searchText)
-            .where('title', isLessThan: endString)
-            .snapshots();
-      });
-    }
+    setState(() {
+      _tasksStream = FirebaseFirestore.instance.collection('tasks').snapshots();
+    });
   }
 
   @override
@@ -112,16 +98,19 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
                   child: Column(
                     children: [
                       const PageHeading(title: 'Contoso Logistics'),
+                      const SizedBox(height: 2),
                       Padding(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 8),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              'Transports',
+                              '> Transports',
                               style: TextStyle(fontSize: 24),
                             ),
-                            _buildTaskList(), // Firestore data display
+                            const SizedBox(height: 10),
+                            _buildTaskList(),
                           ],
                         ),
                       ),
@@ -141,21 +130,40 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
       stream: _tasksStream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return const Text('Something bad happened');
+          return const Text('Something went wrong');
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
-        return ListView(
+
+        var filteredDocs = snapshot.data!.docs.where((document) {
+          Map<String, dynamic>? data = document.data() as Map<String, dynamic>?;
+          if (data == null) return false; // Ensure data is not null
+
+          String title = data['title'] ?? ""; // Use null-aware access
+          return title
+              .toLowerCase()
+              .contains(_searchController.text.toLowerCase());
+        }).toList();
+
+        if (filteredDocs.isEmpty) {
+          return const Center(child: Text("No tasks found."));
+        }
+
+        return ListView.separated(
+          separatorBuilder: (context, index) =>
+              const Divider(color: Colors.grey),
+          itemCount: filteredDocs.length,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          children: snapshot.data!.docs.map((DocumentSnapshot document) {
+          itemBuilder: (context, index) {
             Map<String, dynamic> data =
-                document.data()! as Map<String, dynamic>;
+                filteredDocs[index].data() as Map<String, dynamic>;
             return ListTile(
-              title: Text(data['title']),
+              title: Text(
+                  data['title'] ?? "No title"), // Handle potential null title
             );
-          }).toList(),
+          },
         );
       },
     );
