@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
         }
 
         // While waiting for the connection to establish, show a loading spinner
-        return Scaffold(
+        return const Scaffold(
           body: Center(child: CircularProgressIndicator()),
         );
       },
