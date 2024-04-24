@@ -1,25 +1,46 @@
 // home.dart
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
 import '/components/common/page_header.dart';
 import '/components/common/page_heading.dart';
+import '../state/user_provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final session = Supabase.instance.client.auth.currentSession;
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          if (snapshot.data == null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+                (Route<dynamic> route) => false,
+              );
+            });
+            // Return an empty container to handle the frame callback
+            return Container();
+          }
+          // User is logged in
+          return _buildHomePage(context);
+        }
 
-    if (session == null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const LoginPage()),
-          (Route<dynamic> route) => false,
+        // While waiting for the connection to establish, show a loading spinner
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
         );
-      });
-    }
+      },
+    );
+  }
+
+  Widget _buildHomePage(BuildContext context) {
+    // Read user from state
+    final user = Provider.of<UserProvider>(context).user;
 
     return SafeArea(
       child: Scaffold(
@@ -35,17 +56,17 @@ class HomePage extends StatelessWidget {
                     top: Radius.circular(20),
                   ),
                 ),
-                child: const SingleChildScrollView(
+                child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      PageHeading(title: 'Home'),
+                      const PageHeading(title: 'Home'),
                       Padding(
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         child: Column(
                           children: [
                             Text(
-                              'Welcome to the Home Page',
-                              style: TextStyle(fontSize: 24),
+                              'Logged in as: ${user?.email}',
+                              style: const TextStyle(fontSize: 24),
                             ),
                           ],
                         ),

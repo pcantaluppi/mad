@@ -1,13 +1,16 @@
 // login.dart
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:provider/provider.dart';
 import '/components/home.dart';
 import '/components/password_reset.dart';
 import '/components/common/custom_input_field.dart';
 import '/components/common/page_header_login.dart';
 import '/components/common/page_heading.dart';
 import '/components/common/custom_form_button.dart';
+import '../state/models/user_model.dart';
+import '../state/user_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -123,38 +126,44 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _handleLoginUser() async {
-    try {
-      if (_loginFormKey.currentState!.validate()) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Submitting data...')),
-        );
+    if (_loginFormKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Submitting data...')),
+      );
 
-        final response = await Supabase.instance.client.auth.signInWithPassword(
+      try {
+        UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text,
           password: _passwordController.text,
         );
 
-        if (!mounted) return;
+        if (userCredential.user != null) {
+          // Set user email in provider
+          Provider.of<UserProvider>(context, listen: false)
+              .setUser(UserModel(email: _emailController.text));
 
-        if (response.user != null) {
+          // Navigate to home page
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => const HomePage()),
           );
+        } else {
+          throw Exception('No user found');
         }
-      }
-    } on AuthException catch (error) {
-      print(error.message.toString());
-      if (mounted) {
+      } on FirebaseAuthException catch (e) {
         String errorMessage = 'Login failed. Please try again.';
+        if (e.code == 'user-not-found') {
+          errorMessage = 'No user found for that email.';
+        } else if (e.code == 'wrong-password') {
+          errorMessage = 'Wrong password provided.';
+        }
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(errorMessage)),
         );
-      }
-    } catch (error) {
-      if (mounted) {
-        String errorMessage = 'Unexpected error occurred.';
+      } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(errorMessage)),
+          const SnackBar(content: Text('Unexpected error occurred.')),
         );
       }
     }
