@@ -28,7 +28,7 @@ Create a .env with your backend:
 FIREBASE_WEB=your_firebase_web_key
 FIREBASE_ANDROID=your_firebase_android_key
 FIREBASE_MAC=your_firebase_mac_key
-FIREBASE_WINDOWS=AIzaSyC1YW6-your_firebase_windows_key
+FIREBASE_WINDOWS=your_firebase_windows_key
 
 ```
 
