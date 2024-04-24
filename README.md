@@ -25,8 +25,11 @@ flutter pub get
 Create a .env with your backend:
 
 ```js
-URL = your_supabase_url;
-KEY = your_supabase_anon_key;
+FIREBASE_WEB=your_firebase_web_key
+FIREBASE_ANDROID=your_firebase_android_key
+FIREBASE_MAC=your_firebase_mac_key
+FIREBASE_WINDOWS=AIzaSyC1YW6-your_firebase_windows_key
+
 ```
 
 ## Usage
