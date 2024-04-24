@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
+import 'state/user_provider.dart';
 import 'components/firebase/options.dart';
 import 'components/splash.dart';
 import 'components/login.dart';
@@ -15,7 +17,12 @@ void main() async {
     // ignore: avoid_print
     print('!!!! Failed to load env variables: $e');
   }
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => UserProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
