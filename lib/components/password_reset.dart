@@ -2,7 +2,10 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:train_tracker/components/password_reset_confirmation.dart';
+import 'package:train_tracker/state/models/user_model.dart';
+import 'package:train_tracker/state/user_provider.dart';
 import 'common/custom_form_button.dart';
 import 'common/custom_input_field.dart';
 import 'common/page_header_login.dart';
@@ -112,10 +115,14 @@ class _PasswordResetState extends State<PasswordReset> {
       );
 
       try {
-        await FirebaseAuth.instance.sendPasswordResetEmail( email: _emailController.text );
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const PasswordResetConfirmation())
-        );
+        await FirebaseAuth.instance
+            .sendPasswordResetEmail(email: _emailController.text);
+
+        Provider.of<UserProvider>(context, listen: false)
+            .setUser(UserModel(email: _emailController.text));
+
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => const PasswordResetConfirmation()));
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Unexpected error occurred.')),
