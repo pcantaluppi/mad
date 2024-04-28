@@ -1,9 +1,7 @@
 // password_reset_confirmation.dart
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:train_tracker/components/login.dart';
-import 'package:train_tracker/components/password_reset.dart';
 import 'package:train_tracker/state/user_provider.dart';
 import 'common/custom_form_button.dart';
 import 'common/page_header_login.dart';
