@@ -1,14 +1,13 @@
 // home.dart
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:train_tracker/components/login.dart';
 import '/components/common/page_header.dart';
 import '/components/common/page_heading.dart';
-import '../state/user_provider.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +16,7 @@ class HomePage extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           if (snapshot.data == null) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
+            WidgetsBinding.instance!.addPostFrameCallback((_) {
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => const LoginPage()),
                 (Route<dynamic> route) => false,
@@ -42,7 +41,7 @@ class _HomePageStateful extends StatefulWidget {
 
 class __HomePageStatefulState extends State<_HomePageStateful> {
   final TextEditingController _searchController = TextEditingController();
-  Stream<QuerySnapshot>? _tasksStream;
+  late Stream<QuerySnapshot> _tasksStream;
 
   @override
   void initState() {
@@ -63,9 +62,12 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
     super.dispose();
   }
 
-Widget _buildHomePage(BuildContext context) {
-    // Read user from state
-    final user = Provider.of<UserProvider>(context).user;
+  @override
+  Widget build(BuildContext context) {
+    return _buildHomePage(context);
+  }
+
+  Widget _buildHomePage(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xffEEF1F3),
