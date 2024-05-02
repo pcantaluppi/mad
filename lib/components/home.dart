@@ -1,10 +1,11 @@
 // home.dart
 import 'package:flutter/material.dart';
-import 'login.dart';
+import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '/components/common/page_header.dart';
 import '/components/common/page_heading.dart';
+import '../state/user_provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -62,8 +63,9 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
+Widget _buildHomePage(BuildContext context) {
+    // Read user from state
+    final user = Provider.of<UserProvider>(context).user;
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xffEEF1F3),
