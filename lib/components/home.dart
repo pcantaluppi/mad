@@ -1,10 +1,13 @@
 // home.dart
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:train_tracker/components/detail.dart';
 import 'package:train_tracker/components/login.dart';
 import '/components/common/page_header.dart';
 import '/components/common/page_heading.dart';
+import '../state/user_provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key});
@@ -114,7 +117,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
                               style: TextStyle(fontSize: 24),
                             ),
                             const SizedBox(height: 10),
-                            _buildTaskList(),
+                            _buildTaskList(context),
                           ],
                         ),
                       ),
@@ -129,7 +132,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
     );
   }
 
-  Widget _buildTaskList() {
+  Widget _buildTaskList(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: _tasksStream,
       builder: (context, snapshot) {
@@ -163,9 +166,19 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
           itemBuilder: (context, index) {
             Map<String, dynamic> data =
                 filteredDocs[index].data() as Map<String, dynamic>;
+
+            print(data);
             return ListTile(
               title: Text(
                   data['title'] ?? "No title"), // Handle potential null title
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DetailPage(trainId: data['id']),
+                  ),
+                );
+              },
             );
           },
         );
