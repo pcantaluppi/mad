@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 class DetailPage extends StatelessWidget {
-  final String trainId;
+  final int trainId;
 
   const DetailPage({super.key, required this.trainId});
 
