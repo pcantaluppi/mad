@@ -44,18 +44,20 @@ class _HomePageStateful extends StatefulWidget {
 
 class __HomePageStatefulState extends State<_HomePageStateful> {
   final TextEditingController _searchController = TextEditingController();
-  late Stream<QuerySnapshot> _tasksStream;
+  late Stream<QuerySnapshot> _transportsStream;
 
   @override
   void initState() {
     super.initState();
-    _tasksStream = FirebaseFirestore.instance.collection('tasks').snapshots();
-    _searchController.addListener(_filterTasks);
+    _transportsStream =
+        FirebaseFirestore.instance.collection('transports').snapshots();
+    _searchController.addListener(_filterTransports);
   }
 
-  void _filterTasks() {
+  void _filterTransports() {
     setState(() {
-      _tasksStream = FirebaseFirestore.instance.collection('tasks').snapshots();
+      _transportsStream =
+          FirebaseFirestore.instance.collection('transports').snapshots();
     });
   }
 
@@ -134,7 +136,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
 
   Widget _buildTaskList(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _tasksStream,
+      stream: _transportsStream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return const Text('Something went wrong');
@@ -154,7 +156,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
         }).toList();
 
         if (filteredDocs.isEmpty) {
-          return const Center(child: Text("No tasks found."));
+          return const Center(child: Text("No transports found."));
         }
 
         return ListView.separated(
