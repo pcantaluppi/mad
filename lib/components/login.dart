@@ -1,6 +1,7 @@
 // login.dart
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:provider/provider.dart';
 import '/components/home.dart';
@@ -139,9 +140,20 @@ class _LoginPageState extends State<LoginPage> {
         );
 
         if (userCredential.user != null) {
-          // Set user email in provider
-          Provider.of<UserProvider>(context, listen: false)
-              .setUser(UserModel(email: _emailController.text));
+          // Fetch company data from Firestore
+          QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+              .collection('customers')
+              .where('users', arrayContains: _emailController.text)
+              .get();
+
+          String company = '';
+          if (querySnapshot.docs.isNotEmpty) {
+            company = querySnapshot.docs.first['name'];
+          }
+
+          // Set user email and company in provider
+          Provider.of<UserProvider>(context, listen: false).setUser(
+              UserModel(email: _emailController.text, company: company));
 
           // Navigate to home page
           Navigator.of(context).pushReplacement(

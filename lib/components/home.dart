@@ -65,7 +65,8 @@ class HomePage extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              'Logged in as: ${user?.email}',
+                              //'Logged in as: ${user?.email}',
+                              'Company: ${user?.company}',
                               style: const TextStyle(fontSize: 24),
                             ),
                           ],
