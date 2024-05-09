@@ -12,8 +12,18 @@ class DetailPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Details'),
       ),
-      body: Center(
-        child: Text('id: $trainId'),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset('assets/images/wagon.png',
+                width: MediaQuery.of(context).size.width),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('id: $trainId', style: const TextStyle(fontSize: 24)),
+            ),
+          ],
+        ),
       ),
     );
   }
