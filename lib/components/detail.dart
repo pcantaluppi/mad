@@ -34,58 +34,81 @@ class DetailPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Container(
-                      constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width,
-                        maxHeight: 300,
-                      ),
-                      child: Image.asset(
-                        'assets/images/wagon.png',
-                        fit: BoxFit.contain,
-                      ),
-                    ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Transport: $trainId',
+                          Text('Train $trainId',
                               style: const TextStyle(
                                   fontSize: 24, fontWeight: FontWeight.bold)),
                           const SizedBox(height: 8),
                           const Text('UN 1202 Dieselkraftstoffe',
                               style: TextStyle(fontSize: 18)),
                           const SizedBox(height: 8),
-                          // Data Table
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20.0), // Leichter Einzug links
+                      child: Container(
+                        constraints: const BoxConstraints(
+                          maxWidth: 200,
+                          maxHeight: 100,
+                        ),
+                        child: Image.asset(
+                          'assets/images/wagon.png',
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16), // Abstand nach dem Bild
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Data Table without header
                           DataTable(
+                            headingRowHeight: 0, // Removes header space
+                            dataRowHeight: 40, // Adjusts row height
                             columns: const [
-                              DataColumn(label: Text('Key')),
-                              DataColumn(label: Text('Value')),
+                              DataColumn(label: Text('')), // Empty labels
+                              DataColumn(label: Text('')),
                             ],
-                            rows: const [
-                              DataRow(cells: [
+                            rows: [
+                              const DataRow(cells: [
                                 DataCell(Text('Operator')),
-                                DataCell(Text('SBB'))
+                                DataCell(Text('SBB Int'))
                               ]),
-                              DataRow(cells: [
+                              const DataRow(cells: [
                                 DataCell(Text('Origin')),
                                 DataCell(Text('Karlsruhe'))
                               ]),
-                              DataRow(cells: [
+                              const DataRow(cells: [
                                 DataCell(Text('Destination')),
                                 DataCell(Text('Ludwigshafen'))
                               ]),
-                              DataRow(cells: [
+                              const DataRow(cells: [
                                 DataCell(Text('Departure')),
-                                DataCell(Text('Datetime'))
+                                DataCell(Text('10.05.2024'))
                               ]),
-                              DataRow(cells: [
+                              const DataRow(cells: [
                                 DataCell(Text('Arrival')),
-                                DataCell(Text('Datetime'))
+                                DataCell(Text('11.05.2024'))
                               ]),
                               DataRow(cells: [
-                                DataCell(Text('Location')),
-                                DataCell(Text('Latitude, Longitude'))
+                                DataCell(const Text('Location',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold))),
+                                const DataCell(Text('49.9123')),
+                              ]),
+                              DataRow(cells: [
+                                DataCell(Text(
+                                    '')), // Leer, um die Zeile mit der ersten Koordinate auszurichten
+                                const DataCell(Text('8.4948',
+                                    textAlign: TextAlign.center)),
                               ]),
                             ],
                           ),
@@ -103,7 +126,8 @@ class DetailPage extends StatelessWidget {
                             },
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white,
-                              backgroundColor: Colors.blue,
+                              backgroundColor:
+                                  const Color.fromARGB(255, 160, 188, 211),
                             ),
                           ),
                         ],
