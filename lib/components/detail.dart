@@ -51,25 +51,20 @@ class DetailPage extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
-                          left: 20.0), // Leichter Einzug links
+                          left: 8.0), // Slightly indent the image from the left
                       child: Container(
-                        constraints: const BoxConstraints(
-                          maxWidth: 200,
-                          maxHeight: 100,
-                        ),
-                        child: Image.asset(
-                          'assets/images/wagon.png',
-                          fit: BoxFit.contain,
-                        ),
+                        constraints:
+                            const BoxConstraints(maxWidth: 200, maxHeight: 100),
+                        child: Image.asset('assets/images/wagon.png',
+                            fit: BoxFit.contain),
                       ),
                     ),
-                    const SizedBox(height: 16), // Abstand nach dem Bild
+                    const SizedBox(height: 20),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Data Table without header
                           DataTable(
                             headingRowHeight: 0, // Removes header space
                             dataRowHeight: 40, // Adjusts row height
@@ -77,43 +72,44 @@ class DetailPage extends StatelessWidget {
                               DataColumn(label: Text('')), // Empty labels
                               DataColumn(label: Text('')),
                             ],
-                            rows: [
-                              const DataRow(cells: [
+                            rows: const [
+                              DataRow(cells: [
                                 DataCell(Text('Operator')),
                                 DataCell(Text('SBB Int'))
                               ]),
-                              const DataRow(cells: [
+                              DataRow(cells: [
                                 DataCell(Text('Origin')),
                                 DataCell(Text('Karlsruhe'))
                               ]),
-                              const DataRow(cells: [
+                              DataRow(cells: [
                                 DataCell(Text('Destination')),
                                 DataCell(Text('Ludwigshafen'))
                               ]),
-                              const DataRow(cells: [
+                              DataRow(cells: [
                                 DataCell(Text('Departure')),
                                 DataCell(Text('10.05.2024'))
                               ]),
-                              const DataRow(cells: [
+                              DataRow(cells: [
                                 DataCell(Text('Arrival')),
                                 DataCell(Text('11.05.2024'))
                               ]),
                               DataRow(cells: [
-                                DataCell(const Text('Location',
+                                DataCell(Text('Location',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold))),
-                                const DataCell(Text('49.9123')),
+                                DataCell(Text(''))
                               ]),
                               DataRow(cells: [
-                                DataCell(Text(
-                                    '')), // Leer, um die Zeile mit der ersten Koordinate auszurichten
-                                const DataCell(Text('8.4948',
-                                    textAlign: TextAlign.center)),
+                                DataCell(Text('Latitude')),
+                                DataCell(Text('49.9123'))
+                              ]),
+                              DataRow(cells: [
+                                DataCell(Text('Longitude')),
+                                DataCell(Text('8.4948'))
                               ]),
                             ],
                           ),
                           const SizedBox(height: 16),
-                          // Navigation Button to Map Page
                           ElevatedButton.icon(
                             icon: const Icon(Icons.map),
                             label: const Text('View Map'),
