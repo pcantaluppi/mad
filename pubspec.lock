@@ -81,14 +81,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.4+1"
-  crypto:
+  csslib:
     dependency: transitive
     description:
-      name: crypto
-      sha256: ff625774173754681d66daaf4a448684fb04b78f902da9cb3d308c19cc5e8bab
+      name: csslib
+      sha256: "706b5707578e0c1b4b7550f64078f0a0f19dec3f50a178ffae7006b0a9ca58fb"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.3"
+    version: "1.0.0"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -232,30 +232,62 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  functions_client:
+  google_maps:
     dependency: transitive
     description:
-      name: functions_client
-      sha256: "9a0ab83a525c8691a6724746e642de755a299afa04158807787364cd9e718001"
+      name: google_maps
+      sha256: "47eef3836b49bb030d5cb3afc60b8451408bf34cf753e571b645d6529eb4251a"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
-  gotrue:
+    version: "7.1.0"
+  google_maps_flutter:
+    dependency: "direct main"
+    description:
+      name: google_maps_flutter
+      sha256: c1972cbad779bc5346c49045f26ae45550a0958b1cbca5b524dd3c8954995d28
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.6.1"
+  google_maps_flutter_android:
     dependency: transitive
     description:
-      name: gotrue
-      sha256: a0eee21a7e8ec09e6bbd5c9a36e31e423827b575ba6fc2dd049805dcfaac5b02
+      name: google_maps_flutter_android
+      sha256: "0bcadb80eba39afda77dede89a6caafd3b68f2786b90491eceea4a01c3db181c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.8.0"
+  google_maps_flutter_ios:
+    dependency: transitive
+    description:
+      name: google_maps_flutter_ios
+      sha256: e5132d17f051600d90d79d9f574b177c24231da702453a036db2490f9ced4646
       url: "https://pub.dev"
     source: hosted
     version: "2.6.0"
-  gtk:
+  google_maps_flutter_platform_interface:
     dependency: transitive
     description:
-      name: gtk
-      sha256: e8ce9ca4b1df106e4d72dad201d345ea1a036cc12c360f1a7d5a758f78ffa42c
+      name: google_maps_flutter_platform_interface
+      sha256: "167af879da4d004cd58771f1469b91dcc3b9b0a2c5334cc6bf71fd41d4b35403"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.6.0"
+  google_maps_flutter_web:
+    dependency: "direct main"
+    description:
+      name: google_maps_flutter_web
+      sha256: "0c0d5c723d94b295cf86dd1c45ff91d2ac1fff7c05ddca4f01bef9fa0a014690"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.7"
+  html:
+    dependency: transitive
+    description:
+      name: html
+      sha256: "3a7812d5bcd2894edf53dfaf8cd640876cf6cef50a8f238745c8b8120ea74d3a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.15.4"
   http:
     dependency: transitive
     description:
@@ -336,14 +368,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.1+1"
-  jwt_decode:
+  js:
     dependency: transitive
     description:
-      name: jwt_decode
-      sha256: d2e9f68c052b2225130977429d30f187aa1981d789c76ad104a32243cfdebfbb
+      name: js
+      sha256: f2c445dce49627136094980615a031419f7f3eb393237e4ecd97ac15dea343f3
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.1"
+    version: "0.6.7"
+  js_wrapping:
+    dependency: transitive
+    description:
+      name: js_wrapping
+      sha256: e385980f7c76a8c1c9a560dfb623b890975841542471eade630b2871d243851c
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.4"
   leak_tracker:
     dependency: transitive
     description:
@@ -432,62 +472,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.0"
-  path_provider:
-    dependency: transitive
-    description:
-      name: path_provider
-      sha256: b27217933eeeba8ff24845c34003b003b2b22151de3c908d0e679e8fe1aa078b
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.2"
-  path_provider_android:
-    dependency: transitive
-    description:
-      name: path_provider_android
-      sha256: "51f0d2c554cfbc9d6a312ab35152fc77e2f0b758ce9f1a444a3a1e5b8f3c6b7f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.3"
-  path_provider_foundation:
-    dependency: transitive
-    description:
-      name: path_provider_foundation
-      sha256: "5a7999be66e000916500be4f15a3633ebceb8302719b47b9cc49ce924125350f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.2"
-  path_provider_linux:
-    dependency: transitive
-    description:
-      name: path_provider_linux
-      sha256: f7a1fe3a634fe7734c8d3f2766ad746ae2a2884abe22e241a8b301bf5cac3279
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.1"
-  path_provider_platform_interface:
-    dependency: transitive
-    description:
-      name: path_provider_platform_interface
-      sha256: "88f5779f72ba699763fa3a3b06aa4bf6de76c8e5de842cf6f29e2e06476c2334"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.2"
-  path_provider_windows:
-    dependency: transitive
-    description:
-      name: path_provider_windows
-      sha256: "8bc9f22eee8690981c22aa7fc602f5c85b497a6fb2ceb35ee5a5e5ed85ad8170"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.1"
-  platform:
-    dependency: transitive
-    description:
-      name: platform
-      sha256: "12220bb4b65720483f8fa9450b4332347737cf8213dd2840d8b2c823e47243ec"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.4"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -504,86 +488,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.2"
-  realtime_client:
+  sanitize_html:
     dependency: transitive
     description:
-      name: realtime_client
-      sha256: bb6747fe2feff7f8349d563ac9d4a8f10ac2dd809bdff1e7e319321d5ea16b49
+      name: sanitize_html
+      sha256: "12669c4a913688a26555323fb9cec373d8f9fbe091f2d01c40c723b33caa8989"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.3"
-  retry:
-    dependency: transitive
-    description:
-      name: retry
-      sha256: "822e118d5b3aafed083109c72d5f484c6dc66707885e07c0fbcb8b986bba7efc"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.2"
-  rxdart:
-    dependency: transitive
-    description:
-      name: rxdart
-      sha256: "0c7c0cedd93788d996e33041ffecda924cc54389199cde4e6a34b440f50044cb"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.27.7"
-  shared_preferences:
-    dependency: transitive
-    description:
-      name: shared_preferences
-      sha256: "81429e4481e1ccfb51ede496e916348668fd0921627779233bd24cc3ff6abd02"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.2"
-  shared_preferences_android:
-    dependency: transitive
-    description:
-      name: shared_preferences_android
-      sha256: "8568a389334b6e83415b6aae55378e158fbc2314e074983362d20c562780fb06"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.1"
-  shared_preferences_foundation:
-    dependency: transitive
-    description:
-      name: shared_preferences_foundation
-      sha256: "7708d83064f38060c7b39db12aefe449cb8cdc031d6062280087bc4cdb988f5c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.5"
-  shared_preferences_linux:
-    dependency: transitive
-    description:
-      name: shared_preferences_linux
-      sha256: "9f2cbcf46d4270ea8be39fa156d86379077c8a5228d9dfdb1164ae0bb93f1faa"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.2"
-  shared_preferences_platform_interface:
-    dependency: transitive
-    description:
-      name: shared_preferences_platform_interface
-      sha256: "22e2ecac9419b4246d7c22bfbbda589e3acf5c0351137d87dd2939d984d37c3b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.2"
-  shared_preferences_web:
-    dependency: transitive
-    description:
-      name: shared_preferences_web
-      sha256: "9aee1089b36bd2aafe06582b7d7817fd317ef05fc30e6ba14bff247d0933042a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.0"
-  shared_preferences_windows:
-    dependency: transitive
-    description:
-      name: shared_preferences_windows
-      sha256: "841ad54f3c8381c480d0c9b508b89a34036f512482c407e6df7a9c4aa2ef8f59"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.2"
+    version: "2.1.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -653,70 +565,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.2"
-  url_launcher:
-    dependency: transitive
-    description:
-      name: url_launcher
-      sha256: "0ecc004c62fd3ed36a2ffcbe0dd9700aee63bd7532d0b642a488b1ec310f492e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.2.5"
-  url_launcher_android:
-    dependency: transitive
-    description:
-      name: url_launcher_android
-      sha256: d4ed0711849dd8e33eb2dd69c25db0d0d3fdc37e0a62e629fe32f57a22db2745
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.3.0"
-  url_launcher_ios:
-    dependency: transitive
-    description:
-      name: url_launcher_ios
-      sha256: "9149d493b075ed740901f3ee844a38a00b33116c7c5c10d7fb27df8987fb51d5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.2.5"
-  url_launcher_linux:
-    dependency: transitive
-    description:
-      name: url_launcher_linux
-      sha256: ab360eb661f8879369acac07b6bb3ff09d9471155357da8443fd5d3cf7363811
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.1"
-  url_launcher_macos:
-    dependency: transitive
-    description:
-      name: url_launcher_macos
-      sha256: b7244901ea3cf489c5335bdacda07264a6e960b1c1b1a9f91e4bc371d9e68234
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.0"
-  url_launcher_platform_interface:
-    dependency: transitive
-    description:
-      name: url_launcher_platform_interface
-      sha256: "552f8a1e663569be95a8190206a38187b531910283c3e982193e4f2733f01029"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.2"
-  url_launcher_web:
-    dependency: transitive
-    description:
-      name: url_launcher_web
-      sha256: "3692a459204a33e04bc94f5fb91158faf4f2c8903281ddd82915adecdb1a901d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.0"
-  url_launcher_windows:
-    dependency: transitive
-    description:
-      name: url_launcher_windows
-      sha256: ecf9725510600aa2bb6d7ddabe16357691b6d2805f66216a97d1b881e21beff7
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.1"
   vector_math:
     dependency: transitive
     description:
