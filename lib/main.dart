@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'state/user_provider.dart';
 import 'components/firebase/options.dart';
@@ -12,12 +13,12 @@ import 'components/login.dart';
 import 'components/home.dart';
 
 void main() async {
+  final logger = Logger();
   WidgetsFlutterBinding.ensureInitialized();
   try {
     await dotenv.load(fileName: ".env");
   } catch (e) {
-    // ignore: avoid_print
-    print('!!!! Failed to load env variables: $e');
+    logger.e('Failed to load env variables: $e');
   }
   runApp(
     ChangeNotifierProvider(

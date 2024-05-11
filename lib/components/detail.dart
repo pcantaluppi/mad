@@ -53,8 +53,8 @@ class DetailPage extends StatelessWidget {
                       padding: const EdgeInsets.only(
                           left: 8.0), // Slightly indent the image from the left
                       child: Container(
-                        constraints:
-                            const BoxConstraints(maxWidth: 200, maxHeight: 100),
+                        constraints: const BoxConstraints(
+                            maxWidth: 150, maxHeight: 75), // Smaller size
                         child: Image.asset('assets/images/wagon.png',
                             fit: BoxFit.contain),
                       ),
@@ -65,50 +65,7 @@ class DetailPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          DataTable(
-                            headingRowHeight: 0, // Removes header space
-                            dataRowHeight: 40, // Adjusts row height
-                            columns: const [
-                              DataColumn(label: Text('')), // Empty labels
-                              DataColumn(label: Text('')),
-                            ],
-                            rows: const [
-                              DataRow(cells: [
-                                DataCell(Text('Operator')),
-                                DataCell(Text('SBB Int'))
-                              ]),
-                              DataRow(cells: [
-                                DataCell(Text('Origin')),
-                                DataCell(Text('Karlsruhe'))
-                              ]),
-                              DataRow(cells: [
-                                DataCell(Text('Destination')),
-                                DataCell(Text('Ludwigshafen'))
-                              ]),
-                              DataRow(cells: [
-                                DataCell(Text('Departure')),
-                                DataCell(Text('10.05.2024'))
-                              ]),
-                              DataRow(cells: [
-                                DataCell(Text('Arrival')),
-                                DataCell(Text('11.05.2024'))
-                              ]),
-                              DataRow(cells: [
-                                DataCell(Text('Location',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
-                                DataCell(Text(''))
-                              ]),
-                              DataRow(cells: [
-                                DataCell(Text('Latitude')),
-                                DataCell(Text('49.9123'))
-                              ]),
-                              DataRow(cells: [
-                                DataCell(Text('Longitude')),
-                                DataCell(Text('8.4948'))
-                              ]),
-                            ],
-                          ),
+                          dataTable(),
                           const SizedBox(height: 16),
                           ElevatedButton.icon(
                             icon: const Icon(Icons.map),
@@ -136,6 +93,36 @@ class DetailPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  DataTable dataTable() {
+    return DataTable(
+      headingRowHeight: 0,
+      dataRowHeight: 40,
+      columns: const [
+        DataColumn(label: Text('')), // Empty labels
+        DataColumn(label: Text('')),
+      ],
+      rows: const [
+        DataRow(cells: [DataCell(Text('Operator')), DataCell(Text('SBB Int'))]),
+        DataRow(cells: [DataCell(Text('Origin')), DataCell(Text('Karlsruhe'))]),
+        DataRow(cells: [
+          DataCell(Text('Destination')),
+          DataCell(Text('Ludwigshafen'))
+        ]),
+        DataRow(
+            cells: [DataCell(Text('Departure')), DataCell(Text('10.05.2024'))]),
+        DataRow(
+            cells: [DataCell(Text('Arrival')), DataCell(Text('11.05.2024'))]),
+        DataRow(cells: [
+          DataCell(
+              Text('Location', style: TextStyle(fontWeight: FontWeight.bold))),
+          DataCell(Text(''))
+        ]),
+        DataRow(cells: [DataCell(Text('Latitude')), DataCell(Text('49.9123'))]),
+        DataRow(cells: [DataCell(Text('Longitude')), DataCell(Text('8.4948'))]),
+      ],
     );
   }
 }
