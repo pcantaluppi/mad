@@ -1,5 +1,6 @@
 // home.dart
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -135,6 +136,8 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
   }
 
   Widget _buildTaskList(BuildContext context) {
+    final logger = Logger();
+
     return StreamBuilder<QuerySnapshot>(
       stream: _transportsStream,
       builder: (context, snapshot) {
@@ -169,7 +172,8 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
             Map<String, dynamic> data =
                 filteredDocs[index].data() as Map<String, dynamic>;
 
-            print(data);
+            logger.i('Item: $data');
+
             return ListTile(
               title: Text(
                   data['title'] ?? "No title"), // Handle potential null title

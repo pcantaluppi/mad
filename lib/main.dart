@@ -13,8 +13,8 @@ import 'components/login.dart';
 import 'components/home.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
   final logger = Logger();
+  WidgetsFlutterBinding.ensureInitialized();
   try {
     await dotenv.load(fileName: ".env");
   } catch (e) {
