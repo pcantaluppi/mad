@@ -1,30 +1,41 @@
 // main.dart
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
+import 'state/user_provider.dart';
+import 'components/firebase/options.dart';
 import 'components/splash.dart';
 import 'components/login.dart';
+import 'components/home.dart';
 
 void main() async {
+  final logger = Logger();
   WidgetsFlutterBinding.ensureInitialized();
   try {
     await dotenv.load(fileName: ".env");
   } catch (e) {
-    // ignore: avoid_print
-    print('!!!! Failed to load env variables: $e');
+    logger.e('Failed to load env variables: $e');
   }
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => UserProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // Initialize Supabase
-  Future<void> initializeSupabase() async {
-    final String supabaseUrl = dotenv.env['URL'] ?? '';
-    final String supabaseAnonKey = dotenv.env['KEY'] ?? '';
-    await Supabase.initialize(url: supabaseUrl, anonKey: supabaseAnonKey);
+  // Initialize Firebase
+  Future<void> initializeFirebase() async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
   }
 
   @override
@@ -34,13 +45,19 @@ class MyApp extends StatelessWidget {
       home: FutureBuilder(
         // Initialize Supabase
         future: Future.wait([
-          initializeSupabase(),
+          initializeFirebase(),
           // Timer for splash screen
           Future.delayed(const Duration(seconds: 4)),
         ]),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return const LoginPage();
+            //return const LoginPage();
+
+            User? user = snapshot.data![0] as User?;
+            if (user == null) {
+              return const LoginPage();
+            }
+            return const HomePage();
           } else {
             return const SplashScreen();
           }
