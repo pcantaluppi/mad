@@ -66,6 +66,7 @@ class _MapPageState extends State<MapPage> {
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
     if (_mapStyle != null) {
+      // ignore: deprecated_member_use
       mapController.setMapStyle(_mapStyle);
     }
     _updateCameraBounds();

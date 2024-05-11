@@ -1,7 +1,7 @@
 // detail.dart
 import 'package:flutter/material.dart';
+import 'package:train_tracker/components/map.dart';
 import '/components/common/page_header.dart';
-import 'home.dart';
 
 class DetailPage extends StatelessWidget {
   final int trainId;
@@ -74,7 +74,7 @@ class DetailPage extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const HomePage()),
+                                    builder: (context) => const MapPage()),
                               );
                             },
                             style: ElevatedButton.styleFrom(
