@@ -1,9 +1,11 @@
 // home.dart
 import 'package:flutter/material.dart';
-import 'login.dart';
+import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'login.dart';
 import '/components/common/page_header.dart';
 import '/components/common/page_heading.dart';
+import '../state/user_provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -37,6 +39,9 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildHomePage(BuildContext context) {
+    // Read user from state
+    final user = Provider.of<UserProvider>(context).user;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xffEEF1F3),
@@ -51,17 +56,17 @@ class HomePage extends StatelessWidget {
                     top: Radius.circular(20),
                   ),
                 ),
-                child: const SingleChildScrollView(
+                child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      PageHeading(title: 'Home'),
+                      const PageHeading(title: 'Home'),
                       Padding(
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         child: Column(
                           children: [
                             Text(
-                              'Welcome to the Home Page',
-                              style: TextStyle(fontSize: 24),
+                              'Logged in as: ${user?.email}',
+                              style: const TextStyle(fontSize: 24),
                             ),
                           ],
                         ),
