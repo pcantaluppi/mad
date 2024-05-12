@@ -115,9 +115,10 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              '> Transports',
-                              style: TextStyle(fontSize: 24),
+                            Text(
+                              //'Logged in as: ${user?.email}',
+                              'Company: ${user?.company}',
+                              style: const TextStyle(fontSize: 24),
                             ),
                             const SizedBox(height: 10),
                             _buildTaskList(context),
