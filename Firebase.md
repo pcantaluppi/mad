@@ -1,6 +1,6 @@
 # Firebase setup
 
-# Setup
+## Setup
 
 Firebase CLI
 
@@ -18,7 +18,7 @@ dart pub global activate flutterfire_cli
 flutterfire configure --project=api-project-1005616374074
 ```
 
-# Scheme
+## Scheme
 
 The NoSQL database is completely hosted on Firebase.
 The current entity relationship diagram (uml) of the Firestore database looks like this:
