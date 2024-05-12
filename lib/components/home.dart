@@ -1,10 +1,14 @@
 // home.dart
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:train_tracker/components/detail.dart';
 import 'package:train_tracker/components/login.dart';
 import '/components/common/page_header.dart';
 import '/components/common/page_heading.dart';
+import '../state/user_provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key});
@@ -41,18 +45,20 @@ class _HomePageStateful extends StatefulWidget {
 
 class __HomePageStatefulState extends State<_HomePageStateful> {
   final TextEditingController _searchController = TextEditingController();
-  late Stream<QuerySnapshot> _tasksStream;
+  late Stream<QuerySnapshot> _transportsStream;
 
   @override
   void initState() {
     super.initState();
-    _tasksStream = FirebaseFirestore.instance.collection('tasks').snapshots();
-    _searchController.addListener(_filterTasks);
+    _transportsStream =
+        FirebaseFirestore.instance.collection('transports').snapshots();
+    _searchController.addListener(_filterTransports);
   }
 
-  void _filterTasks() {
+  void _filterTransports() {
     setState(() {
-      _tasksStream = FirebaseFirestore.instance.collection('tasks').snapshots();
+      _transportsStream =
+          FirebaseFirestore.instance.collection('transports').snapshots();
     });
   }
 
@@ -115,7 +121,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
                               style: const TextStyle(fontSize: 24),
                             ),
                             const SizedBox(height: 10),
-                            _buildTaskList(),
+                            _buildTaskList(context),
                           ],
                         ),
                       ),
@@ -130,9 +136,11 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
     );
   }
 
-  Widget _buildTaskList() {
+  Widget _buildTaskList(BuildContext context) {
+    final logger = Logger();
+
     return StreamBuilder<QuerySnapshot>(
-      stream: _tasksStream,
+      stream: _transportsStream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return const Text('Something went wrong');
@@ -152,7 +160,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
         }).toList();
 
         if (filteredDocs.isEmpty) {
-          return const Center(child: Text("No tasks found."));
+          return const Center(child: Text("No transports found."));
         }
 
         return ListView.separated(
@@ -164,9 +172,20 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
           itemBuilder: (context, index) {
             Map<String, dynamic> data =
                 filteredDocs[index].data() as Map<String, dynamic>;
+
+            logger.i('Item: $data');
+
             return ListTile(
               title: Text(
                   data['title'] ?? "No title"), // Handle potential null title
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DetailPage(trainId: data['id']),
+                  ),
+                );
+              },
             );
           },
         );
