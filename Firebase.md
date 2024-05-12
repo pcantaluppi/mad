@@ -1,4 +1,4 @@
-# Firebase setup
+# Firebase
 
 ## Setup
 
