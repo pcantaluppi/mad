@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:train_tracker/components/detail.dart';
 import 'package:train_tracker/components/login.dart';
+import 'package:train_tracker/state/models/user_model.dart';
 import '/components/common/page_header.dart';
 import '/components/common/page_heading.dart';
 import '../state/user_provider.dart';
@@ -74,6 +75,8 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
   }
 
   Widget _buildHomePage(BuildContext context) {
+    UserModel? user = Provider.of<UserProvider>(context).user;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xffEEF1F3),
