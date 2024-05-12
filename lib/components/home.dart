@@ -1,4 +1,3 @@
-// home.dart
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -79,72 +78,49 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xffEEF1F3),
-        body: Column(
-          children: [
-            const PageHeader(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  labelText: "Search trains",
-                  hintText: "Enter train number",
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                ),
-              ),
-            ),
-            Expanded(
-              child: Container(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(20),
-                  ),
-                  border: Border.all(color: Colors.grey, width: 1),
+                  color: const Color(0xffEEF1F3), // Light gray background
+                  borderRadius:
+                      BorderRadius.vertical(bottom: Radius.circular(20)),
                 ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      PageHeading(title: '${user?.company}'),
-                      const SizedBox(height: 2),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                              elevation: 4,
-                              shadowColor: Colors.grey.withOpacity(0.5),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Text(
-                                  'Transports',
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            _buildTaskList(context),
-                          ],
-                        ),
+                child: Column(
+                  children: [
+                    const PageHeader(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 8.0),
+                      child: Text(
+                        'Company: ${user?.company}', // Display the company name
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
                       ),
-                    ],
+                    ),
+                  ],
+                ),
+              ),
+              PageHeading(title: 'Transports'),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    labelText: "Search trains",
+                    hintText: "Enter train number",
+                    prefixIcon: const Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 20),
+              _buildTaskList(context),
+            ],
+          ),
         ),
       ),
     );
@@ -165,9 +141,9 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
 
         var filteredDocs = snapshot.data!.docs.where((document) {
           Map<String, dynamic>? data = document.data() as Map<String, dynamic>?;
-          if (data == null) return false; // Ensure data is not null
+          if (data == null) return false;
 
-          String title = data['title'] ?? ""; // Use null-aware access
+          String title = data['title'] ?? "";
           return title
               .toLowerCase()
               .contains(_searchController.text.toLowerCase());
@@ -190,8 +166,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
             logger.i('Item: $data');
 
             return ListTile(
-              title: Text(
-                  data['title'] ?? "No title"), // Handle potential null title
+              title: Text(data['title'] ?? "No title"),
               onTap: () {
                 Navigator.push(
                   context,
