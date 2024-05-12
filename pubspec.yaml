@@ -18,6 +18,8 @@ dependencies:
   image_picker: ^1.0.7
   provider: ^6.1.2
   logger: ^2.2.0
+  google_maps_flutter: ^2.6.0
+  google_maps_flutter_web: ^0.5.6+2
 
 dev_dependencies:
   flutter_test:
@@ -29,6 +31,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/map/
     - .env
 
   fonts:
