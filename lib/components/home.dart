@@ -6,10 +6,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:train_tracker/components/detail.dart';
 import 'package:train_tracker/components/login.dart';
+import 'package:train_tracker/components/common/page_header.dart';
+import 'package:train_tracker/components/common/page_heading.dart';
+import 'package:train_tracker/state/user_provider.dart';
 import 'package:train_tracker/state/models/user_model.dart';
-import '/components/common/page_header.dart';
-import '/components/common/page_heading.dart';
-import '../state/user_provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key});
@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           if (snapshot.data == null) {
-            WidgetsBinding.instance!.addPostFrameCallback((_) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => const LoginPage()),
                 (Route<dynamic> route) => false,
@@ -110,7 +110,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      const PageHeading(title: 'Contoso Logistics'),
+                      PageHeading(title: '${user?.company}'),
                       const SizedBox(height: 2),
                       Padding(
                         padding: const EdgeInsets.symmetric(
@@ -118,10 +118,21 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              //'Logged in as: ${user?.email}',
-                              'Company: ${user?.company}',
-                              style: const TextStyle(fontSize: 24),
+                            Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              elevation: 4,
+                              shadowColor: Colors.grey.withOpacity(0.5),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Text(
+                                  'Transports',
+                                  style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
                             ),
                             const SizedBox(height: 10),
                             _buildTaskList(context),
