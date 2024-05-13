@@ -1,4 +1,3 @@
-// home.dart
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -6,13 +5,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:train_tracker/components/detail.dart';
 import 'package:train_tracker/components/login.dart';
+import 'package:train_tracker/components/common/page_header.dart';
+import 'package:train_tracker/components/common/page_heading.dart';
+import 'package:train_tracker/state/user_provider.dart';
 import 'package:train_tracker/state/models/user_model.dart';
-import '/components/common/page_header.dart';
-import '/components/common/page_heading.dart';
-import '../state/user_provider.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key});
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class HomePage extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           if (snapshot.data == null) {
-            WidgetsBinding.instance!.addPostFrameCallback((_) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => const LoginPage()),
                 (Route<dynamic> route) => false,
@@ -79,61 +78,49 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xffEEF1F3),
-        body: Column(
-          children: [
-            const PageHeader(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  labelText: "Search trains",
-                  hintText: "Enter train number",
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                  color: Color(0xffEEF1F3), // Light gray background
+                  borderRadius:
+                      BorderRadius.vertical(bottom: Radius.circular(20)),
                 ),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(20),
-                  ),
-                  border: Border.all(color: Colors.grey, width: 1),
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const PageHeading(title: 'Contoso Logistics'),
-                      const SizedBox(height: 2),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              //'Logged in as: ${user?.email}',
-                              'Company: ${user?.company}',
-                              style: const TextStyle(fontSize: 24),
-                            ),
-                            const SizedBox(height: 10),
-                            _buildTaskList(context),
-                          ],
-                        ),
+                child: Column(
+                  children: [
+                    const PageHeader(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 8.0),
+                      child: Text(
+                        'Company: ${user?.company}', // Display the company name
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
                       ),
-                    ],
+                    ),
+                  ],
+                ),
+              ),
+              const PageHeading(title: 'Transports'),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    labelText: "Search trains",
+                    hintText: "Enter train number",
+                    prefixIcon: const Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 20),
+              _buildTaskList(context),
+            ],
+          ),
         ),
       ),
     );
@@ -154,9 +141,9 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
 
         var filteredDocs = snapshot.data!.docs.where((document) {
           Map<String, dynamic>? data = document.data() as Map<String, dynamic>?;
-          if (data == null) return false; // Ensure data is not null
+          if (data == null) return false;
 
-          String title = data['title'] ?? ""; // Use null-aware access
+          String title = data['title'] ?? "";
           return title
               .toLowerCase()
               .contains(_searchController.text.toLowerCase());
@@ -179,8 +166,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
             logger.i('Item: $data');
 
             return ListTile(
-              title: Text(
-                  data['title'] ?? "No title"), // Handle potential null title
+              title: Text(data['title'] ?? "No title"),
               onTap: () {
                 Navigator.push(
                   context,
