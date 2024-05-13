@@ -11,7 +11,7 @@ import 'package:train_tracker/state/user_provider.dart';
 import 'package:train_tracker/state/models/user_model.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key});
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
