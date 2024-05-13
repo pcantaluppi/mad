@@ -82,8 +82,8 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
           child: Column(
             children: [
               Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xffEEF1F3), // Light gray background
+                decoration: const BoxDecoration(
+                  color: Color(0xffEEF1F3), // Light gray background
                   borderRadius:
                       BorderRadius.vertical(bottom: Radius.circular(20)),
                 ),
@@ -102,7 +102,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
                   ],
                 ),
               ),
-              PageHeading(title: 'Transports'),
+              const PageHeading(title: 'Transports'),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: TextField(
