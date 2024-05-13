@@ -31,7 +31,7 @@ FIREBASE_MAC = your_firebase_mac_key;
 FIREBASE_WINDOWS = your_firebase_windows_key;
 ```
 
-Register you public ip at the Maps API
+Register you public ip at the Maps API:
 
 ## Usage
 
