@@ -1,5 +1,6 @@
 // detail.dart
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:train_tracker/components/map.dart';
 import '/components/common/page_header.dart';
 
@@ -34,57 +35,68 @@ class DetailPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Train $trainId',
-                              style: const TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 8),
-                          const Text('UN 1202 Dieselkraftstoffe',
-                              style: TextStyle(fontSize: 18)),
-                          const SizedBox(height: 8),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8.0), // Slightly indent the image from the left
-                      child: Container(
-                        constraints: const BoxConstraints(
-                            maxWidth: 150, maxHeight: 75), // Smaller size
-                        child: Image.asset('assets/images/wagon.png',
-                            fit: BoxFit.contain),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          dataTable(),
-                          const SizedBox(height: 16),
-                          ElevatedButton.icon(
-                            icon: const Icon(Icons.map),
-                            label: const Text('View Map'),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const MapPage()),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor:
-                                  const Color.fromARGB(255, 160, 188, 211),
-                            ),
+                    FutureBuilder<DocumentSnapshot>(
+                      future: FirebaseFirestore.instance
+                          .collection('transports')
+                          .doc(trainId.toString())
+                          .get(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+                        if (!snapshot.hasData || !snapshot.data!.exists) {
+                          return const Center(child: Text('No data found'));
+                        }
+
+                        var data =
+                            snapshot.data!.data() as Map<String, dynamic>;
+                        return Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(data['title'] ?? 'No title',
+                                  style: const TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold)),
+                              const SizedBox(height: 8),
+                              const Text('UN 1202 Dieselkraftstoffe',
+                                  style: TextStyle(fontSize: 18)),
+                              const SizedBox(height: 8),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Container(
+                                  constraints: const BoxConstraints(
+                                      maxWidth: 150, maxHeight: 75),
+                                  child: Image.asset('assets/images/wagon.png',
+                                      fit: BoxFit.contain),
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              dataTable(data),
+                              const SizedBox(height: 16),
+                              ElevatedButton.icon(
+                                icon: const Icon(Icons.map),
+                                label: const Text('View Map'),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const MapPage()),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.white,
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 160, 188, 211),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -96,32 +108,48 @@ class DetailPage extends StatelessWidget {
     );
   }
 
-  DataTable dataTable() {
+  DataTable dataTable(Map<String, dynamic> data) {
     return DataTable(
       headingRowHeight: 0,
       dataRowHeight: 40,
       columns: const [
-        DataColumn(label: Text('')), // Empty labels
+        DataColumn(label: Text('')),
         DataColumn(label: Text('')),
       ],
-      rows: const [
-        DataRow(cells: [DataCell(Text('Operator')), DataCell(Text('SBB Int'))]),
-        DataRow(cells: [DataCell(Text('Origin')), DataCell(Text('Karlsruhe'))]),
+      rows: [
         DataRow(cells: [
-          DataCell(Text('Destination')),
-          DataCell(Text('Ludwigshafen'))
+          const DataCell(Text('Operator')),
+          DataCell(Text(data['operator'] ?? 'N/A'))
         ]),
-        DataRow(
-            cells: [DataCell(Text('Departure')), DataCell(Text('10.05.2024'))]),
-        DataRow(
-            cells: [DataCell(Text('Arrival')), DataCell(Text('11.05.2024'))]),
         DataRow(cells: [
+          const DataCell(Text('Origin')),
+          DataCell(Text(data['origin'] ?? 'N/A'))
+        ]),
+        DataRow(cells: [
+          const DataCell(Text('Destination')),
+          DataCell(Text(data['destination'] ?? 'N/A'))
+        ]),
+        DataRow(cells: [
+          const DataCell(Text('Departure')),
+          DataCell(Text(data['departure'] ?? 'N/A'))
+        ]),
+        DataRow(cells: [
+          const DataCell(Text('Arrival')),
+          DataCell(Text(data['arrival'] ?? 'N/A'))
+        ]),
+        const DataRow(cells: [
           DataCell(
               Text('Location', style: TextStyle(fontWeight: FontWeight.bold))),
           DataCell(Text(''))
         ]),
-        DataRow(cells: [DataCell(Text('Latitude')), DataCell(Text('49.9123'))]),
-        DataRow(cells: [DataCell(Text('Longitude')), DataCell(Text('8.4948'))]),
+        DataRow(cells: [
+          const DataCell(Text('Latitude')),
+          DataCell(Text(data['latitude'] ?? 'N/A'))
+        ]),
+        DataRow(cells: [
+          const DataCell(Text('Longitude')),
+          DataCell(Text(data['longitude'] ?? 'N/A'))
+        ]),
       ],
     );
   }
