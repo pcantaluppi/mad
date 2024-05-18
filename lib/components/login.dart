@@ -147,13 +147,15 @@ class _LoginPageState extends State<LoginPage> {
               .get();
 
           String company = '';
+          String logo = '';
           if (querySnapshot.docs.isNotEmpty) {
             company = querySnapshot.docs.first['name'];
+            logo = querySnapshot.docs.first['logo'];
           }
 
           // Set user email and company in provider
-          Provider.of<UserProvider>(context, listen: false).setUser(
-              UserModel(email: _emailController.text, company: company));
+          Provider.of<UserProvider>(context, listen: false).setUser(UserModel(
+              email: _emailController.text, logo: logo, company: company));
 
           // Navigate to home page
           Navigator.of(context).pushReplacement(

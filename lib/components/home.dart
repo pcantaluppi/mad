@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -75,6 +77,8 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
 
   Widget _buildHomePage(BuildContext context) {
     UserModel? user = Provider.of<UserProvider>(context).user;
+    final logger = Logger();
+    logger.i('User: ${user!.logo}');
 
     return SafeArea(
       child: Scaffold(
@@ -83,7 +87,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
             children: [
               Container(
                 decoration: const BoxDecoration(
-                  color: Color(0xffEEF1F3), // Light gray background
+                  color: Color(0xffEEF1F3),
                   borderRadius:
                       BorderRadius.vertical(bottom: Radius.circular(20)),
                 ),
@@ -93,10 +97,35 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 8.0),
-                      child: Text(
-                        'Company: ${user?.company}', // Display the company name
-                        style: const TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
+                      // child: Text(
+                      //   '${user?.company}',
+                      //   style: const TextStyle(
+                      //       fontSize: 24, fontWeight: FontWeight.bold),
+                      // ),
+                      //child: Image.asset('assets/images/customer.png'),
+                      child: Image.network(
+                        '${user?.logo}',
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace? stackTrace) {
+                          return const Text('Error loading image');
+                        },
+                        loadingBuilder: (BuildContext context, Widget child,
+                            ImageChunkEvent? loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        (loadingProgress.expectedTotalBytes ??
+                                            1)
+                                    : null,
+                              ),
+                            );
+                          }
+                        },
                       ),
                     ),
                   ],
@@ -127,7 +156,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
   }
 
   Widget _buildTaskList(BuildContext context) {
-    final logger = Logger();
+    //final logger = Logger();
 
     return StreamBuilder<QuerySnapshot>(
       stream: _transportsStream,
@@ -163,7 +192,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
             Map<String, dynamic> data =
                 filteredDocs[index].data() as Map<String, dynamic>;
 
-            logger.i('Item: $data');
+            //logger.i('Item: $data');
 
             return ListTile(
               title: Text(data['title'] ?? "No title"),
