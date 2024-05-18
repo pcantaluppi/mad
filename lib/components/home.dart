@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+// hone.dart
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -78,7 +77,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
   Widget _buildHomePage(BuildContext context) {
     UserModel? user = Provider.of<UserProvider>(context).user;
     final logger = Logger();
-    logger.i('User: ${user!.logo}');
+    logger.i('Image: ${user?.logo}');
 
     return SafeArea(
       child: Scaffold(
@@ -97,14 +96,16 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 8.0),
-                      // child: Text(
-                      //   '${user?.company}',
-                      //   style: const TextStyle(
-                      //       fontSize: 24, fontWeight: FontWeight.bold),
-                      // ),
-                      //child: Image.asset('assets/images/customer.png'),
+                      /*
+                      child: Text(
+                        '${user?.company}',
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                      */
+                      // child: Image.asset('assets/images/customer.png'),
                       child: Image.network(
-                        '${user?.logo}',
+                        user?.logo ?? '',
                         errorBuilder: (BuildContext context, Object exception,
                             StackTrace? stackTrace) {
                           return const Text('Error loading image');
@@ -191,9 +192,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
           itemBuilder: (context, index) {
             Map<String, dynamic> data =
                 filteredDocs[index].data() as Map<String, dynamic>;
-
             //logger.i('Item: $data');
-
             return ListTile(
               title: Text(data['title'] ?? "No title"),
               onTap: () {

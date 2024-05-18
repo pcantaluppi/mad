@@ -1,6 +1,7 @@
 // detail.dart
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:logger/logger.dart';
 import 'package:train_tracker/components/map.dart';
 import '/components/common/page_header.dart';
 
@@ -11,6 +12,8 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final logger = Logger();
+
     return Scaffold(
       backgroundColor: const Color(0xffEEF1F3),
       appBar: AppBar(
@@ -52,6 +55,9 @@ class DetailPage extends StatelessWidget {
 
                         var data =
                             snapshot.data!.data() as Map<String, dynamic>;
+
+                        logger.i('Item: $data');
+
                         return Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Column(
@@ -62,15 +68,16 @@ class DetailPage extends StatelessWidget {
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold)),
                               const SizedBox(height: 8),
-                              const Text('UN 1202 Dieselkraftstoffe',
-                                  style: TextStyle(fontSize: 18)),
+                              Text(data['un'] ?? 'No un number',
+                                  style: const TextStyle(fontSize: 18)),
                               const SizedBox(height: 8),
                               Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: Container(
                                   constraints: const BoxConstraints(
                                       maxWidth: 150, maxHeight: 75),
-                                  child: Image.asset('assets/images/wagon.png',
+                                  child: Image.asset(
+                                      'assets/images/wagon.png', // todo: dynamic image
                                       fit: BoxFit.contain),
                                 ),
                               ),
@@ -111,7 +118,7 @@ class DetailPage extends StatelessWidget {
   DataTable dataTable(Map<String, dynamic> data) {
     return DataTable(
       headingRowHeight: 0,
-      dataRowHeight: 40,
+      //dataRowHeight: 40,
       columns: const [
         DataColumn(label: Text('')),
         DataColumn(label: Text('')),
