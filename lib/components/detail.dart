@@ -1,4 +1,5 @@
-// detail.dart
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logger/logger.dart';
@@ -7,13 +8,14 @@ import '/components/common/page_header.dart';
 
 class DetailPage extends StatelessWidget {
   final int trainId;
+  final Logger logger;
 
-  const DetailPage({super.key, required this.trainId});
+  DetailPage({super.key, required this.trainId}) : logger = Logger() {
+    logger.i('DetailPage initialized with trainId: $trainId');
+  }
 
   @override
   Widget build(BuildContext context) {
-    final logger = Logger();
-
     return Scaffold(
       backgroundColor: const Color(0xffEEF1F3),
       appBar: AppBar(
@@ -21,6 +23,10 @@ class DetailPage extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -54,9 +60,13 @@ class DetailPage extends StatelessWidget {
                         }
 
                         var data =
-                            snapshot.data!.data() as Map<String, dynamic>;
+                            snapshot.data!.data() as Map<String, dynamic>?;
 
-                        logger.i('Item: $data');
+                        if (data == null) {
+                          return const Center(child: Text('No data found'));
+                        }
+
+                        logger.i('Transport data: $data');
 
                         return Padding(
                           padding: const EdgeInsets.all(16.0),
@@ -82,23 +92,48 @@ class DetailPage extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 20),
-                              dataTable(data),
-                              const SizedBox(height: 16),
-                              ElevatedButton.icon(
-                                icon: const Icon(Icons.map),
-                                label: const Text('View Map'),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const MapPage()),
+                              FutureBuilder<List<DocumentSnapshot>>(
+                                future: fetchLocationData(trainId),
+                                builder: (context, locationSnapshot) {
+                                  if (locationSnapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  }
+
+                                  Map<String, dynamic>? highestLocation;
+
+                                  if (locationSnapshot.hasData &&
+                                      locationSnapshot.data!.isNotEmpty) {
+                                    var locationData = locationSnapshot.data!;
+                                    highestLocation = locationData.last.data()
+                                        as Map<String, dynamic>?;
+                                  }
+
+                                  return Column(
+                                    children: [
+                                      dataTable(data, highestLocation),
+                                      const SizedBox(height: 16),
+                                      ElevatedButton.icon(
+                                        icon: const Icon(Icons.map),
+                                        label: const Text('View Map'),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MapPage(trainId: trainId)),
+                                          );
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          foregroundColor: Colors.white,
+                                          backgroundColor: const Color.fromARGB(
+                                              255, 160, 188, 211),
+                                        ),
+                                      ),
+                                    ],
                                   );
                                 },
-                                style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 160, 188, 211),
-                                ),
                               ),
                             ],
                           ),
@@ -115,10 +150,50 @@ class DetailPage extends StatelessWidget {
     );
   }
 
-  DataTable dataTable(Map<String, dynamic> data) {
+  Future<List<DocumentSnapshot>> fetchLocationData(int trainId) async {
+    logger.i('Fetching location data for transport ID: $trainId');
+
+    var stopsSnapshot = await FirebaseFirestore.instance
+        .collection('stops')
+        .where('transport', isEqualTo: trainId)
+        .orderBy('id')
+        .get();
+
+    logger.i(
+        'Stops snapshot fetched with ${stopsSnapshot.docs.length} documents');
+
+    var stopsData = stopsSnapshot.docs.map((doc) => doc.data()).toList();
+    var stopsJson = jsonEncode(stopsData);
+    logger.i('Stops: $stopsJson');
+
+    if (stopsSnapshot.docs.isEmpty) {
+      logger.w('No stops found for transport ID: $trainId');
+      return [];
+    }
+
+    var highestStopId = stopsSnapshot.docs.last.id;
+
+    var highestLocationSnapshot = await FirebaseFirestore.instance
+        .collection('location')
+        .doc(highestStopId)
+        .get();
+
+    var highestLocationData = highestLocationSnapshot.data();
+
+    if (highestLocationData == null) {
+      logger.w('No location data found for stop ID: $highestStopId');
+      return [];
+    }
+
+    logger.i('Highest location fetched: $highestLocationData');
+
+    return [highestLocationSnapshot];
+  }
+
+  DataTable dataTable(
+      Map<String, dynamic> data, Map<String, dynamic>? highestLocation) {
     return DataTable(
       headingRowHeight: 0,
-      //dataRowHeight: 40,
       columns: const [
         DataColumn(label: Text('')),
         DataColumn(label: Text('')),
@@ -151,11 +226,15 @@ class DetailPage extends StatelessWidget {
         ]),
         DataRow(cells: [
           const DataCell(Text('Latitude')),
-          DataCell(Text(data['latitude'] ?? 'N/A'))
+          DataCell(Text(highestLocation != null
+              ? highestLocation['latitude']?.toString() ?? 'N/A'
+              : 'N/A'))
         ]),
         DataRow(cells: [
           const DataCell(Text('Longitude')),
-          DataCell(Text(data['longitude'] ?? 'N/A'))
+          DataCell(Text(highestLocation != null
+              ? highestLocation['longitude']?.toString() ?? 'N/A'
+              : 'N/A'))
         ]),
       ],
     );
