@@ -1,4 +1,6 @@
 // hone.dart
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -96,18 +98,12 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 8.0),
-                      /*
-                      child: Text(
-                        '${user?.company}',
-                        style: const TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
-                      ),
-                      */
-                      // child: Image.asset('assets/images/customer.png'),
                       child: Image.network(
                         user?.logo ?? '',
                         errorBuilder: (BuildContext context, Object exception,
                             StackTrace? stackTrace) {
+                          // logger.e(
+                          //     'Error loading image: ${jsonEncode(exception)}');
                           return const Text('Error loading image');
                         },
                         loadingBuilder: (BuildContext context, Widget child,
@@ -115,14 +111,16 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
                           if (loadingProgress == null) {
                             return child;
                           } else {
-                            return Center(
-                              child: CircularProgressIndicator(
-                                value: loadingProgress.expectedTotalBytes !=
-                                        null
+                            final progress =
+                                loadingProgress.expectedTotalBytes != null
                                     ? loadingProgress.cumulativeBytesLoaded /
                                         (loadingProgress.expectedTotalBytes ??
                                             1)
-                                    : null,
+                                    : null;
+                            logger.i('Loading progress: $progress');
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: progress,
                               ),
                             );
                           }

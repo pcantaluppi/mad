@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logger/logger.dart';
@@ -11,7 +10,7 @@ class DetailPage extends StatelessWidget {
   final Logger logger;
 
   DetailPage({super.key, required this.trainId}) : logger = Logger() {
-    logger.i('DetailPage initialized with trainId: $trainId');
+    //logger.i('DetailPage initialized with trainId: $trainId');
   }
 
   @override
@@ -58,15 +57,12 @@ class DetailPage extends StatelessWidget {
                         if (!snapshot.hasData || !snapshot.data!.exists) {
                           return const Center(child: Text('No data found'));
                         }
-
                         var data =
                             snapshot.data!.data() as Map<String, dynamic>?;
-
                         if (data == null) {
                           return const Center(child: Text('No data found'));
                         }
-
-                        logger.i('Transport data: $data');
+                        //logger.i('Transport data: $data');
 
                         return Padding(
                           padding: const EdgeInsets.all(16.0),
@@ -151,25 +147,28 @@ class DetailPage extends StatelessWidget {
   }
 
   Future<List<DocumentSnapshot>> fetchLocationData(int trainId) async {
-    logger.i('Fetching location data for transport ID: $trainId');
+    logger.i('Fetching location data for transport: $trainId');
 
     var stopsSnapshot = await FirebaseFirestore.instance
         .collection('stops')
-        .where('transport', isEqualTo: trainId)
+        //.where('transport', isEqualTo: trainId)
         .orderBy('id')
         .get();
 
     logger.i(
         'Stops snapshot fetched with ${stopsSnapshot.docs.length} documents');
 
-    var stopsData = stopsSnapshot.docs.map((doc) => doc.data()).toList();
-    var stopsJson = jsonEncode(stopsData);
-    logger.i('Stops: $stopsJson');
-
     if (stopsSnapshot.docs.isEmpty) {
-      logger.w('No stops found for transport ID: $trainId');
+      logger.w('No stops found for transport: $trainId');
       return [];
     }
+
+    var stopsData = stopsSnapshot.docs.map((doc) {
+      logger.i('Stops: ${doc.data()}');
+      return doc.data();
+    }).toList();
+    var stopsJson = jsonEncode(stopsData);
+    logger.i('Stops: $stopsJson');
 
     var highestStopId = stopsSnapshot.docs.last.id;
 
@@ -181,7 +180,7 @@ class DetailPage extends StatelessWidget {
     var highestLocationData = highestLocationSnapshot.data();
 
     if (highestLocationData == null) {
-      logger.w('No location data found for stop ID: $highestStopId');
+      logger.w('No location data found for stop: $highestStopId');
       return [];
     }
 
