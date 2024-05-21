@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   final _loginFormKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   final Logger logger = Logger();
 
   @override
@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    _logHomePageVisit();
+    _logLandingPageVisit();
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -138,13 +138,13 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _logHomePageVisit() {
+  void _logLandingPageVisit() {
     analytics.logEvent(name: 'home_page_visit', parameters: {
       'visit_time': DateTime.now().toIso8601String(),
     }).then((_) {
-      logger.i('Home page visit logged.');
+      logger.i('Landing page visit logged.');
     }).catchError((error) {
-      logger.e('Failed to log home page visit: $error');
+      logger.e('Failed to log landing page visit: $error');
     });
   }
 
