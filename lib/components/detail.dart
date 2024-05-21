@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logger/logger.dart';
@@ -8,13 +9,13 @@ import '/components/common/page_header.dart';
 class DetailPage extends StatelessWidget {
   final int trainId;
   final Logger logger;
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
-  DetailPage({super.key, required this.trainId}) : logger = Logger() {
-    //logger.i('DetailPage initialized with trainId: $trainId');
-  }
+  DetailPage({super.key, required this.trainId}) : logger = Logger();
 
   @override
   Widget build(BuildContext context) {
+    _logDetailPageVisit(trainId);
     return Scaffold(
       backgroundColor: const Color(0xffEEF1F3),
       appBar: AppBar(
@@ -144,6 +145,16 @@ class DetailPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _logDetailPageVisit(int trainId) {
+    analytics.logEvent(name: 'home_page_visit', parameters: {
+      'visit_time': DateTime.now().toIso8601String(),
+    }).then((_) {
+      logger.i('Visit of detail page $trainId logged.');
+    }).catchError((error) {
+      logger.e('Failed to log detail page visit: $error');
+    });
   }
 
   Future<List<DocumentSnapshot>> fetchLocationData(int trainId) async {

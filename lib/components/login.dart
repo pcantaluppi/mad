@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import '/components/home.dart';
 import '/components/reset.dart';
 import '/components/common/custom_input_field.dart';
@@ -24,6 +26,8 @@ class _LoginPageState extends State<LoginPage> {
   final _loginFormKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  final Logger logger = Logger();
 
   @override
   void initState() {
@@ -41,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    _logLandingPageVisit();
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -131,6 +136,16 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void _logLandingPageVisit() {
+    analytics.logEvent(name: 'home_page_visit', parameters: {
+      'visit_time': DateTime.now().toIso8601String(),
+    }).then((_) {
+      logger.i('Landing page visit logged.');
+    }).catchError((error) {
+      logger.e('Failed to log landing page visit: $error');
+    });
   }
 
   void _handleLoginUser() async {

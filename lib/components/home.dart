@@ -1,6 +1,7 @@
 // hone.dart
 import 'dart:convert';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -49,6 +50,8 @@ class _HomePageStateful extends StatefulWidget {
 class __HomePageStatefulState extends State<_HomePageStateful> {
   final TextEditingController _searchController = TextEditingController();
   late Stream<QuerySnapshot> _transportsStream;
+  final Logger logger = Logger();
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   @override
   void initState() {
@@ -56,6 +59,16 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
     _transportsStream =
         FirebaseFirestore.instance.collection('transports').snapshots();
     _searchController.addListener(_filterTransports);
+  }
+
+  void _logHomePageVisit() {
+    analytics.logEvent(name: 'home_page_visit', parameters: {
+      'visit_time': DateTime.now().toIso8601String(),
+    }).then((_) {
+      logger.i('Successful login logged.');
+    }).catchError((error) {
+      logger.e('Failed to log successful login: $error');
+    });
   }
 
   void _filterTransports() {
@@ -78,8 +91,8 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
 
   Widget _buildHomePage(BuildContext context) {
     UserModel? user = Provider.of<UserProvider>(context).user;
-    final logger = Logger();
     logger.i('Image: ${user?.logo}');
+    _logHomePageVisit();
 
     return SafeArea(
       child: Scaffold(

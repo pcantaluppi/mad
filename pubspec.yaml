@@ -20,6 +20,7 @@ dependencies:
   logger: ^2.2.0
   google_maps_flutter: ^2.6.0
   google_maps_flutter_web: ^0.5.6+2
+  firebase_analytics: ^10.10.5
 
 dev_dependencies:
   flutter_test:
