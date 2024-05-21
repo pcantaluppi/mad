@@ -65,7 +65,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
     analytics.logEvent(name: 'home_page_visit', parameters: {
       'visit_time': DateTime.now().toIso8601String(),
     }).then((_) {
-      logger.i('Successful login logged.');
+      //logger.i('Successful login logged.');
     }).catchError((error) {
       logger.e('Failed to log successful login: $error');
     });

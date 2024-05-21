@@ -151,7 +151,7 @@ class DetailPage extends StatelessWidget {
     analytics.logEvent(name: 'home_page_visit', parameters: {
       'visit_time': DateTime.now().toIso8601String(),
     }).then((_) {
-      logger.i('Visit of detail page $trainId logged.');
+      //logger.i('Visit of detail page $trainId logged.');
     }).catchError((error) {
       logger.e('Failed to log detail page visit: $error');
     });

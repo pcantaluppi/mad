@@ -142,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
     analytics.logEvent(name: 'home_page_visit', parameters: {
       'visit_time': DateTime.now().toIso8601String(),
     }).then((_) {
-      logger.i('Landing page visit logged.');
+      //logger.i('Landing page visit logged.');
     }).catchError((error) {
       logger.e('Failed to log landing page visit: $error');
     });
