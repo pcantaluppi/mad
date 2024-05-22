@@ -1,11 +1,21 @@
 // custom_form_button.dart
 import 'package:flutter/material.dart';
 
+/// A custom button widget for forms.
+/// This widget displays a button with custom styling and text.
+/// It is commonly used in forms for actions like submitting or canceling.
 class CustomFormButton extends StatelessWidget {
   final String innerText;
   final void Function()? onPressed;
-  const CustomFormButton(
-      {super.key, required this.innerText, required this.onPressed});
+
+  /// Creates a [CustomFormButton].
+  /// The [innerText] parameter is required and specifies the text to be displayed on the button.
+  /// The [onPressed] parameter is a callback function that is called when the button is pressed.
+  const CustomFormButton({
+    super.key,
+    required this.innerText,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {

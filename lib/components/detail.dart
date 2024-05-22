@@ -1,3 +1,4 @@
+// detail.dart
 import 'dart:convert';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,12 @@ import 'package:logger/logger.dart';
 import 'package:train_tracker/components/map.dart';
 import '/components/common/page_header.dart';
 
+/// This file contains the implementation of the `DetailPage` class, which is a stateless widget representing the detail page of a train transport.
+/// The `DetailPage` displays information about a specific train, including its title, UN number, image, and location data.
+/// It also allows the user to view a map of the train's location and navigate back to the previous page.
+/// The `DetailPage` uses Firebase Analytics to log visits to the detail page.
+/// The location data is fetched from Firestore using the `fetchLocationData` method.
+/// The `dataTable` method is used to display the train's information in a data table format.
 class DetailPage extends StatelessWidget {
   final int trainId;
   final Logger logger;
@@ -63,7 +70,7 @@ class DetailPage extends StatelessWidget {
                         if (data == null) {
                           return const Center(child: Text('No data found'));
                         }
-                        //logger.i('Transport data: $data');
+                        logger.i('Transport data: $data');
 
                         return Padding(
                           padding: const EdgeInsets.all(16.0),
@@ -148,10 +155,11 @@ class DetailPage extends StatelessWidget {
   }
 
   void _logDetailPageVisit(int trainId) {
-    analytics.logEvent(name: 'home_page_visit', parameters: {
+    analytics.logEvent(name: 'detail_page_visit', parameters: {
+      'train_id': trainId,
       'visit_time': DateTime.now().toIso8601String(),
     }).then((_) {
-      //logger.i('Visit of detail page $trainId logged.');
+      logger.i('Visit of detail page $trainId logged.');
     }).catchError((error) {
       logger.e('Failed to log detail page visit: $error');
     });

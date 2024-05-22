@@ -12,13 +12,13 @@ import 'common/page_header_login.dart';
 import 'common/page_heading.dart';
 import 'login.dart';
 
+/// The stateful widget for the password reset screen.
 class PasswordReset extends StatefulWidget {
-  const PasswordReset({super.key});
-
   @override
-  State<PasswordReset> createState() => _PasswordResetState();
+  _PasswordResetState createState() => _PasswordResetState();
 }
 
+/// The state class for the password reset screen.
 class _PasswordResetState extends State<PasswordReset> {
   final TextEditingController _emailController = TextEditingController();
   final _passwordResetFormKey = GlobalKey<FormState>();
@@ -108,6 +108,7 @@ class _PasswordResetState extends State<PasswordReset> {
     );
   }
 
+  /// Handles the password reset process.
   Future<void> _handlePasswordReset() async {
     if (_passwordResetFormKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(

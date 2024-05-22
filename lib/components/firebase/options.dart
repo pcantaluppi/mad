@@ -5,6 +5,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
+/// Represents the default Firebase options for different platforms.
+/// The [currentPlatform] getter returns the Firebase options based on the current platform.
+/// The options are defined for web, Android, iOS, macOS, and Windows platforms.
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {

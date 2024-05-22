@@ -12,6 +12,9 @@ import 'components/splash.dart';
 import 'components/login.dart';
 import 'components/home.dart';
 
+/// The entry point of the application.
+/// Initializes the logger, loads environment variables from a .env file,
+/// and runs the app with the necessary providers.
 void main() async {
   final logger = Logger();
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,20 +34,21 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-// This function is responsible for initializing Firebase.
-// It uses the default options for the current platform.
+  // This function is responsible for initializing Firebase.
+  // It uses the default options for the current platform.
   Future<void> initializeFirebase() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
   }
 
-// This is the main widget of your application.
+  // Main widget of the application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       // This disables the debug banner that appears in the top right corner of the app in debug mode.
       debugShowCheckedModeBanner: false,
+
       home: FutureBuilder(
         // This FutureBuilder is used to perform some async operations before the app is fully loaded.
         // It waits for two futures: one to initialize Firebase and another to display a splash screen for 4 seconds.

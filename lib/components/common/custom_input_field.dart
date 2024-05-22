@@ -1,6 +1,7 @@
 // custom_input_field.dart
 import 'package:flutter/material.dart';
 
+/// A custom input field widget that provides a labeled text input with optional suffix icon and validation.
 class CustomInputField extends StatefulWidget {
   final String labelText;
   final String hintText;
@@ -10,6 +11,14 @@ class CustomInputField extends StatefulWidget {
   final bool obscureText;
   final TextEditingController? controller;
 
+  /// Creates a new [CustomInputField] widget.
+  /// The [labelText] is the text to display as the label for the input field.
+  /// The [hintText] is the text to display as a hint inside the input field.
+  /// The [validator] is a function that validates the input value.
+  /// The [suffixIcon] determines whether to show a suffix icon.
+  /// The [isDense] determines whether to use a dense layout for the input field.
+  /// The [obscureText] determines whether to obscure the text input.
+  /// The [controller] is an optional [TextEditingController] to control the input field's text.
   const CustomInputField({
     super.key,
     required this.labelText,
