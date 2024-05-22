@@ -90,8 +90,8 @@ class _MapPageState extends State<MapPage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Transport 1',
-              style: const TextStyle(fontWeight: FontWeight.bold)),
+          title: const Text('Transport 1',
+              style: TextStyle(fontWeight: FontWeight.bold)),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           leading: IconButton(

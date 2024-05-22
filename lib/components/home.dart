@@ -1,6 +1,4 @@
 // hone.dart
-import 'dart:convert';
-
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -111,33 +109,36 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 8.0),
-                      child: Image.network(
-                        user?.logo ?? '',
-                        errorBuilder: (BuildContext context, Object exception,
-                            StackTrace? stackTrace) {
-                          logger.e('Error loading image: $exception');
-                          return const Text('Error loading image');
-                        },
-                        loadingBuilder: (BuildContext context, Widget child,
-                            ImageChunkEvent? loadingProgress) {
-                          if (loadingProgress == null) {
-                            return child;
-                          } else {
-                            final progress =
-                                loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        (loadingProgress.expectedTotalBytes ??
-                                            1)
-                                    : null;
-                            logger.i('Loading progress: $progress');
-                            return Center(
-                              child: CircularProgressIndicator(
-                                value: progress,
-                              ),
-                            );
-                          }
-                        },
-                      ),
+                      child: Image.asset(
+                          'assets/images/customer.png', // todo: dynamic image
+                          fit: BoxFit.contain),
+                      // child: Image.network(
+                      //   user?.logo ?? '',
+                      //   errorBuilder: (BuildContext context, Object exception,
+                      //       StackTrace? stackTrace) {
+                      //     logger.e('Error loading image: $exception');
+                      //     return const Text('Error loading image');
+                      //   },
+                      //   loadingBuilder: (BuildContext context, Widget child,
+                      //       ImageChunkEvent? loadingProgress) {
+                      //     if (loadingProgress == null) {
+                      //       return child;
+                      //     } else {
+                      //       final progress =
+                      //           loadingProgress.expectedTotalBytes != null
+                      //               ? loadingProgress.cumulativeBytesLoaded /
+                      //                   (loadingProgress.expectedTotalBytes ??
+                      //                       1)
+                      //               : null;
+                      //       logger.i('Loading progress: $progress');
+                      //       return Center(
+                      //         child: CircularProgressIndicator(
+                      //           value: progress,
+                      //         ),
+                      //       );
+                      //     }
+                      //   },
+                      // ),
                     ),
                   ],
                 ),
