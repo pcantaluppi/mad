@@ -115,8 +115,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
                         user?.logo ?? '',
                         errorBuilder: (BuildContext context, Object exception,
                             StackTrace? stackTrace) {
-                          // logger.e(
-                          //     'Error loading image: ${jsonEncode(exception)}');
+                          logger.e('Error loading image: $exception');
                           return const Text('Error loading image');
                         },
                         loadingBuilder: (BuildContext context, Widget child,
