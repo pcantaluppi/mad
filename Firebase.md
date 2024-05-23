@@ -21,6 +21,7 @@ flutterfire configure --project=api-project-1005616374074
 ## Scheme
 
 The NoSQL database is completely hosted on Firebase.
-The current entity relationship diagram (uml) of the Firestore database looks like this:
+
+Current entity relationship diagram (uml) of the database scheme:
 
 <img src="https://github.com/pcantaluppi/mad/blob/main/assets/images/erm.png?raw=true" />

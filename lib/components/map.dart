@@ -1,3 +1,4 @@
+// map.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -23,15 +24,11 @@ class _MapPageState extends State<MapPage> {
   final Set<Marker> _markers = {};
   final Set<Polyline> _polylines = {};
   String? _mapStyle;
-  bool _isStyleLoaded = false;
 
   @override
   void initState() {
     super.initState();
-    _loadMapStyle().then((_) {
-      _isStyleLoaded = true;
-      setState(() {});
-    });
+    _loadMapStyle();
     _addMarker();
     _createRoute();
   }
@@ -39,6 +36,7 @@ class _MapPageState extends State<MapPage> {
   /// Loads the map style from the assets.
   Future<void> _loadMapStyle() async {
     _mapStyle = await rootBundle.loadString('assets/map/style.json');
+    setState(() {});
   }
 
   /// Adds a marker to the map.
@@ -109,7 +107,7 @@ class _MapPageState extends State<MapPage> {
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
-        body: _isStyleLoaded
+        body: _mapStyle != null
             ? GoogleMap(
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: CameraPosition(
