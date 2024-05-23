@@ -1,6 +1,7 @@
 //page_header_login.dart
 import 'package:flutter/material.dart';
 
+/// A widget that represents the header of a login page.
 class PageHeaderLogin extends StatelessWidget {
   const PageHeaderLogin({super.key});
 

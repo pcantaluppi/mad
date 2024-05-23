@@ -1,3 +1,5 @@
+// hone.dart
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +12,7 @@ import 'package:train_tracker/components/common/page_heading.dart';
 import 'package:train_tracker/state/user_provider.dart';
 import 'package:train_tracker/state/models/user_model.dart';
 
+/// The home page of the application.
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -38,14 +41,18 @@ class HomePage extends StatelessWidget {
   }
 }
 
+/// The stateful widget for the home page.
 class _HomePageStateful extends StatefulWidget {
   @override
   __HomePageStatefulState createState() => __HomePageStatefulState();
 }
 
+/// The state for the home page.
 class __HomePageStatefulState extends State<_HomePageStateful> {
   final TextEditingController _searchController = TextEditingController();
   late Stream<QuerySnapshot> _transportsStream;
+  final Logger logger = Logger();
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   @override
   void initState() {
@@ -55,6 +62,18 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
     _searchController.addListener(_filterTransports);
   }
 
+  /// Logs the visit to the home page.
+  void _logHomePageVisit() {
+    analytics.logEvent(name: 'home_page_visit', parameters: {
+      'visit_time': DateTime.now().toIso8601String(),
+    }).then((_) {
+      //logger.i('Successful login logged.');
+    }).catchError((error) {
+      logger.e('Failed to log successful login: $error');
+    });
+  }
+
+  /// Filters the transports based on the search query.
   void _filterTransports() {
     setState(() {
       _transportsStream =
@@ -73,8 +92,11 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
     return _buildHomePage(context);
   }
 
+  /// Builds the home page.
   Widget _buildHomePage(BuildContext context) {
     UserModel? user = Provider.of<UserProvider>(context).user;
+    logger.i('Image: ${user?.logo}');
+    _logHomePageVisit();
 
     return SafeArea(
       child: Scaffold(
@@ -83,7 +105,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
             children: [
               Container(
                 decoration: const BoxDecoration(
-                  color: Color(0xffEEF1F3), // Light gray background
+                  color: Color(0xffEEF1F3),
                   borderRadius:
                       BorderRadius.vertical(bottom: Radius.circular(20)),
                 ),
@@ -93,11 +115,36 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 8.0),
-                      child: Text(
-                        'Company: ${user?.company}', // Display the company name
-                        style: const TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
-                      ),
+                      child: Image.asset(
+                          'assets/images/customer.png', // todo: dynamic image
+                          fit: BoxFit.contain),
+                      // child: Image.network(
+                      //   user?.logo ?? '',
+                      //   errorBuilder: (BuildContext context, Object exception,
+                      //       StackTrace? stackTrace) {
+                      //     logger.e('Error loading image: $exception');
+                      //     return const Text('Error loading image');
+                      //   },
+                      //   loadingBuilder: (BuildContext context, Widget child,
+                      //       ImageChunkEvent? loadingProgress) {
+                      //     if (loadingProgress == null) {
+                      //       return child;
+                      //     } else {
+                      //       final progress =
+                      //           loadingProgress.expectedTotalBytes != null
+                      //               ? loadingProgress.cumulativeBytesLoaded /
+                      //                   (loadingProgress.expectedTotalBytes ??
+                      //                       1)
+                      //               : null;
+                      //       logger.i('Loading progress: $progress');
+                      //       return Center(
+                      //         child: CircularProgressIndicator(
+                      //           value: progress,
+                      //         ),
+                      //       );
+                      //     }
+                      //   },
+                      // ),
                     ),
                   ],
                 ),
@@ -126,8 +173,9 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
     );
   }
 
+  /// Builds the task list.
   Widget _buildTaskList(BuildContext context) {
-    final logger = Logger();
+    //final logger = Logger();
 
     return StreamBuilder<QuerySnapshot>(
       stream: _transportsStream,
@@ -162,9 +210,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
           itemBuilder: (context, index) {
             Map<String, dynamic> data =
                 filteredDocs[index].data() as Map<String, dynamic>;
-
-            logger.i('Item: $data');
-
+            //logger.i('Item: $data');
             return ListTile(
               title: Text(data['title'] ?? "No title"),
               onTap: () {

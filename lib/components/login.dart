@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import '/components/home.dart';
 import '/components/reset.dart';
 import '/components/common/custom_input_field.dart';
@@ -13,6 +15,7 @@ import '/components/common/custom_form_button.dart';
 import '../state/user_provider.dart';
 import '../state/models/user_model.dart';
 
+/// A page for user login.
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -20,10 +23,20 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
+/// The state of the [LoginPage].
 class _LoginPageState extends State<LoginPage> {
   final _loginFormKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  final Logger logger = Logger();
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.text = 'pascal@cantaluppi.dev';
+    //_passwordController.text = '*****';
+  }
 
   @override
   void dispose() {
@@ -34,6 +47,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    _logLandingPageVisit();
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -94,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const PasswordReset(),
+                                  builder: (context) => PasswordReset(),
                                 ),
                               );
                             },
@@ -126,6 +140,18 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  /// Logs the landing page visit event.
+  void _logLandingPageVisit() {
+    analytics.logEvent(name: 'home_page_visit', parameters: {
+      'visit_time': DateTime.now().toIso8601String(),
+    }).then((_) {
+      //logger.i('Landing page visit logged.');
+    }).catchError((error) {
+      logger.e('Failed to log landing page visit: $error');
+    });
+  }
+
+  /// Handles the login process for the user.
   void _handleLoginUser() async {
     if (_loginFormKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -147,13 +173,15 @@ class _LoginPageState extends State<LoginPage> {
               .get();
 
           String company = '';
+          String logo = '';
           if (querySnapshot.docs.isNotEmpty) {
             company = querySnapshot.docs.first['name'];
+            logo = querySnapshot.docs.first['logo'];
           }
 
           // Set user email and company in provider
-          Provider.of<UserProvider>(context, listen: false).setUser(
-              UserModel(email: _emailController.text, company: company));
+          Provider.of<UserProvider>(context, listen: false).setUser(UserModel(
+              email: _emailController.text, logo: logo, company: company));
 
           // Navigate to home page
           Navigator.of(context).pushReplacement(

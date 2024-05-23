@@ -1,4 +1,5 @@
 // confirmation.dart
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:train_tracker/components/login.dart';
@@ -7,6 +8,7 @@ import 'common/custom_form_button.dart';
 import 'common/page_header_login.dart';
 import 'common/page_heading.dart';
 
+/// The stateful widget for the password reset confirmation screen.
 class PasswordResetConfirmation extends StatefulWidget {
   const PasswordResetConfirmation({super.key});
 
@@ -15,6 +17,7 @@ class PasswordResetConfirmation extends StatefulWidget {
       _PasswordResetConfirmationState();
 }
 
+/// The state class for the password reset confirmation screen.
 class _PasswordResetConfirmationState extends State<PasswordResetConfirmation> {
   final _passwordResetConfirmationFormKey = GlobalKey<FormState>();
 

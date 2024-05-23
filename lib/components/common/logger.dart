@@ -1,6 +1,7 @@
 //logger.dart
 import 'package:logger/logger.dart';
 
+/// A logger instance for logging messages with customizable settings.
 var logger = Logger(
   printer: PrettyPrinter(
       methodCount: 2, // number of method calls to be displayed

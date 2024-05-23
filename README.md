@@ -31,10 +31,6 @@ FIREBASE_MAC = your_firebase_mac_key;
 FIREBASE_WINDOWS = your_firebase_windows_key;
 ```
 
-Register you public ip at the Maps API:
-
-<img src="https://github.com/pcantaluppi/mad/blob/pascal/assets/images/maps.png?raw=true">
-
 ## Usage
 
 To run the app from the cli:
