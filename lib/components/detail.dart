@@ -8,11 +8,6 @@ import 'package:train_tracker/components/map.dart';
 import '/components/common/page_header.dart';
 
 /// This file contains the implementation of the `DetailPage` class, which is a stateless widget representing the detail page of a train transport.
-/// The `DetailPage` displays information about a specific train, including its title, UN number, image, and location data.
-/// It also allows the user to view a map of the train's location and navigate back to the previous page.
-/// The `DetailPage` uses Firebase Analytics to log visits to the detail page.
-/// The location data is fetched from Firestore using the `fetchLocationData` method.
-/// The `dataTable` method is used to display the train's information in a data table format.
 class DetailPage extends StatelessWidget {
   final int trainId;
   final Logger logger;
@@ -154,6 +149,7 @@ class DetailPage extends StatelessWidget {
     );
   }
 
+  /// Logs the visit of the detail page for a specific train.
   void _logDetailPageVisit(int trainId) {
     analytics.logEvent(name: 'detail_page_visit', parameters: {
       'train_id': trainId,
@@ -165,6 +161,7 @@ class DetailPage extends StatelessWidget {
     });
   }
 
+  /// Fetches location data for a given train ID.
   Future<List<DocumentSnapshot>> fetchLocationData(int trainId) async {
     logger.i('Fetching location data for transport: $trainId');
 
@@ -208,6 +205,12 @@ class DetailPage extends StatelessWidget {
     return [highestLocationSnapshot];
   }
 
+  /// Creates a DataTable widget with the provided data and highestLocation.
+  /// The [data] parameter is a map containing the details of the flight, such as
+  /// the operator, origin, destination, departure, and arrival.
+  /// The [highestLocation] parameter is an optional map containing the latitude
+  /// and longitude of the highest location.
+  /// Returns a DataTable widget displaying the flight details in a tabular format.
   DataTable dataTable(
       Map<String, dynamic> data, Map<String, dynamic>? highestLocation) {
     return DataTable(

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'models/user_model.dart';
 
 /// A provider class for managing user data.
-///
 /// This class extends the [ChangeNotifier] class from the Flutter framework,
 /// allowing it to notify listeners when the user data changes.
 class UserProvider with ChangeNotifier {

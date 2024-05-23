@@ -3,13 +3,11 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 /// A page that displays a map.
-///
 /// This page is used to show a map and related information for a specific train.
 class MapPage extends StatefulWidget {
   final int trainId;
 
   /// Creates a new instance of [MapPage].
-  ///
   /// The [trainId] parameter is required and specifies the ID of the train.
   const MapPage({super.key, required this.trainId});
 
