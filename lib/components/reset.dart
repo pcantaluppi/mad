@@ -14,12 +14,14 @@ import 'login.dart';
 
 /// The stateful widget for the password reset screen.
 class PasswordReset extends StatefulWidget {
+  const PasswordReset({super.key});
+
   @override
-  _PasswordResetState createState() => _PasswordResetState();
+  PasswordResetState createState() => PasswordResetState();
 }
 
 /// The state class for the password reset screen.
-class _PasswordResetState extends State<PasswordReset> {
+class PasswordResetState extends State<PasswordReset> {
   final TextEditingController _emailController = TextEditingController();
   final _passwordResetFormKey = GlobalKey<FormState>();
 
