@@ -65,7 +65,7 @@ class DetailPage extends StatelessWidget {
                         if (data == null) {
                           return const Center(child: Text('No data found'));
                         }
-                        logger.i('Transport data: $data');
+                        //logger.i('Transport data: $data');
 
                         return Padding(
                           padding: const EdgeInsets.all(16.0),
@@ -155,7 +155,7 @@ class DetailPage extends StatelessWidget {
       'train_id': trainId,
       'visit_time': DateTime.now().toIso8601String(),
     }).then((_) {
-      logger.i('Visit of detail page $trainId logged.');
+      //logger.i('Visit of detail page $trainId logged.');
     }).catchError((error) {
       logger.e('Failed to log detail page visit: $error');
     });
@@ -163,7 +163,7 @@ class DetailPage extends StatelessWidget {
 
   /// Fetches location data for a given train ID.
   Future<List<DocumentSnapshot>> fetchLocationData(int trainId) async {
-    logger.i('Fetching location data for transport: $trainId');
+    //logger.i('Fetching location data for transport: $trainId');
 
     var stopsSnapshot = await FirebaseFirestore.instance
         .collection('stops')
@@ -171,8 +171,7 @@ class DetailPage extends StatelessWidget {
         .orderBy('id')
         .get();
 
-    logger.i(
-        'Stops snapshot fetched with ${stopsSnapshot.docs.length} documents');
+    //logger.i('Stops snapshot fetched with ${stopsSnapshot.docs.length} documents');
 
     if (stopsSnapshot.docs.isEmpty) {
       logger.w('No stops found for transport: $trainId');
