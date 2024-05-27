@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'login.dart';
 
+/// A widget that displays a splash screen.
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -10,6 +11,7 @@ class SplashScreen extends StatefulWidget {
   SplashScreenState createState() => SplashScreenState();
 }
 
+/// The state of the [SplashScreen] widget.
 class SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {

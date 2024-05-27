@@ -1,4 +1,4 @@
-import 'dart:convert';
+// detail.dart
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +7,7 @@ import 'package:logger/logger.dart';
 import 'package:train_tracker/components/map.dart';
 import '/components/common/page_header.dart';
 
+/// This file contains the implementation of the `DetailPage` class, which is a stateless widget representing the detail page of a train transport.
 class DetailPage extends StatelessWidget {
   final int trainId;
   final Logger logger;
@@ -156,8 +157,10 @@ class DetailPage extends StatelessWidget {
     );
   }
 
+  /// Logs the visit of the detail page for a specific train.
   void _logDetailPageVisit(int trainId) {
-    analytics.logEvent(name: 'home_page_visit', parameters: {
+    analytics.logEvent(name: 'detail_page_visit', parameters: {
+      'train_id': trainId,
       'visit_time': DateTime.now().toIso8601String(),
     }).then((_) {
       //logger.i('Visit of detail page $trainId logged.');
@@ -166,8 +169,9 @@ class DetailPage extends StatelessWidget {
     });
   }
 
+  /// Fetches location data for a given train ID.
   Future<List<DocumentSnapshot>> fetchLocationData(int trainId) async {
-    logger.i('Fetching location data for transport: $trainId');
+    //logger.i('Fetching location data for transport: $trainId');
 
     var stopsSnapshot = await FirebaseFirestore.instance
         .collection('stops')
@@ -175,8 +179,7 @@ class DetailPage extends StatelessWidget {
         .orderBy('id')
         .get();
 
-    logger.i(
-        'Stops snapshot fetched with ${stopsSnapshot.docs.length} documents');
+    //logger.i('Stops snapshot fetched with ${stopsSnapshot.docs.length} documents');
 
     if (stopsSnapshot.docs.isEmpty) {
       logger.w('No stops found for transport: $trainId');
@@ -187,13 +190,12 @@ class DetailPage extends StatelessWidget {
       logger.i('Stops: ${doc.data()}');
       return doc.data();
     }).toList();
-    var stopsJson = jsonEncode(stopsData);
-    logger.i('Stops: $stopsJson');
 
     var highestStopId = stopsSnapshot.docs.last.id;
+    logger.i('Highest stop id: $highestStopId');
 
     var highestLocationSnapshot = await FirebaseFirestore.instance
-        .collection('location')
+        .collection('locations')
         .doc(highestStopId)
         .get();
 
@@ -209,6 +211,12 @@ class DetailPage extends StatelessWidget {
     return [highestLocationSnapshot];
   }
 
+  /// Creates a DataTable widget with the provided data and highestLocation.
+  /// The [data] parameter is a map containing the details of the flight, such as
+  /// the operator, origin, destination, departure, and arrival.
+  /// The [highestLocation] parameter is an optional map containing the latitude
+  /// and longitude of the highest location.
+  /// Returns a DataTable widget displaying the flight details in a tabular format.
   DataTable dataTable(
       Map<String, dynamic> data, Map<String, dynamic>? highestLocation) {
     return DataTable(

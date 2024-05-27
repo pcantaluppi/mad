@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 // Import the user model which defines the structure of user data
 import 'models/user_model.dart';
 
-// Define a UserProvider class which uses the ChangeNotifier mixin to manage state
+/// A provider class for managing user data.
+/// This class extends the [ChangeNotifier] class from the Flutter framework,
+/// allowing it to notify listeners when the user data changes.
 class UserProvider with ChangeNotifier {
   // Private field to hold the current user object
   UserModel? _user;
@@ -13,7 +15,9 @@ class UserProvider with ChangeNotifier {
   // Getter to retrieve the current user object
   UserModel? get user => _user;
 
-  // Method to set a new user object and notify listeners about the change
+  /// Sets the user data and notifies listeners.
+  /// This method sets the provided [user] as the current user and notifies
+  /// any registered listeners that the user data has changed.
   void setUser(UserModel user) {
     // Update the private user field with the new user object
     _user = user;

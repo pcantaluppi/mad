@@ -15,6 +15,7 @@ import '/components/common/custom_form_button.dart';
 import '../state/user_provider.dart';
 import '../state/models/user_model.dart';
 
+/// A page for user login.
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -22,6 +23,7 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
+/// The state of the [LoginPage].
 class _LoginPageState extends State<LoginPage> {
   final _loginFormKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
@@ -106,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const PasswordReset(),
+                                  builder: (context) => PasswordReset(),
                                 ),
                               );
                             },
@@ -138,6 +140,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  /// Logs the landing page visit event.
   void _logLandingPageVisit() {
     analytics.logEvent(name: 'home_page_visit', parameters: {
       'visit_time': DateTime.now().toIso8601String(),
@@ -148,6 +151,7 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
+  /// Handles the login process for the user.
   void _handleLoginUser() async {
     if (_loginFormKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(

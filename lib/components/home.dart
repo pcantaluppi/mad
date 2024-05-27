@@ -12,6 +12,7 @@ import 'package:train_tracker/components/common/page_heading.dart';
 import 'package:train_tracker/state/user_provider.dart';
 import 'package:train_tracker/state/models/user_model.dart';
 
+/// The home page of the application.
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -40,11 +41,13 @@ class HomePage extends StatelessWidget {
   }
 }
 
+/// The stateful widget for the home page.
 class _HomePageStateful extends StatefulWidget {
   @override
   __HomePageStatefulState createState() => __HomePageStatefulState();
 }
 
+/// The state for the home page.
 class __HomePageStatefulState extends State<_HomePageStateful> {
   final TextEditingController _searchController = TextEditingController();
   late Stream<QuerySnapshot> _transportsStream;
@@ -59,6 +62,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
     _searchController.addListener(_filterTransports);
   }
 
+  /// Logs the visit to the home page.
   void _logHomePageVisit() {
     analytics.logEvent(name: 'home_page_visit', parameters: {
       'visit_time': DateTime.now().toIso8601String(),
@@ -69,6 +73,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
     });
   }
 
+  /// Filters the transports based on the search query.
   void _filterTransports() {
     setState(() {
       _transportsStream =
@@ -87,9 +92,10 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
     return _buildHomePage(context);
   }
 
+  /// Builds the home page.
   Widget _buildHomePage(BuildContext context) {
     UserModel? user = Provider.of<UserProvider>(context).user;
-    logger.i('Image: ${user?.logo}');
+    //logger.i('Image: ${user?.logo}');
     _logHomePageVisit();
 
     return SafeArea(
@@ -167,6 +173,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
     );
   }
 
+  /// Builds the task list.
   Widget _buildTaskList(BuildContext context) {
     //final logger = Logger();
 

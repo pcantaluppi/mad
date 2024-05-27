@@ -11,7 +11,9 @@ class UserModel {
   // Field to store the user's company name, which is optional (nullable)
   final String? company;
 
-  // Constructor to initialize a UserModel object
-  // The email field is required, while logo and company have default values if not provided
+  /// Constructs a new instance of [UserModel].
+  /// The [email] parameter is required and represents the user's email address.
+  /// The [logo] parameter represents the user's logo, and defaults to an empty string.
+  /// The [company] parameter represents the user's company, and defaults to an empty string.
   UserModel({required this.email, this.logo = '', this.company = ''});
 }

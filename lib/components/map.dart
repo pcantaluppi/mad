@@ -1,16 +1,22 @@
+// map.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+/// A page that displays a map.
+/// This page is used to show a map and related information for a specific train.
 class MapPage extends StatefulWidget {
   final int trainId;
 
+  /// Creates a new instance of [MapPage].
+  /// The [trainId] parameter is required and specifies the ID of the train.
   const MapPage({super.key, required this.trainId});
 
   @override
   State<MapPage> createState() => _MapPageState();
 }
 
+/// The state class for the MapPage widget.
 class _MapPageState extends State<MapPage> {
   late GoogleMapController mapController;
   final LatLng _start = const LatLng(47.5596, 7.5886); // Basel, Switzerland
@@ -18,23 +24,22 @@ class _MapPageState extends State<MapPage> {
   final Set<Marker> _markers = {};
   final Set<Polyline> _polylines = {};
   String? _mapStyle;
-  bool _isStyleLoaded = false;
 
   @override
   void initState() {
     super.initState();
-    _loadMapStyle().then((_) {
-      _isStyleLoaded = true;
-      setState(() {});
-    });
+    _loadMapStyle();
     _addMarker();
     _createRoute();
   }
 
+  /// Loads the map style from the assets.
   Future<void> _loadMapStyle() async {
     _mapStyle = await rootBundle.loadString('assets/map/style.json');
+    setState(() {});
   }
 
+  /// Adds a marker to the map.
   void _addMarker() {
     _markers.add(
       Marker(
@@ -46,6 +51,7 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
+  /// Creates a route polyline on the map.
   void _createRoute() {
     List<LatLng> routePoints = [
       _start,
@@ -65,6 +71,7 @@ class _MapPageState extends State<MapPage> {
     _polylines.add(route);
   }
 
+  /// Callback when the map is created.
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
     if (_mapStyle != null) {
@@ -74,6 +81,7 @@ class _MapPageState extends State<MapPage> {
     _updateCameraBounds();
   }
 
+  /// Updates the camera bounds of the map.
   void _updateCameraBounds() {
     final LatLngBounds bounds = LatLngBounds(
       southwest: const LatLng(47.5596, 7.5886),
@@ -99,7 +107,7 @@ class _MapPageState extends State<MapPage> {
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
-        body: _isStyleLoaded
+        body: _mapStyle != null
             ? GoogleMap(
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: CameraPosition(
