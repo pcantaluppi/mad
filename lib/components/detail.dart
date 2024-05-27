@@ -182,13 +182,12 @@ class DetailPage extends StatelessWidget {
       logger.i('Stops: ${doc.data()}');
       return doc.data();
     }).toList();
-    var stopsJson = jsonEncode(stopsData);
-    logger.i('Stops: $stopsJson');
 
     var highestStopId = stopsSnapshot.docs.last.id;
+    logger.i('Highest stop id: $highestStopId');
 
     var highestLocationSnapshot = await FirebaseFirestore.instance
-        .collection('location')
+        .collection('locations')
         .doc(highestStopId)
         .get();
 
