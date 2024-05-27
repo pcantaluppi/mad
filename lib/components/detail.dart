@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:logger/logger.dart';
 import 'package:train_tracker/components/map.dart';
 import '/components/common/page_header.dart';
@@ -83,9 +84,17 @@ class DetailPage extends StatelessWidget {
                                 child: Container(
                                   constraints: const BoxConstraints(
                                       maxWidth: 150, maxHeight: 75),
-                                  child: Image.asset(
-                                      'assets/images/wagon.png', // todo: dynamic image
-                                      fit: BoxFit.contain),
+                                  // child: Image.asset(
+                                  //     'assets/images/wagon.png', // todo: dynamic image
+                                  //     fit: BoxFit.contain),
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        'https://firebasestorage.googleapis.com/v0/b/api-project-1005616374074.appspot.com/o/wagon.png?alt=media&token=a43df46a-eefe-4892-9942-1ed4a955b0d5',
+                                    placeholder: (context, url) =>
+                                        const CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                  ),
                                 ),
                               ),
                               const SizedBox(height: 20),
