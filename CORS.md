@@ -1,6 +1,3 @@
-npm install -g firebase-tools
-firebase storage:bucket:set-cors cors.json
-firebase login
-firebase use --add
-firebase use project=api-project-1005616374074
-firebase storage:bucket:set-cors cors.json
+gcloud auth login
+gcloud config set project api-project-1005616374074
+gsutil cors set cors.json gs://api-project-1005616374074.appspot.com
