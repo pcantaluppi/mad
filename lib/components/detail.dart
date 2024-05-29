@@ -7,7 +7,8 @@ import 'package:logger/logger.dart';
 import 'package:train_tracker/components/map.dart';
 import '/components/common/page_header.dart';
 
-/// This file contains the implementation of the `DetailPage` class, which is a stateless widget representing the detail page of a train transport.
+/// This file contains the implementation of the `DetailPage` class,
+/// which is a stateless widget representing the detail page of a train transport.
 class DetailPage extends StatelessWidget {
   final int trainId;
   final Logger logger;
@@ -171,44 +172,63 @@ class DetailPage extends StatelessWidget {
 
   /// Fetches location data for a given train ID.
   Future<List<DocumentSnapshot>> fetchLocationData(int trainId) async {
-    //logger.i('Fetching location data for transport: $trainId');
+    try {
+      // Fetch stops for the given trainId
+      var stopsSnapshot = await FirebaseFirestore.instance
+          .collection('stops')
+          .where('transport', isEqualTo: trainId)
+          .orderBy('id')
+          .get();
 
-    var stopsSnapshot = await FirebaseFirestore.instance
-        .collection('stops')
-        //.where('transport', isEqualTo: trainId)
-        .orderBy('id')
-        .get();
+      if (stopsSnapshot.docs.isEmpty) {
+        logger.i('No stops found for transport: $trainId');
+        return [];
+      }
 
-    //logger.i('Stops snapshot fetched with ${stopsSnapshot.docs.length} documents');
+      // Log stop data
+      var stopsData = stopsSnapshot.docs.map((doc) {
+        var data = doc.data();
+        logger.i('Stop Data: $data');
+        return data;
+      }).toList();
 
-    if (stopsSnapshot.docs.isEmpty) {
-      logger.w('No stops found for transport: $trainId');
+      // Additional filtering
+      var filteredStops = stopsSnapshot.docs.where((doc) {
+        var data = doc.data();
+        return data['transport'] == trainId;
+      }).toList();
+
+      logger.i('Filtered Stops Count: ${filteredStops.length}');
+
+      if (filteredStops.isEmpty) {
+        logger.i('No stops found after filtering for transport $trainId');
+        return [];
+      }
+
+      // Get the stop with the highest id
+      var highestStopId = filteredStops.last.id;
+      logger.i('Highest stop id: $highestStopId');
+
+      // Fetch the location data
+      var highestLocationSnapshot = await FirebaseFirestore.instance
+          .collection('locations')
+          .doc(highestStopId)
+          .get();
+
+      var highestLocationData = highestLocationSnapshot.data();
+
+      if (highestLocationData == null) {
+        logger.i('No location data found for stop $highestStopId');
+        return [];
+      }
+
+      logger.i('Highest location fetched $highestLocationData');
+
+      return [highestLocationSnapshot];
+    } catch (e) {
+      logger.e('Error fetching location data: $e');
       return [];
     }
-
-    var stopsData = stopsSnapshot.docs.map((doc) {
-      logger.i('Stops: ${doc.data()}');
-      return doc.data();
-    }).toList();
-
-    var highestStopId = stopsSnapshot.docs.last.id;
-    logger.i('Highest stop id: $highestStopId');
-
-    var highestLocationSnapshot = await FirebaseFirestore.instance
-        .collection('locations')
-        .doc(highestStopId)
-        .get();
-
-    var highestLocationData = highestLocationSnapshot.data();
-
-    if (highestLocationData == null) {
-      logger.w('No location data found for stop: $highestStopId');
-      return [];
-    }
-
-    logger.i('Highest location fetched: $highestLocationData');
-
-    return [highestLocationSnapshot];
   }
 
   /// Creates a DataTable widget with the provided data and highestLocation.
