@@ -95,7 +95,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
   /// Builds the home page.
   Widget _buildHomePage(BuildContext context) {
     UserModel? user = Provider.of<UserProvider>(context).user;
-    logger.i('Image: ${user?.logo}');
+    //logger.i('Image: ${user?.logo}');
     _logHomePageVisit();
 
     return SafeArea(

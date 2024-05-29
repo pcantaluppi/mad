@@ -1,9 +1,14 @@
 // user_model.dart
 
-/// Represents a user in the application.
+// Define the UserModel class which represents the structure of user data
 class UserModel {
+  // Field to store the user's email
   String email;
+
+  // Field to store the user's logo URL or path
   String logo;
+
+  // Field to store the user's company name, which is optional (nullable)
   final String? company;
 
   /// Constructs a new instance of [UserModel].

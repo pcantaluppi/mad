@@ -1,13 +1,14 @@
 // detail.dart
-import 'dart:convert';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:logger/logger.dart';
 import 'package:train_tracker/components/map.dart';
 import '/components/common/page_header.dart';
 
-/// This file contains the implementation of the `DetailPage` class, which is a stateless widget representing the detail page of a train transport.
+/// This file contains the implementation of the `DetailPage` class,
+/// which is a stateless widget representing the detail page of a train transport.
 class DetailPage extends StatelessWidget {
   final int trainId;
   final Logger logger;
@@ -65,7 +66,7 @@ class DetailPage extends StatelessWidget {
                         if (data == null) {
                           return const Center(child: Text('No data found'));
                         }
-                        logger.i('Transport data: $data');
+                        //logger.i('Transport data: $data');
 
                         return Padding(
                           padding: const EdgeInsets.all(16.0),
@@ -85,9 +86,17 @@ class DetailPage extends StatelessWidget {
                                 child: Container(
                                   constraints: const BoxConstraints(
                                       maxWidth: 150, maxHeight: 75),
-                                  child: Image.asset(
-                                      'assets/images/wagon.png', // todo: dynamic image
-                                      fit: BoxFit.contain),
+                                  // child: Image.asset(
+                                  //     'assets/images/wagon.png', // todo: dynamic image
+                                  //     fit: BoxFit.contain),
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        'https://firebasestorage.googleapis.com/v0/b/api-project-1005616374074.appspot.com/o/wagon.png?alt=media&token=a43df46a-eefe-4892-9942-1ed4a955b0d5',
+                                    placeholder: (context, url) =>
+                                        const CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                  ),
                                 ),
                               ),
                               const SizedBox(height: 20),
@@ -155,7 +164,7 @@ class DetailPage extends StatelessWidget {
       'train_id': trainId,
       'visit_time': DateTime.now().toIso8601String(),
     }).then((_) {
-      logger.i('Visit of detail page $trainId logged.');
+      //logger.i('Visit of detail page $trainId logged.');
     }).catchError((error) {
       logger.e('Failed to log detail page visit: $error');
     });
@@ -163,46 +172,63 @@ class DetailPage extends StatelessWidget {
 
   /// Fetches location data for a given train ID.
   Future<List<DocumentSnapshot>> fetchLocationData(int trainId) async {
-    logger.i('Fetching location data for transport: $trainId');
+    try {
+      // Fetch stops for the given trainId
+      var stopsSnapshot = await FirebaseFirestore.instance
+          .collection('stops')
+          .where('transport', isEqualTo: trainId)
+          .orderBy('id')
+          .get();
 
-    var stopsSnapshot = await FirebaseFirestore.instance
-        .collection('stops')
-        //.where('transport', isEqualTo: trainId)
-        .orderBy('id')
-        .get();
+      if (stopsSnapshot.docs.isEmpty) {
+        logger.i('No stops found for transport: $trainId');
+        return [];
+      }
 
-    logger.i(
-        'Stops snapshot fetched with ${stopsSnapshot.docs.length} documents');
+      // Log stop data
+      var stopsData = stopsSnapshot.docs.map((doc) {
+        var data = doc.data();
+        logger.i('Stop Data: $data');
+        return data;
+      }).toList();
 
-    if (stopsSnapshot.docs.isEmpty) {
-      logger.w('No stops found for transport: $trainId');
+      // Additional filtering
+      var filteredStops = stopsSnapshot.docs.where((doc) {
+        var data = doc.data();
+        return data['transport'] == trainId;
+      }).toList();
+
+      logger.i('Filtered Stops Count: ${filteredStops.length}');
+
+      if (filteredStops.isEmpty) {
+        logger.i('No stops found after filtering for transport $trainId');
+        return [];
+      }
+
+      // Get the stop with the highest id
+      var highestStopId = filteredStops.last.id;
+      logger.i('Highest stop id: $highestStopId');
+
+      // Fetch the location data
+      var highestLocationSnapshot = await FirebaseFirestore.instance
+          .collection('locations')
+          .doc(highestStopId)
+          .get();
+
+      var highestLocationData = highestLocationSnapshot.data();
+
+      if (highestLocationData == null) {
+        logger.i('No location data found for stop $highestStopId');
+        return [];
+      }
+
+      logger.i('Highest location fetched $highestLocationData');
+
+      return [highestLocationSnapshot];
+    } catch (e) {
+      logger.e('Error fetching location data: $e');
       return [];
     }
-
-    var stopsData = stopsSnapshot.docs.map((doc) {
-      logger.i('Stops: ${doc.data()}');
-      return doc.data();
-    }).toList();
-    var stopsJson = jsonEncode(stopsData);
-    logger.i('Stops: $stopsJson');
-
-    var highestStopId = stopsSnapshot.docs.last.id;
-
-    var highestLocationSnapshot = await FirebaseFirestore.instance
-        .collection('location')
-        .doc(highestStopId)
-        .get();
-
-    var highestLocationData = highestLocationSnapshot.data();
-
-    if (highestLocationData == null) {
-      logger.w('No location data found for stop: $highestStopId');
-      return [];
-    }
-
-    logger.i('Highest location fetched: $highestLocationData');
-
-    return [highestLocationSnapshot];
   }
 
   /// Creates a DataTable widget with the provided data and highestLocation.
