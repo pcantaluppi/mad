@@ -170,9 +170,11 @@ class DetailPage extends StatelessWidget {
     });
   }
 
-  /// Fetches location data for a given train ID.
+  /// Fetches location data for a given id
   Future<List<DocumentSnapshot>> fetchLocationData(int trainId) async {
     try {
+      logger.i('TRAIN: $trainId');
+
       // Fetch stops for the given trainId
       var stopsSnapshot = await FirebaseFirestore.instance
           .collection('stops')
@@ -185,8 +187,8 @@ class DetailPage extends StatelessWidget {
         return [];
       }
 
-      // Log stop data
-      var stopsData = stopsSnapshot.docs.map((doc) {
+      // Log each stop
+      stopsSnapshot.docs.map((doc) {
         var data = doc.data();
         logger.i('Stop Data: $data');
         return data;
@@ -201,28 +203,31 @@ class DetailPage extends StatelessWidget {
       logger.i('Filtered Stops Count: ${filteredStops.length}');
 
       if (filteredStops.isEmpty) {
-        logger.i('No stops found after filtering for transport $trainId');
+        logger.i('No stops found after filtering for transport: $trainId');
         return [];
       }
 
       // Get the stop with the highest id
-      var highestStopId = filteredStops.last.id;
+      var highestStopDoc = filteredStops.last;
+      var highestStopData = highestStopDoc.data() as Map<String, dynamic>;
+      var highestStopId = highestStopDoc.id;
+      var locationId = highestStopData['location'].toString();
       logger.i('Highest stop id: $highestStopId');
+      logger.i('Location id: $locationId');
 
-      // Fetch the location data
+      // Fetch the location data for the stop with the highest id
       var highestLocationSnapshot = await FirebaseFirestore.instance
           .collection('locations')
-          .doc(highestStopId)
+          .doc(locationId)
           .get();
 
-      var highestLocationData = highestLocationSnapshot.data();
-
-      if (highestLocationData == null) {
-        logger.i('No location data found for stop $highestStopId');
+      if (!highestLocationSnapshot.exists) {
+        logger.i('No location data found for location id: $locationId');
         return [];
       }
 
-      logger.i('Highest location fetched $highestLocationData');
+      var highestLocationData = highestLocationSnapshot.data();
+      logger.i('Highest location fetched: $highestLocationData');
 
       return [highestLocationSnapshot];
     } catch (e) {
