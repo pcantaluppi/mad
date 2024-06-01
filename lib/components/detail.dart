@@ -254,6 +254,7 @@ class DetailPage extends StatelessWidget {
       var highestLocationData = highestLocationSnapshot.data();
       logger.i('Highest location fetched: $highestLocationData');
 
+
       return [highestLocationSnapshot];
     } catch (e) {
       logger.e('Error fetching location data: $e');
