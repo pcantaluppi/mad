@@ -180,7 +180,9 @@ class _LoginPageState extends State<LoginPage> {
           }
 
           // Set user email and company in provider
-          Provider.of<UserProvider>(context, listen: false).setUser(UserModel(
+          final userProvider =
+              Provider.of<UserProvider>(context, listen: false);
+          userProvider.setUser(UserModel(
               email: _emailController.text, logo: logo, company: company));
 
           // Navigate to home page

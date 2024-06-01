@@ -186,11 +186,10 @@ class DetailPage extends StatelessWidget {
       }
 
       // Log each stop
-      stopsSnapshot.docs.map((doc) {
+      stopsSnapshot.docs.forEach((doc) {
         var data = doc.data();
         logger.i('Stop Data: $data');
-        return data;
-      }).toList();
+      });
 
       // Additional filtering
       var filteredStops = stopsSnapshot.docs.where((doc) {
@@ -220,8 +219,8 @@ class DetailPage extends StatelessWidget {
           var locationData = locationSnapshot.data();
           var location = LocationModel(
             location: locationData?['location'] ?? '',
-            lat: locationData?['lat'] ?? 0,
-            lon: locationData?['lon'] ?? 0,
+            latitude: locationData?['latitude'] ?? 0,
+            longitude: locationData?['longitude'] ?? 0,
           );
           locations.add(location);
         }
@@ -229,8 +228,9 @@ class DetailPage extends StatelessWidget {
 
       logger.i('Data for state: ${locations.map((e) => e.toMap()).toList()}');
 
-      // // Provider.of<LocationProvider>(context, listen: false)
-      // //     .setLocations(locations);
+      // final locationProvider =
+      //     Provider.of<LocationProvider>(context, listen: false);
+      // locationProvider.setLocations(locations);
 
       // Get the stop with the highest id
       var highestStopDoc = filteredStops.last;

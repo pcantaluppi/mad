@@ -6,24 +6,27 @@ class LocationModel {
   String location;
 
   // Field to store the latitude of the location
-  double lat;
+  double latitude;
 
   // Field to store the longitude of the location
-  double lon;
+  double longitude;
 
   /// Constructs a new instance of [LocationModel].
   /// The [location] parameter is required and represents the name of the location.
-  /// The [lat] parameter is required and represents the latitude of the location.
-  /// The [lon] parameter is required and represents the longitude of the location.
-  LocationModel({required this.location, required this.lat, required this.lon});
+  /// The [latitude] parameter is required and represents the latitude of the location.
+  /// The [longitude] parameter is required and represents the longitude of the location.
+  LocationModel(
+      {required this.location,
+      required this.latitude,
+      required this.longitude});
 
   /// Constructs a new instance of [LocationModel] from a Map.
   /// This constructor is useful for converting JSON or Firestore data to [LocationModel] instances.
   factory LocationModel.fromMap(Map<String, dynamic> map) {
     return LocationModel(
       location: map['location'] as String,
-      lat: map['lat'] as double,
-      lon: map['lon'] as double,
+      latitude: map['latitude'] as double,
+      longitude: map['longitude'] as double,
     );
   }
 
@@ -32,8 +35,8 @@ class LocationModel {
   Map<String, dynamic> toMap() {
     return {
       'location': location,
-      'lat': lat,
-      'lon': lon,
+      'latitude': latitude,
+      'longitude': longitude,
     };
   }
 }
