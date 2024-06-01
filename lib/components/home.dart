@@ -122,23 +122,32 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
                   ],
                 ),
               ),
-              const PageHeading(title: 'Transports'),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    labelText: "Search trains",
-                    hintText: "Enter train number",
-                    prefixIcon: const Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+              Container(
+                color: Colors
+                    .white, // Set the background color to white for this part
+                child: Column(
+                  children: [
+                    const PageHeading(title: 'Transports'),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: TextField(
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          labelText: "Search trains",
+                          hintText: "Enter train number",
+                          prefixIcon: const Icon(Icons.search),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 20),
+                    _buildTransportList(
+                        context), // Ensure _buildTransportList also respects the white background
+                  ],
                 ),
               ),
-              const SizedBox(height: 20),
-              _buildTaskList(context),
             ],
           ),
         ),
@@ -146,10 +155,8 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
     );
   }
 
-  /// Builds the task list.
-  Widget _buildTaskList(BuildContext context) {
-    //final logger = Logger();
-
+  /// Builds the transport list.
+  Widget _buildTransportList(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: _transportsStream,
       builder: (context, snapshot) {
