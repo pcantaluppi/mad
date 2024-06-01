@@ -1,4 +1,6 @@
-// home.dart
+// hone.dart
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -6,13 +8,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:train_tracker/components/detail.dart';
 import 'package:train_tracker/components/login.dart';
+import 'package:train_tracker/components/common/page_header.dart';
+import 'package:train_tracker/components/common/page_heading.dart';
+import 'package:train_tracker/state/user_provider.dart';
 import 'package:train_tracker/state/models/user_model.dart';
-import '/components/common/page_header.dart';
-import '/components/common/page_heading.dart';
-import '../state/user_provider.dart';
 
+/// The home page of the application.
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key});
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class HomePage extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           if (snapshot.data == null) {
-            WidgetsBinding.instance!.addPostFrameCallback((_) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => const LoginPage()),
                 (Route<dynamic> route) => false,
@@ -39,14 +42,18 @@ class HomePage extends StatelessWidget {
   }
 }
 
+/// The stateful widget for the home page.
 class _HomePageStateful extends StatefulWidget {
   @override
   __HomePageStatefulState createState() => __HomePageStatefulState();
 }
 
+/// The state for the home page.
 class __HomePageStatefulState extends State<_HomePageStateful> {
   final TextEditingController _searchController = TextEditingController();
   late Stream<QuerySnapshot> _transportsStream;
+  final Logger logger = Logger();
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   @override
   void initState() {
@@ -56,6 +63,18 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
     _searchController.addListener(_filterTransports);
   }
 
+  /// Logs the visit to the home page.
+  void _logHomePageVisit() {
+    analytics.logEvent(name: 'home_page_visit', parameters: {
+      'visit_time': DateTime.now().toIso8601String(),
+    }).then((_) {
+      //logger.i('Successful login logged.');
+    }).catchError((error) {
+      logger.e('Failed to log successful login: $error');
+    });
+  }
+
+  /// Filters the transports based on the search query.
   void _filterTransports() {
     setState(() {
       _transportsStream =
@@ -74,74 +93,70 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
     return _buildHomePage(context);
   }
 
+  /// Builds the home page.
   Widget _buildHomePage(BuildContext context) {
     UserModel? user = Provider.of<UserProvider>(context).user;
+    //logger.i('Image: ${user?.logo}');
+    _logHomePageVisit();
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xffEEF1F3),
-        body: Column(
-          children: [
-            const PageHeader(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  labelText: "Search trains",
-                  hintText: "Enter train number",
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                  color: Color(0xffEEF1F3),
+                  borderRadius:
+                      BorderRadius.vertical(bottom: Radius.circular(20)),
+                ),
+                child: Column(
+                  children: [
+                    const PageHeader(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 8.0),
+                      child: CachedNetworkImage(
+                          imageUrl: user!.logo, fit: BoxFit.contain),
+                    ),
+                  ],
                 ),
               ),
-            ),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(20),
-                  ),
-                  border: Border.all(color: Colors.grey, width: 1),
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const PageHeading(title: 'Contoso Logistics'),
-                      const SizedBox(height: 2),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              //'Logged in as: ${user?.email}',
-                              'Company: ${user?.company}',
-                              style: const TextStyle(fontSize: 24),
-                            ),
-                            const SizedBox(height: 10),
-                            _buildTaskList(context),
-                          ],
+              Container(
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    const PageHeading(title: 'Transports'),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: TextField(
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          labelText: "Search trains",
+                          hintText: "Enter train number",
+                          prefixIcon: const Icon(Icons.search),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 20),
+                    _buildTransportList(
+                        context), // Ensure _buildTransportList also respects the white background
+                  ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildTaskList(BuildContext context) {
-    final logger = Logger();
-
+  /// Builds the transport list.
+  Widget _buildTransportList(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: _transportsStream,
       builder: (context, snapshot) {
@@ -154,9 +169,9 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
 
         var filteredDocs = snapshot.data!.docs.where((document) {
           Map<String, dynamic>? data = document.data() as Map<String, dynamic>?;
-          if (data == null) return false; // Ensure data is not null
+          if (data == null) return false;
 
-          String title = data['title'] ?? ""; // Use null-aware access
+          String title = data['title'] ?? "";
           return title
               .toLowerCase()
               .contains(_searchController.text.toLowerCase());
@@ -175,12 +190,9 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
           itemBuilder: (context, index) {
             Map<String, dynamic> data =
                 filteredDocs[index].data() as Map<String, dynamic>;
-
-            logger.i('Item: $data');
-
+            //logger.i('Item: $data');
             return ListTile(
-              title: Text(
-                  data['title'] ?? "No title"), // Handle potential null title
+              title: Text(data['title'] ?? "No title"),
               onTap: () {
                 Navigator.push(
                   context,

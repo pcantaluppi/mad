@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  cached_network_image: ^3.2.0
   cloud_firestore: ^4.17.0
   cupertino_icons: ^1.0.2
   firebase_auth: ^4.19.5
@@ -20,6 +21,7 @@ dependencies:
   logger: ^2.2.0
   google_maps_flutter: ^2.6.0
   google_maps_flutter_web: ^0.5.6+2
+  firebase_analytics: ^10.10.5
 
 dev_dependencies:
   flutter_test:
