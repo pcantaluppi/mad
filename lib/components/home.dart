@@ -1,4 +1,5 @@
 // hone.dart
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -115,9 +116,13 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 8.0),
-                      child: Image.asset(
-                          'assets/images/customer.png', // todo: dynamic image
-                          fit: BoxFit.contain),
+                      // child: Image.asset(
+                      //     'assets/images/customer.png', // todo: dynamic image
+                      //     fit: BoxFit.contain),
+
+                      child: CachedNetworkImage(
+                          imageUrl: user!.logo, fit: BoxFit.contain),
+
                       // child: Image.network(
                       //   user?.logo ?? '',
                       //   errorBuilder: (BuildContext context, Object exception,
