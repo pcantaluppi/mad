@@ -101,6 +101,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
 
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -123,8 +124,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
                 ),
               ),
               Container(
-                color: Colors
-                    .white, // Set the background color to white for this part
+                color: Colors.white,
                 child: Column(
                   children: [
                     const PageHeading(title: 'Transports'),
