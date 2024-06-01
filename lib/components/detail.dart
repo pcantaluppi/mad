@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:train_tracker/components/map.dart';
+import 'package:train_tracker/state/location_provider.dart';
+import 'package:train_tracker/state/models/location_model.dart';
 import '/components/common/page_header.dart';
 
 /// This file contains the implementation of the `DetailPage` class,
@@ -86,12 +89,8 @@ class DetailPage extends StatelessWidget {
                                 child: Container(
                                   constraints: const BoxConstraints(
                                       maxWidth: 150, maxHeight: 75),
-                                  // child: Image.asset(
-                                  //     'assets/images/wagon.png', // todo: dynamic image
-                                  //     fit: BoxFit.contain),
                                   child: CachedNetworkImage(
-                                    imageUrl:
-                                        'https://firebasestorage.googleapis.com/v0/b/api-project-1005616374074.appspot.com/o/wagon.png?alt=media&token=a43df46a-eefe-4892-9942-1ed4a955b0d5',
+                                    imageUrl: data['image'] ?? '',
                                     placeholder: (context, url) =>
                                         const CircularProgressIndicator(),
                                     errorWidget: (context, url, error) =>
@@ -101,7 +100,7 @@ class DetailPage extends StatelessWidget {
                               ),
                               const SizedBox(height: 20),
                               FutureBuilder<List<DocumentSnapshot>>(
-                                future: fetchLocationData(trainId),
+                                future: fetchLocationData(trainId, context),
                                 builder: (context, locationSnapshot) {
                                   if (locationSnapshot.connectionState ==
                                       ConnectionState.waiting) {
@@ -170,8 +169,9 @@ class DetailPage extends StatelessWidget {
     });
   }
 
-  /// Fetches location data for a given train ID.
-  Future<List<DocumentSnapshot>> fetchLocationData(int trainId) async {
+  /// Fetches location data for a given id
+  Future<List<DocumentSnapshot>> fetchLocationData(
+      int trainId, BuildContext context) async {
     try {
       // Fetch stops for the given trainId
       var stopsSnapshot = await FirebaseFirestore.instance
@@ -185,12 +185,11 @@ class DetailPage extends StatelessWidget {
         return [];
       }
 
-      // Log stop data
-      var stopsData = stopsSnapshot.docs.map((doc) {
+      // Log each stop
+      stopsSnapshot.docs.forEach((doc) {
         var data = doc.data();
         logger.i('Stop Data: $data');
-        return data;
-      }).toList();
+      });
 
       // Additional filtering
       var filteredStops = stopsSnapshot.docs.where((doc) {
@@ -201,28 +200,60 @@ class DetailPage extends StatelessWidget {
       logger.i('Filtered Stops Count: ${filteredStops.length}');
 
       if (filteredStops.isEmpty) {
-        logger.i('No stops found after filtering for transport $trainId');
+        logger.i('No stops found after filtering for transport: $trainId');
         return [];
       }
+
+      // Save the list of locations to the provider
+      List<LocationModel> locations = [];
+      for (var stopDoc in filteredStops) {
+        var stopData = stopDoc.data();
+        var locationId = stopData['location'].toString();
+
+        var locationSnapshot = await FirebaseFirestore.instance
+            .collection('locations')
+            .doc(locationId)
+            .get();
+
+        if (locationSnapshot.exists) {
+          var locationData = locationSnapshot.data();
+          var location = LocationModel(
+            location: locationData?['location'] ?? '',
+            latitude: locationData?['latitude'] ?? 0,
+            longitude: locationData?['longitude'] ?? 0,
+          );
+          locations.add(location);
+        }
+      }
+
+      logger.i('Data for state: ${locations.map((e) => e.toMap()).toList()}');
+
+      // final locationProvider =
+      //     Provider.of<LocationProvider>(context, listen: false);
+      // locationProvider.setLocations(locations);
 
       // Get the stop with the highest id
-      var highestStopId = filteredStops.last.id;
+      var highestStopDoc = filteredStops.last;
+      var highestStopData = highestStopDoc.data();
+      var highestStopId = highestStopDoc.id;
+      var locationId = highestStopData['location'].toString();
       logger.i('Highest stop id: $highestStopId');
+      logger.i('Location id: $locationId');
 
-      // Fetch the location data
+      // Fetch the location data for the stop with the highest id
       var highestLocationSnapshot = await FirebaseFirestore.instance
           .collection('locations')
-          .doc(highestStopId)
+          .doc(locationId)
           .get();
 
-      var highestLocationData = highestLocationSnapshot.data();
-
-      if (highestLocationData == null) {
-        logger.i('No location data found for stop $highestStopId');
+      if (!highestLocationSnapshot.exists) {
+        logger.i('No location data found for location id: $locationId');
         return [];
       }
 
-      logger.i('Highest location fetched $highestLocationData');
+      var highestLocationData = highestLocationSnapshot.data();
+      logger.i('Highest location fetched: $highestLocationData');
+
 
       return [highestLocationSnapshot];
     } catch (e) {

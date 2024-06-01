@@ -1,8 +1,6 @@
 // user_provider.dart
 
-// Import necessary Flutter material package
 import 'package:flutter/material.dart';
-// Import the user model which defines the structure of user data
 import 'models/user_model.dart';
 
 /// A provider class for managing user data.
