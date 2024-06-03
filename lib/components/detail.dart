@@ -186,10 +186,10 @@ class DetailPage extends StatelessWidget {
       }
 
       // Log each stop
-      stopsSnapshot.docs.forEach((doc) {
+      for (var doc in stopsSnapshot.docs) {
         var data = doc.data();
         logger.i('Stop Data: $data');
-      });
+      }
 
       // Additional filtering
       var filteredStops = stopsSnapshot.docs.where((doc) {
@@ -253,7 +253,6 @@ class DetailPage extends StatelessWidget {
 
       var highestLocationData = highestLocationSnapshot.data();
       logger.i('Highest location fetched: $highestLocationData');
-
 
       return [highestLocationSnapshot];
     } catch (e) {

@@ -16,19 +16,29 @@ import 'components/home.dart';
 /// Initializes the logger, loads environment variables from a .env file,
 /// and runs the app with the necessary providers.
 void main() async {
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.dumpErrorToConsole(details);
+  };
+
   final logger = Logger();
   WidgetsFlutterBinding.ensureInitialized();
   try {
     await dotenv.load(fileName: ".env");
-  } catch (e) {
-    logger.e('Failed to load env variables: $e');
+  } catch (error) {
+    logger.e('Failed to load env variables: $error');
   }
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => UserProvider(),
-      child: const MyApp(),
-    ),
-  );
+  runZonedGuarded(() {
+    runApp(
+      ChangeNotifierProvider(
+        create: (context) => UserProvider(),
+        child: const MyApp(),
+      ),
+    );
+    ;
+  }, (error, stackTrace) {
+    // Log the stack trace or send it to an external service
+    logger.e('Unhandled exception caught: $error');
+  });
 }
 
 class MyApp extends StatelessWidget {
