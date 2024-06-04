@@ -34,9 +34,7 @@ void main() async {
         child: const MyApp(),
       ),
     );
-    ;
   }, (error, stackTrace) {
-    // Log the stack trace or send it to an external service
     logger.e('Unhandled exception caught: $error');
   });
 }

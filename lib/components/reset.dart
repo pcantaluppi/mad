@@ -14,6 +14,8 @@ import 'login.dart';
 
 /// The stateful widget for the password reset screen.
 class PasswordReset extends StatefulWidget {
+  const PasswordReset({super.key});
+
   @override
   PasswordResetState createState() => PasswordResetState();
 }
