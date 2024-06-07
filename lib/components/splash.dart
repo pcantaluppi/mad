@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'login.dart';
 
-/// A widget that displays a splash screen.
+/// Widget that displays a splash screen.
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -17,9 +17,11 @@ class SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 4), () {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (BuildContext context) => const LoginPage(),
-      ));
+      if (mounted) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) => const LoginPage(),
+        ));
+      }
     });
   }
 

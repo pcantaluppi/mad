@@ -15,7 +15,7 @@ import '/components/common/custom_form_button.dart';
 import '../state/user_provider.dart';
 import '../state/models/user_model.dart';
 
-/// A page for user login.
+/// Page for user login.
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -172,41 +172,47 @@ class _LoginPageState extends State<LoginPage> {
               .where('users', arrayContains: _emailController.text)
               .get();
 
-          String company = '';
-          String logo = '';
-          if (querySnapshot.docs.isNotEmpty) {
-            company = querySnapshot.docs.first['name'];
-            logo = querySnapshot.docs.first['logo'];
+          if (mounted) {
+            String company = '';
+            String logo = '';
+            if (querySnapshot.docs.isNotEmpty) {
+              company = querySnapshot.docs.first['name'];
+              logo = querySnapshot.docs.first['logo'];
+            }
+
+            // Set user email and company in provider
+            final userProvider =
+                Provider.of<UserProvider>(context, listen: false);
+            userProvider.setUser(UserModel(
+                email: _emailController.text, logo: logo, company: company));
+
+            // Navigate to home page
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
           }
-
-          // Set user email and company in provider
-          final userProvider =
-              Provider.of<UserProvider>(context, listen: false);
-          userProvider.setUser(UserModel(
-              email: _emailController.text, logo: logo, company: company));
-
-          // Navigate to home page
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const HomePage()),
-          );
         } else {
           throw Exception('No user found');
         }
       } on FirebaseAuthException catch (e) {
-        String errorMessage = 'Login failed. Please try again.';
-        if (e.code == 'user-not-found') {
-          errorMessage = 'No user found for that email.';
-        } else if (e.code == 'wrong-password') {
-          errorMessage = 'Wrong password provided.';
-        }
+        if (mounted) {
+          String errorMessage = 'Login failed. Please try again.';
+          if (e.code == 'user-not-found') {
+            errorMessage = 'No user found for that email.';
+          } else if (e.code == 'wrong-password') {
+            errorMessage = 'Wrong password provided.';
+          }
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(errorMessage)),
-        );
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(errorMessage)),
+          );
+        }
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Unexpected error occurred.')),
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Unexpected error occurred.')),
+          );
+        }
       }
     }
   }

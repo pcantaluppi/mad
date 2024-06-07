@@ -1,0 +1,542 @@
+[
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/color_common_google_signin_btn_text_light.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/color/common_google_signin_btn_text_light.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable_notification_bg.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable/notification_bg.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-ldpi-v4_ic_call_answer_low.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-ldpi-v4/ic_call_answer_low.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable_amu_bubble_shadow.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-android-maps-utils-3.6.0-19:/drawable/amu_bubble_shadow.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xhdpi-v4_notification_bg_normal_pressed.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xhdpi-v4/notification_bg_normal_pressed.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxhdpi-v4_ic_call_decline_low.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xxhdpi-v4/ic_call_decline_low.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-hdpi-v4_ic_call_answer.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-hdpi-v4/ic_call_answer.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/layout_notification_template_part_chronometer.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/layout/notification_template_part_chronometer.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-hdpi-v4_ic_call_answer_video.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-hdpi-v4/ic_call_answer_video.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/layout_browser_actions_context_menu_page.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-browser-1.4.0-14:/layout/browser_actions_context_menu_page.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/layout-v21_notification_action.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/layout-v21/notification_action.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxhdpi-v4_common_google_signin_btn_text_light_normal_background.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-xxhdpi-v4/common_google_signin_btn_text_light_normal_background.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxhdpi-v4_ic_call_answer_video.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xxhdpi-v4/ic_call_answer_video.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xhdpi-v4_common_google_signin_btn_text_dark_normal_background.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-xhdpi-v4/common_google_signin_btn_text_dark_normal_background.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxxhdpi-v4_ic_call_answer_low.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xxxhdpi-v4/ic_call_answer_low.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxxhdpi-v4_ic_call_decline_low.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xxxhdpi-v4/ic_call_decline_low.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-mdpi-v4_notification_bg_normal_pressed.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-mdpi-v4/notification_bg_normal_pressed.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xhdpi-v4_ic_call_decline_low.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xhdpi-v4/ic_call_decline_low.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-mdpi-v4_ic_call_answer_video_low.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-mdpi-v4/ic_call_answer_video_low.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxxhdpi-v4_ic_call_answer_video.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xxxhdpi-v4/ic_call_answer_video.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-hdpi-v4_googleg_standard_color_18.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-hdpi-v4/googleg_standard_color_18.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-hdpi-v4_googleg_disabled_color_18.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-hdpi-v4/googleg_disabled_color_18.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxxhdpi-v4_ic_call_decline.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xxxhdpi-v4/ic_call_decline.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-anydpi-v21_ic_call_answer_low.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-anydpi-v21/ic_call_answer_low.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/layout_amu_webview.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-android-maps-utils-3.6.0-19:/layout/amu_webview.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "ch.ffhs.train_tracker.app-main-7:/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/layout_amu_text_bubble.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-android-maps-utils-3.6.0-19:/layout/amu_text_bubble.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable_common_google_signin_btn_text_dark_focused.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable/common_google_signin_btn_text_dark_focused.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxhdpi-v4_common_google_signin_btn_icon_dark_normal_background.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-xxhdpi-v4/common_google_signin_btn_icon_dark_normal_background.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xhdpi-v4_googleg_disabled_color_18.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-xhdpi-v4/googleg_disabled_color_18.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-hdpi-v4_common_google_signin_btn_text_light_normal_background.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-hdpi-v4/common_google_signin_btn_text_light_normal_background.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/layout-v21_notification_action_tombstone.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/layout-v21/notification_action_tombstone.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-mdpi-v4_notification_bg_low_normal.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-mdpi-v4/notification_bg_low_normal.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-mdpi-v4_ic_call_answer_low.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-mdpi-v4/ic_call_answer_low.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-mdpi-v4_notification_bg_normal.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-mdpi-v4/notification_bg_normal.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "ch.ffhs.train_tracker.app-main-7:/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xhdpi-v4_notification_bg_low_pressed.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xhdpi-v4/notification_bg_low_pressed.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable_common_google_signin_btn_text_dark_normal.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable/common_google_signin_btn_text_dark_normal.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-hdpi-v4_common_google_signin_btn_text_dark_normal_background.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-hdpi-v4/common_google_signin_btn_text_dark_normal_background.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xhdpi-v4_notification_bg_normal.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xhdpi-v4/notification_bg_normal.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xhdpi-v4_common_google_signin_btn_icon_light_normal_background.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-xhdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "ch.ffhs.train_tracker.app-main-7:/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-hdpi-v4_notification_bg_low_pressed.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-hdpi-v4/notification_bg_low_pressed.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-mdpi-v4_common_google_signin_btn_icon_light_normal_background.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-mdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable_common_google_signin_btn_text_disabled.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable/common_google_signin_btn_text_disabled.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xhdpi-v4_amu_bubble_mask.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-android-maps-utils-3.6.0-19:/drawable-xhdpi-v4/amu_bubble_mask.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xhdpi-v4_common_google_signin_btn_text_light_normal_background.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-xhdpi-v4/common_google_signin_btn_text_light_normal_background.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable_common_google_signin_btn_icon_dark_normal.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable/common_google_signin_btn_icon_dark_normal.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-anydpi-v21_ic_call_answer_video_low.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-anydpi-v21/ic_call_answer_video_low.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable_notification_tile_bg.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable/notification_tile_bg.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/layout-v21_notification_template_custom_big.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/layout-v21/notification_template_custom_big.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-ldpi-v4_ic_call_answer.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-ldpi-v4/ic_call_answer.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-mdpi-v4_notification_bg_low_pressed.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-mdpi-v4/notification_bg_low_pressed.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable_common_google_signin_btn_text_light.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable/common_google_signin_btn_text_light.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-anydpi-v21_ic_call_decline.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-anydpi-v21/ic_call_decline.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xhdpi-v4_common_full_open_on_phone.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-xhdpi-v4/common_full_open_on_phone.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-mdpi-v4_common_google_signin_btn_text_light_normal_background.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-mdpi-v4/common_google_signin_btn_text_light_normal_background.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxhdpi-v4_ic_call_answer.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xxhdpi-v4/ic_call_answer.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable_common_google_signin_btn_icon_dark_focused.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable/common_google_signin_btn_icon_dark_focused.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "ch.ffhs.train_tracker.app-main-7:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/xml_flutter_image_picker_file_paths.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-packaged_res-39:/xml/flutter_image_picker_file_paths.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-ldpi-v4_ic_call_decline_low.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-ldpi-v4/ic_call_decline_low.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-mdpi-v4_ic_call_decline.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-mdpi-v4/ic_call_decline.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/layout_custom_dialog.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/layout/custom_dialog.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/xml_image_share_filepaths.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-browser-1.4.0-14:/xml/image_share_filepaths.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xhdpi-v4_amu_bubble_shadow.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-android-maps-utils-3.6.0-19:/drawable-xhdpi-v4/amu_bubble_shadow.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xhdpi-v4_googleg_standard_color_18.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-xhdpi-v4/googleg_standard_color_18.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xhdpi-v4_ic_call_answer_video.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xhdpi-v4/ic_call_answer_video.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-v21_launch_background.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-main-7:/drawable-v21/launch_background.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-anydpi-v21_ic_call_answer.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-anydpi-v21/ic_call_answer.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-hdpi-v4_common_full_open_on_phone.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-hdpi-v4/common_full_open_on_phone.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxhdpi-v4_googleg_disabled_color_18.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-xxhdpi-v4/googleg_disabled_color_18.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xhdpi-v4_ic_call_answer.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xhdpi-v4/ic_call_answer.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable_common_google_signin_btn_text_dark.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable/common_google_signin_btn_text_dark.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-ldpi-v4_ic_call_decline.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-ldpi-v4/ic_call_decline.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/layout-v21_notification_template_icon_group.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/layout-v21/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable_notification_icon_background.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable/notification_icon_background.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-hdpi-v4_common_google_signin_btn_icon_light_normal_background.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-hdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-mdpi-v4_ic_call_answer_video.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-mdpi-v4/ic_call_answer_video.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable_common_google_signin_btn_icon_light.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable/common_google_signin_btn_icon_light.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-mdpi-v4_googleg_disabled_color_18.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-mdpi-v4/googleg_disabled_color_18.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxhdpi-v4_common_google_signin_btn_icon_light_normal_background.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-xxhdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-hdpi-v4_ic_call_decline.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-hdpi-v4/ic_call_decline.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-hdpi-v4_ic_call_answer_low.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-hdpi-v4/ic_call_answer_low.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-mdpi-v4_googleg_standard_color_18.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-mdpi-v4/googleg_standard_color_18.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-v21_notification_action_background.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-v21/notification_action_background.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-hdpi-v4_notification_bg_normal.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-hdpi-v4/notification_bg_normal.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable_amu_bubble_mask.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-android-maps-utils-3.6.0-19:/drawable/amu_bubble_mask.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/color_common_google_signin_btn_tint.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/color/common_google_signin_btn_tint.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-hdpi-v4_common_google_signin_btn_icon_dark_normal_background.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-hdpi-v4/common_google_signin_btn_icon_dark_normal_background.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-mdpi-v4_ic_call_answer.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-mdpi-v4/ic_call_answer.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable_common_google_signin_btn_icon_light_normal.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable/common_google_signin_btn_icon_light_normal.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xhdpi-v4_notification_bg_low_normal.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xhdpi-v4/notification_bg_low_normal.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxxhdpi-v4_amu_bubble_mask.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-android-maps-utils-3.6.0-19:/drawable-xxxhdpi-v4/amu_bubble_mask.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable_common_google_signin_btn_text_light_focused.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable/common_google_signin_btn_text_light_focused.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-mdpi-v4_common_google_signin_btn_icon_dark_normal_background.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-mdpi-v4/common_google_signin_btn_icon_dark_normal_background.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable_common_google_signin_btn_icon_dark.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable/common_google_signin_btn_icon_dark.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/layout_amu_info_window.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-android-maps-utils-3.6.0-19:/layout/amu_info_window.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-hdpi-v4_notification_bg_normal_pressed.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-hdpi-v4/notification_bg_normal_pressed.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-hdpi-v4_notify_panel_notification_icon_bg.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-hdpi-v4/notify_panel_notification_icon_bg.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-ldpi-v4_ic_call_answer_video_low.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-ldpi-v4/ic_call_answer_video_low.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-mdpi-v4_notify_panel_notification_icon_bg.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-mdpi-v4/notify_panel_notification_icon_bg.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-anydpi-v21_ic_call_decline_low.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-anydpi-v21/ic_call_decline_low.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxhdpi-v4_ic_call_decline.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xxhdpi-v4/ic_call_decline.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-mdpi-v4_ic_call_decline_low.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-mdpi-v4/ic_call_decline_low.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xhdpi-v4_ic_call_answer_low.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xhdpi-v4/ic_call_answer_low.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "ch.ffhs.train_tracker.app-main-7:/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-hdpi-v4_notification_bg_low_normal.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-hdpi-v4/notification_bg_low_normal.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-hdpi-v4_ic_call_answer_video_low.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-hdpi-v4/ic_call_answer_video_low.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxhdpi-v4_googleg_standard_color_18.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-xxhdpi-v4/googleg_standard_color_18.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/raw_firebase_common_keep.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-firebase-common-20.4.3-32:/raw/firebase_common_keep.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-ldpi-v4_ic_call_answer_video.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-ldpi-v4/ic_call_answer_video.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xhdpi-v4_ic_call_answer_video_low.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xhdpi-v4/ic_call_answer_video_low.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable_common_google_signin_btn_icon_disabled.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable/common_google_signin_btn_icon_disabled.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-anydpi-v21_ic_call_answer_video.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-anydpi-v21/ic_call_answer_video.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/layout_notification_template_part_time.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/layout/notification_template_part_time.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxhdpi-v4_ic_call_answer_video_low.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xxhdpi-v4/ic_call_answer_video_low.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable_common_google_signin_btn_icon_light_focused.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable/common_google_signin_btn_icon_light_focused.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxxhdpi-v4_ic_call_answer.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xxxhdpi-v4/ic_call_answer.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxhdpi-v4_amu_bubble_mask.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-android-maps-utils-3.6.0-19:/drawable-xxhdpi-v4/amu_bubble_mask.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/xml_ga_ad_services_config.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-measurement-api-21.6.1-18:/xml/ga_ad_services_config.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxhdpi-v4_common_google_signin_btn_text_dark_normal_background.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-xxhdpi-v4/common_google_signin_btn_text_dark_normal_background.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable_common_google_signin_btn_text_light_normal.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable/common_google_signin_btn_text_light_normal.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xhdpi-v4_notify_panel_notification_icon_bg.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xhdpi-v4/notify_panel_notification_icon_bg.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxxhdpi-v4_ic_call_answer_video_low.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xxxhdpi-v4/ic_call_answer_video_low.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxhdpi-v4_ic_call_answer_low.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xxhdpi-v4/ic_call_answer_low.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xhdpi-v4_common_google_signin_btn_icon_dark_normal_background.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-xhdpi-v4/common_google_signin_btn_icon_dark_normal_background.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-mdpi-v4_common_google_signin_btn_text_dark_normal_background.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/drawable-mdpi-v4/common_google_signin_btn_text_dark_normal_background.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/color_common_google_signin_btn_text_dark.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-play-services-base-18.0.1-27:/color/common_google_signin_btn_text_dark.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable_notification_bg_low.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable/notification_bg_low.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/layout_browser_actions_context_menu_row.xml.flat",
+        "source": "ch.ffhs.train_tracker.app-browser-1.4.0-14:/layout/browser_actions_context_menu_row.xml"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-hdpi-v4_ic_call_decline_low.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-hdpi-v4/ic_call_decline_low.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxhdpi-v4_amu_bubble_shadow.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-android-maps-utils-3.6.0-19:/drawable-xxhdpi-v4/amu_bubble_shadow.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xxxhdpi-v4_amu_bubble_shadow.9.png.flat",
+        "source": "ch.ffhs.train_tracker.app-jetified-android-maps-utils-3.6.0-19:/drawable-xxxhdpi-v4/amu_bubble_shadow.9.png"
+    },
+    {
+        "merged": "ch.ffhs.train_tracker.app-merged_res-6:/drawable-xhdpi-v4_ic_call_decline.png.flat",
+        "source": "ch.ffhs.train_tracker.app-core-1.10.1-10:/drawable-xhdpi-v4/ic_call_decline.png"
+    }
+]
