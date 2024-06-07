@@ -14,6 +14,8 @@ import 'login.dart';
 
 /// The stateful widget for the password reset screen.
 class PasswordReset extends StatefulWidget {
+  const PasswordReset({super.key});
+
   @override
   PasswordResetState createState() => PasswordResetState();
 }
@@ -119,15 +121,19 @@ class PasswordResetState extends State<PasswordReset> {
         await FirebaseAuth.instance
             .sendPasswordResetEmail(email: _emailController.text);
 
-        Provider.of<UserProvider>(context, listen: false)
-            .setUser(UserModel(email: _emailController.text));
+        if (mounted) {
+          Provider.of<UserProvider>(context, listen: false)
+              .setUser(UserModel(email: _emailController.text));
 
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => const PasswordResetConfirmation()));
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => const PasswordResetConfirmation()));
+        }
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Unexpected error occurred.')),
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Unexpected error occurred.')),
+          );
+        }
       }
     }
   }

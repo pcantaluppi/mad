@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
 import 'package:train_tracker/components/map.dart';
-import 'package:train_tracker/state/location_provider.dart';
 import 'package:train_tracker/state/models/location_model.dart';
 import '/components/common/page_header.dart';
 
@@ -186,10 +184,10 @@ class DetailPage extends StatelessWidget {
       }
 
       // Log each stop
-      stopsSnapshot.docs.forEach((doc) {
+      for (var doc in stopsSnapshot.docs) {
         var data = doc.data();
         logger.i('Stop Data: $data');
-      });
+      }
 
       // Additional filtering
       var filteredStops = stopsSnapshot.docs.where((doc) {
@@ -253,7 +251,6 @@ class DetailPage extends StatelessWidget {
 
       var highestLocationData = highestLocationSnapshot.data();
       logger.i('Highest location fetched: $highestLocationData');
-
 
       return [highestLocationSnapshot];
     } catch (e) {
