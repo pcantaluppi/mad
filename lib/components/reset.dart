@@ -14,7 +14,9 @@ import 'login.dart';
 
 /// The stateful widget for the password reset screen.
 class PasswordReset extends StatefulWidget {
-  const PasswordReset({super.key});
+  final FirebaseAuth firebaseAuth;
+
+  const PasswordReset({super.key, required this.firebaseAuth});
 
   @override
   PasswordResetState createState() => PasswordResetState();
@@ -118,7 +120,7 @@ class PasswordResetState extends State<PasswordReset> {
       );
 
       try {
-        await FirebaseAuth.instance
+        await widget.firebaseAuth
             .sendPasswordResetEmail(email: _emailController.text);
 
         if (mounted) {
