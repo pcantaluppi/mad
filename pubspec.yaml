@@ -4,14 +4,15 @@ publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: ">=3.3.3 <4.0.0"
+  sdk: ">=3.4.3 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   cached_network_image: ^3.2.0
-  cloud_firestore: ^4.17.0
+  cloud_firestore: ^4.17.5
   cupertino_icons: ^1.0.2
+  firebase_analytics: ^10.10.5
   firebase_auth: ^4.19.5
   firebase_core: ^2.30.0
   flutter_dotenv: ^5.1.0
@@ -21,7 +22,6 @@ dependencies:
   logger: ^2.2.0
   google_maps_flutter: ^2.6.0
   google_maps_flutter_web: ^0.5.6+2
-  firebase_analytics: ^10.10.5
 
 dev_dependencies:
   flutter_test:

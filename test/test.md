@@ -9,5 +9,5 @@ dart run build_runner build
 Run the test:
 
 ```Shell
-flutter test test/reset_test.dart
+flutter test test/reset_test.dart -r expanded
 ```

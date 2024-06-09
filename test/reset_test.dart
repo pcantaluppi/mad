@@ -84,6 +84,6 @@ void main() {
       // Verify that PasswordResetConfirmation is displayed
       expect(find.text('A Reset Link was sent to test@example.com'),
           findsOneWidget);
-    });
+    });    
   });
 }
