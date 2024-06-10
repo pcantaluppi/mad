@@ -10,11 +10,11 @@ dependencies:
   flutter:
     sdk: flutter
   cached_network_image: ^3.2.0
-  cloud_firestore: ^4.17.5
+  cloud_firestore: ^5.0.0
   cupertino_icons: ^1.0.2
-  firebase_analytics: ^10.10.5
-  firebase_auth: ^4.19.5
-  firebase_core: ^2.30.0
+  firebase_analytics: ^11.0.0
+  firebase_auth: ^5.0.0
+  firebase_core: ^3.0.0
   flutter_dotenv: ^5.1.0
   email_validator: ^2.0.1
   image_picker: ^1.0.7
@@ -29,6 +29,7 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   mockito: ^5.0.15
   build_runner: ^2.1.11
+  flutter_launcher_icons: ^0.13.1
 
 flutter:
   uses-material-design: true

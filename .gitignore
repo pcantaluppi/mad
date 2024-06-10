@@ -1,6 +1,9 @@
 # Environment
 .env
 
+# Keystore files
+/android/key.properties
+
 # Miscellaneous
 *.class
 *.log
