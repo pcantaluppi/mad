@@ -23,7 +23,7 @@ class CustomFormButton extends StatelessWidget {
     return Container(
       width: size.width * 0.8,
       decoration: BoxDecoration(
-        color: const Color(0xff233743),
+        color: Theme.of(context).primaryColor,
         borderRadius: BorderRadius.circular(26),
       ),
       child: TextButton(

@@ -58,15 +58,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Define your desired background color
-    Color backgroundColor = Colors.white;
 
     return ChangeNotifierProvider<LocationProvider>(
       create: (context) => LocationProvider(),
       child: MaterialApp(
+        theme: ThemeData(primaryColor: const Color.fromARGB(255, 1, 11, 50)),
         // This disables the debug banner that appears in the top right corner of the app in debug mode.
         debugShowCheckedModeBanner: false,
         builder: (context, child) =>
-            _buildAppScaffold(context, child, backgroundColor),
+            _buildAppScaffold(context, child),
         home: FutureBuilder(
           // This FutureBuilder is used to perform some async operations before the app is fully loaded.
           // It waits for two futures: one to initialize Firebase and another to display a splash screen for 4 seconds.
@@ -80,17 +80,28 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  Widget _buildAppScaffold(
-      BuildContext context, Widget? child, Color backgroundColor) {
-    return MediaQuery(
-      data: MediaQuery.of(context)
-          .copyWith(textScaler: const TextScaler.linear(1.0)),
-      child: Scaffold(
-        backgroundColor: backgroundColor,
-        body: SafeArea(child: child!),
+Widget _buildAppScaffold(BuildContext context, Widget? child) {
+  Color headerColor = const Color.fromARGB(248, 236, 247, 248);
+  Color footerColor = Colors.white;
+
+  return MediaQuery(
+    data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
+    child: Scaffold(
+      backgroundColor: headerColor,
+      appBar: AppBar(
+        toolbarHeight: 0,
+        backgroundColor: headerColor,
+        // ... (your AppBar content like title, actions, etc.)
       ),
-    );
-  }
+      bottomNavigationBar: BottomAppBar(
+        height: 0,
+        color: footerColor,
+        // ... (your BottomAppBar content like icons, etc.)
+      ),
+      body: SafeArea(child: child!),
+    ),
+  );
+}
 
   Widget _buildHomeScreen(AsyncSnapshot snapshot) {
     // Once both futures are complete, the builder is called.

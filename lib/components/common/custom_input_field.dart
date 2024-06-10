@@ -10,6 +10,7 @@ class CustomInputField extends StatefulWidget {
   final bool? isDense;
   final bool obscureText;
   final TextEditingController? controller;
+  final Icon? icon;
 
   /// Creates a new [CustomInputField] widget.
   /// The [labelText] is the text to display as the label for the input field.
@@ -19,6 +20,7 @@ class CustomInputField extends StatefulWidget {
   /// The [isDense] determines whether to use a dense layout for the input field.
   /// The [obscureText] determines whether to obscure the text input.
   /// The [controller] is an optional [TextEditingController] to control the input field's text.
+  /// The [icon] is an optional icon in front of the text field.
   const CustomInputField({
     super.key,
     required this.labelText,
@@ -28,6 +30,7 @@ class CustomInputField extends StatefulWidget {
     this.isDense,
     this.obscureText = false,
     this.controller,
+    this.icon
   });
 
   @override
@@ -46,16 +49,26 @@ class _CustomInputFieldState extends State<CustomInputField> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            widget.labelText,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          Container(
+            margin: const EdgeInsets.only(bottom: 10),
+            child: Center(
+              child: Text(
+                widget.labelText,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+              ),
+            ),
           ),
           TextFormField(
             controller: widget.controller,
             obscureText: widget.obscureText && _obscureText,
             decoration: InputDecoration(
               isDense: widget.isDense ?? false,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(18),
+                borderSide: const BorderSide(),
+              ),
               hintText: widget.hintText,
+              prefixIcon: widget.icon,
               suffixIcon: widget.suffixIcon
                   ? IconButton(
                       icon: Icon(
