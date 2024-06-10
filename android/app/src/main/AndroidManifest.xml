@@ -2,7 +2,7 @@
     <application
         android:label="train_tracker"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
 
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC1YW6-BP6XaHpCPI87ccGefyGCBamsjNggit add *"/>
