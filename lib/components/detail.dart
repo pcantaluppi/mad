@@ -16,7 +16,6 @@ class DetailPage extends StatelessWidget {
   final int trainId;
   final Logger logger;
   final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-
   DetailPage({super.key, required this.trainId}) : logger = Logger();
 
   @override
@@ -186,10 +185,10 @@ class DetailPage extends StatelessWidget {
       }
 
       // Log each stop
-      stopsSnapshot.docs.forEach((doc) {
+      for (var doc in stopsSnapshot.docs) {
         var data = doc.data();
         logger.i('Stop Data: $data');
-      });
+      }
 
       // Additional filtering
       var filteredStops = stopsSnapshot.docs.where((doc) {
@@ -218,6 +217,7 @@ class DetailPage extends StatelessWidget {
         if (locationSnapshot.exists) {
           var locationData = locationSnapshot.data();
           var location = LocationModel(
+            trainId: trainId,
             location: locationData?['location'] ?? '',
             latitude: locationData?['latitude'] ?? 0,
             longitude: locationData?['longitude'] ?? 0,
@@ -228,9 +228,8 @@ class DetailPage extends StatelessWidget {
 
       logger.i('Data for state: ${locations.map((e) => e.toMap()).toList()}');
 
-      // final locationProvider =
-      //     Provider.of<LocationProvider>(context, listen: false);
-      // locationProvider.setLocations(locations);
+      final locationProvider = Provider.of<LocationProvider>(context, listen: false);
+      locationProvider.setLocations(locations);
 
       // Get the stop with the highest id
       var highestStopDoc = filteredStops.last;
@@ -253,7 +252,6 @@ class DetailPage extends StatelessWidget {
 
       var highestLocationData = highestLocationSnapshot.data();
       logger.i('Highest location fetched: $highestLocationData');
-
 
       return [highestLocationSnapshot];
     } catch (e) {

@@ -96,7 +96,6 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
   /// Builds the home page.
   Widget _buildHomePage(BuildContext context) {
     UserModel? user = Provider.of<UserProvider>(context).user;
-    //logger.i('Image: ${user?.logo}');
     _logHomePageVisit();
 
     return SafeArea(
@@ -143,8 +142,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    _buildTransportList(
-                        context), // Ensure _buildTransportList also respects the white background
+                    _buildTransportList(context),
                   ],
                 ),
               ),

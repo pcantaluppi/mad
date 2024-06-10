@@ -2,6 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:train_tracker/state/location_provider.dart';
+import 'package:train_tracker/state/models/location_model.dart';
 
 /// A page that displays a map.
 /// This page is used to show a map and related information for a specific train.
@@ -19,8 +22,7 @@ class MapPage extends StatefulWidget {
 /// The state class for the MapPage widget.
 class _MapPageState extends State<MapPage> {
   late GoogleMapController mapController;
-  final LatLng _start = const LatLng(47.5596, 7.5886); // Basel, Switzerland
-  final LatLng _end = const LatLng(47.9990, 7.8421); // Freiburg, Germany
+  LatLng _start = const LatLng(47.5596, 7.5886); // Basel, Switzerland
   final Set<Marker> _markers = {};
   final Set<Polyline> _polylines = {};
   String? _mapStyle;
@@ -53,13 +55,13 @@ class _MapPageState extends State<MapPage> {
 
   /// Creates a route polyline on the map.
   void _createRoute() {
-    List<LatLng> routePoints = [
-      _start,
-      const LatLng(47.7410, 7.6200), // Weil am Rhein, Germany
-      const LatLng(47.8060, 7.6600), // Neuenburg am Rhein, Germany
-      const LatLng(47.8750, 7.7190), // Müllheim, Germany
-      _end
-    ];
+    LocationProvider locationProvider = Provider.of<LocationProvider>(context, listen: false);
+    List<LocationModel> locations = locationProvider.locations;
+    List<LatLng> routePoints = locations.map((LocationModel x) {
+      return LatLng(x.latitude, x.longitude);
+    }).toList();
+
+    _start = routePoints.first;
 
     final Polyline route = Polyline(
       polylineId: const PolylineId('route'),
@@ -91,15 +93,13 @@ class _MapPageState extends State<MapPage> {
   }
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
+  Widget build( BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Transport 1',
-              style: TextStyle(fontWeight: FontWeight.bold)),
+          title: Text('Transport ${widget.trainId}',
+              style: const TextStyle(fontWeight: FontWeight.bold)),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           leading: IconButton(

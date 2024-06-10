@@ -2,6 +2,8 @@
 
 // Define the LocationModel class which represents the structure of location data
 class LocationModel {
+  int trainId;
+
   // Field to store the location name
   String location;
 
@@ -16,7 +18,8 @@ class LocationModel {
   /// The [latitude] parameter is required and represents the latitude of the location.
   /// The [longitude] parameter is required and represents the longitude of the location.
   LocationModel(
-      {required this.location,
+      {required this.trainId,
+      required this.location,
       required this.latitude,
       required this.longitude});
 
@@ -24,6 +27,7 @@ class LocationModel {
   /// This constructor is useful for converting JSON or Firestore data to [LocationModel] instances.
   factory LocationModel.fromMap(Map<String, dynamic> map) {
     return LocationModel(
+      trainId: map['trainId'] as int,
       location: map['location'] as String,
       latitude: map['latitude'] as double,
       longitude: map['longitude'] as double,
@@ -34,6 +38,7 @@ class LocationModel {
   /// This method is useful for converting [LocationModel] instances to JSON or Firestore data.
   Map<String, dynamic> toMap() {
     return {
+      'trainId': trainId,
       'location': location,
       'latitude': latitude,
       'longitude': longitude,

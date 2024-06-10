@@ -8,10 +8,11 @@ import GoogleMaps  // Add this import
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+    GMSServices.setMetalRendererEnabled(true)
     GeneratedPluginRegistrant.register(with: self)
 
     // TODO: Add your Google Maps API key
-    GMSServices.provideAPIKey("YOUR-API-KEY")
+    GMSServices.provideAPIKey("AIzaSyC1YW6-BP6XaHpCPI87ccGefyGCBamsjNg")
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
