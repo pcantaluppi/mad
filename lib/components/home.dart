@@ -1,4 +1,6 @@
 // hone.dart
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:train_tracker/components/common/custom_appbar.dart';
 import 'package:train_tracker/components/detail.dart';
 import 'package:train_tracker/components/login.dart';
 import 'package:train_tracker/components/common/page_header.dart';
@@ -54,12 +57,14 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
   late Stream<QuerySnapshot> _transportsStream;
   final Logger logger = Logger();
   final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  bool bookmarksActive = false;
 
   @override
   void initState() {
     super.initState();
-    _transportsStream =
-        FirebaseFirestore.instance.collection('transports').snapshots();
+      _transportsStream = bookmarksActive
+          ? _getUserFavoritesStream()
+          : _getAll();
     _searchController.addListener(_filterTransports);
   }
 
@@ -77,8 +82,9 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
   /// Filters the transports based on the search query.
   void _filterTransports() {
     setState(() {
-      _transportsStream =
-          FirebaseFirestore.instance.collection('transports').snapshots();
+      _transportsStream = bookmarksActive
+          ? _getUserFavoritesStream()
+          : _getAll();
     });
   }
 
@@ -93,6 +99,29 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
     return _buildHomePage(context);
   }
 
+  Stream<QuerySnapshot<Object?>> _getAll() async* {
+    yield* FirebaseFirestore.instance.collection('transports').snapshots();
+  }
+
+  Stream<QuerySnapshot<Object?>> _getUserFavoritesStream() async* {
+    UserModel? user = Provider.of<UserProvider>(context, listen: false).user;
+    if (user == null) {
+      throw Exception("no user session");
+    }
+
+    final favoriteTransportIds = await FirebaseFirestore.instance
+        .collection('user_favorites')
+        .where(FieldPath.documentId, isEqualTo: user.email).get().then((s) => s.docs.map((d) => d.data()).toList());
+
+    final ids = favoriteTransportIds[0]['transport_ids'];
+    if (ids.length == 0) yield* const Stream.empty();
+
+    yield* FirebaseFirestore.instance
+        .collection('transports')
+        .where('id', whereIn: ids)
+        .snapshots();
+  }
+
   /// Builds the home page.
   Widget _buildHomePage(BuildContext context) {
     UserModel? user = Provider.of<UserProvider>(context).user;
@@ -101,12 +130,36 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
+        appBar: CustomAppBar(
+          title: bookmarksActive ? 'Bookmarks' : '',
+          leading: IconButton(
+            iconSize: 30,
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              _handleLogoutUser();
+            },
+          ),
+          actions: IconButton(
+            icon: bookmarksActive
+                ? const Icon(Icons.bookmarks)
+                : const Icon(Icons.bookmarks_outlined),
+            onPressed: () => {
+              setState(() {
+                bookmarksActive = !bookmarksActive;
+                _transportsStream = bookmarksActive
+                    ? _getUserFavoritesStream()
+                    : _getAll();
+              })
+            },
+            iconSize: 30,
+          ),
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: [
               Container(
                 decoration: const BoxDecoration(
-                  color: Color(0xffEEF1F3),
+                  color: Colors.white,
                   borderRadius:
                       BorderRadius.vertical(bottom: Radius.circular(20)),
                 ),
@@ -128,15 +181,18 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
                   children: [
                     const PageHeading(title: 'Transports'),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
                       child: TextField(
                         controller: _searchController,
                         decoration: InputDecoration(
                           labelText: "Search trains",
                           hintText: "Enter train number",
-                          prefixIcon: const Icon(Icons.search),
+                          prefixIcon: Icon(
+                            Icons.search,
+                            color: Theme.of(context).primaryColor,
+                          ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(18),
                           ),
                         ),
                       ),
@@ -159,7 +215,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
       stream: _transportsStream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return const Text('Something went wrong');
+          return const Text('No transports found.');
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -180,8 +236,8 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
         }
 
         return ListView.separated(
-          separatorBuilder: (context, index) =>
-              const Divider(color: Colors.grey),
+          separatorBuilder: (context, index) => const Divider(
+              color: Colors.grey, thickness: 0.1, indent: 20, endIndent: 20),
           itemCount: filteredDocs.length,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -189,20 +245,38 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
             Map<String, dynamic> data =
                 filteredDocs[index].data() as Map<String, dynamic>;
             //logger.i('Item: $data');
-            return ListTile(
-              title: Text(data['title'] ?? "No title"),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DetailPage(trainId: data['id']),
-                  ),
-                );
-              },
+            return Card(
+              margin: const EdgeInsets.symmetric(horizontal: 15),
+              color: Colors.grey.shade100,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18),
+                  side: const BorderSide(color: Colors.black26, width: 0.5)),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  trailing: Icon(Icons.arrow_forward_ios,
+                      color: Theme.of(context).primaryColor),
+                  title: Text(data['title'] ?? "No title"),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailPage(trainId: data['id']),
+                      ),
+                    );
+                  },
+                ),
+              ),
             );
           },
         );
       },
     );
+  }
+
+  void _handleLogoutUser() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context).pop();
   }
 }

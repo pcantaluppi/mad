@@ -29,12 +29,31 @@ class SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: Image.asset(
-          'assets/images/logo.png',
-          width: 200,
-          height: 400,
-        ),
+      body: Column(
+        children: [
+          Image.asset('assets/images/header-curve.png',
+              width: double.infinity), // Header image at the top
+          Expanded(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/images/splashscreen-train.gif',
+                      width: 100),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Loading ...',
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

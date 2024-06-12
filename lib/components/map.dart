@@ -4,6 +4,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:train_tracker/components/common/custom_appbar.dart';
 import 'package:train_tracker/state/location_provider.dart';
 import 'package:train_tracker/state/models/location_model.dart';
 
@@ -81,7 +82,7 @@ class _MapPageState extends State<MapPage> {
       visible: true,
       points: routePoints,
       width: 5,
-      color: const Color.fromARGB(255, 148, 165, 179),
+      color: Colors.white,
     );
     _polylines.add(route);
   }
@@ -105,40 +106,37 @@ class _MapPageState extends State<MapPage> {
     mapController.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50));
   }
 
-  @override
-  Widget build(BuildContext context) {
-    _checkPermissions();
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Transport ${widget.trainId}',
-              style: const TextStyle(fontWeight: FontWeight.bold)),
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.of(context).pop(),
+@override
+Widget build(BuildContext context) {
+  _checkPermissions();
+  return Scaffold(
+    backgroundColor: Colors.transparent, // Set background color to transparent
+    body: Stack(
+      children: [
+        GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _start,
+            zoom: 8.0,
           ),
+          markers: _markers,
+          polylines: _polylines,
+          mapType: MapType.normal,
+          zoomControlsEnabled: false,
+          myLocationButtonEnabled: false,
+          zoomGesturesEnabled: true,
+          scrollGesturesEnabled: true,
+          rotateGesturesEnabled: true,
+          tiltGesturesEnabled: true,
         ),
-        body: _mapStyle != null
-            ? GoogleMap(
-                onMapCreated: _onMapCreated,
-                initialCameraPosition: CameraPosition(
-                  target: _start,
-                  zoom: 8.0,
-                ),
-                markers: _markers,
-                polylines: _polylines,
-                mapType: MapType.normal,
-                zoomControlsEnabled: false,
-                zoomGesturesEnabled: true,
-                scrollGesturesEnabled: true,
-                rotateGesturesEnabled: true,
-                tiltGesturesEnabled: true,
-              )
-            : const Center(child: CircularProgressIndicator()),
-      ),
-    );
-  }
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: CustomAppBar(title: 'Transport ${widget.trainId}'),
+        ),
+      ],
+    ),
+  );
+}
 }

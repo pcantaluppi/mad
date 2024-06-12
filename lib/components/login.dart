@@ -6,6 +6,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:train_tracker/components/common/custom_snackbar.dart';
 import '/components/home.dart';
 import '/components/reset.dart';
 import '/components/common/custom_input_field.dart';
@@ -33,8 +34,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    _emailController.text = 'danyyil.luntovsky@students.ffhs.ch';
-    // _passwordController.text = '';
+    _emailController.text = '';
+    _passwordController.text = '';
   }
 
   @override
@@ -69,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                           CustomInputField(
                             controller: _emailController,
                             labelText: 'Email',
-                            hintText: '',
+                            hintText: 'Email',
                             validator: (textValue) {
                               if (textValue == null || textValue.isEmpty) {
                                 return 'Email is required';
@@ -87,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                           CustomInputField(
                             controller: _passwordController,
                             labelText: 'Password',
-                            hintText: '',
+                            hintText: 'Password',
                             obscureText: true,
                             suffixIcon: true,
                             validator: (textValue) {
@@ -127,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                           const SizedBox(height: 20),
                           CustomFormButton(
                             innerText: 'Login',
-                            onPressed: _handleLoginUser,
+                            onPressed: () => _handleLoginUser(context),
                           ),
                           const SizedBox(height: 18),
                         ],
@@ -155,11 +156,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   /// Handles the login process for the user.
-  void _handleLoginUser() async {
+  void _handleLoginUser(BuildContext context) async {
     if (_loginFormKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Submitting data...')),
-      );
+      CustomSnackbar.showLoading(context, "Logging in");
 
       try {
         UserCredential userCredential =
@@ -216,6 +215,8 @@ class _LoginPageState extends State<LoginPage> {
             const SnackBar(content: Text('Unexpected error occurred.')),
           );
         }
+      } finally {
+        CustomSnackbar.hide(context);
       }
     }
   }
