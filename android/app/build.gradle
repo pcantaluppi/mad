@@ -22,6 +22,8 @@ if (flutterVersionName == null) {
     flutterVersionName = "1.0"
 }
 
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')?.toInteger() ?: 1
+
 android {
     namespace = "ch.ffhs.train_tracker"
     compileSdk = flutter.compileSdkVersion
