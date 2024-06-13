@@ -1,16 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final IconButton? leading;
   final IconButton? actions;
+  final StreamBuilder<QuerySnapshot<Map<String, dynamic>>>?
+      actionsStreamBuilder;
 
-  const CustomAppBar({
-    super.key,
-    required this.title,
-    this.leading,
-    this.actions,
-  });
+  const CustomAppBar(
+      {super.key,
+      required this.title,
+      this.leading,
+      this.actions,
+      this.actionsStreamBuilder});
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +38,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   padding: const EdgeInsets.only(left: 30),
                   child: IconButton(
                     icon: const Icon(Icons.arrow_back_ios),
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () => Navigator.pop(context, true),
                   ),
                 ),
-          actions: actions != null
+          actions: (actionsStreamBuilder != null || actions != null)
               ? [
                   Padding(
                       padding: const EdgeInsets.only(right: 30),
-                      child: actions),
+                      child: actionsStreamBuilder ?? actions),
                 ]
               : [],
         ),

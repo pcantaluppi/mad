@@ -62,9 +62,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
   @override
   void initState() {
     super.initState();
-      _transportsStream = bookmarksActive
-          ? _getUserFavoritesStream()
-          : _getAll();
+    _transportsStream = bookmarksActive ? _getUserFavoritesStream() : _getAll();
     _searchController.addListener(_filterTransports);
   }
 
@@ -82,9 +80,8 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
   /// Filters the transports based on the search query.
   void _filterTransports() {
     setState(() {
-      _transportsStream = bookmarksActive
-          ? _getUserFavoritesStream()
-          : _getAll();
+      _transportsStream =
+          bookmarksActive ? _getUserFavoritesStream() : _getAll();
     });
   }
 
@@ -106,14 +103,17 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
   Stream<QuerySnapshot<Object?>> _getUserFavoritesStream() async* {
     UserModel? user = Provider.of<UserProvider>(context, listen: false).user;
     if (user == null) {
-      throw Exception("no user session");
+      logger.e("user session not found");
+      throw Exception("user session not found");
     }
 
     final favoriteTransportIds = await FirebaseFirestore.instance
         .collection('user_favorites')
-        .where(FieldPath.documentId, isEqualTo: user.email).get().then((s) => s.docs.map((d) => d.data()).toList());
+        .where(FieldPath.documentId, isEqualTo: user.email)
+        .get()
+        .then((s) => s.docs.map((d) => d.data()).toList());
 
-    final ids = favoriteTransportIds[0]['transport_ids'];
+    final ids = favoriteTransportIds.first['transport_ids'];
     if (ids.length == 0) yield* const Stream.empty();
 
     yield* FirebaseFirestore.instance
@@ -146,9 +146,8 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
             onPressed: () => {
               setState(() {
                 bookmarksActive = !bookmarksActive;
-                _transportsStream = bookmarksActive
-                    ? _getUserFavoritesStream()
-                    : _getAll();
+                _transportsStream =
+                    bookmarksActive ? _getUserFavoritesStream() : _getAll();
               })
             },
             iconSize: 30,
@@ -258,13 +257,20 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
                   trailing: Icon(Icons.arrow_forward_ios,
                       color: Theme.of(context).primaryColor),
                   title: Text(data['title'] ?? "No title"),
-                  onTap: () {
-                    Navigator.push(
+                  onTap: () async {
+                    final result = await Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => DetailPage(trainId: data['id']),
                       ),
                     );
+                    if (result == true) {
+                      setState(() {
+                        _transportsStream = bookmarksActive
+                            ? _getUserFavoritesStream()
+                            : _getAll();
+                      });
+                    }
                   },
                 ),
               ),
@@ -276,7 +282,7 @@ class __HomePageStatefulState extends State<_HomePageStateful> {
   }
 
   void _handleLogoutUser() async {
-    await FirebaseAuth.instance.signOut();
     Navigator.of(context).pop();
+    await FirebaseAuth.instance.signOut();
   }
 }

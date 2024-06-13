@@ -1,5 +1,6 @@
 // detail.dart
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -23,18 +24,53 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context, listen: false).user;
     _logDetailPageVisit(trainId);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
-          title: 'Transport $trainId',
-          actions: IconButton(
-            iconSize: 30,
-            icon: const Icon(Icons.bookmark_add_outlined),
-            onPressed: () {
-              writeToUserFavorites(context);
-            },
-          )),
+        title: 'Transport $trainId',
+        actionsStreamBuilder:
+            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          stream: FirebaseFirestore.instance
+              .collection('user_favorites')
+              .where(FieldPath.documentId, isEqualTo: user?.email)
+              .snapshots(),
+          builder: (context, snapshot) {
+            // Check if the bookmark is already set
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            bool isBookmarked = false;
+            if (snapshot.data!.docs.isEmpty) {
+              FirebaseFirestore.instance
+                  .collection('user_favorites')
+                  .doc('${user?.email}')
+                  .set({'transport_ids': []});
+            }
+            isBookmarked =
+                (snapshot.data?.docs.first.data()['transport_ids'] as List)
+                    .whereType<int>()
+                    .toList()
+                    .contains(trainId);
+            return IconButton(
+              iconSize: 30,
+              icon: Icon(isBookmarked
+                  ? Icons.bookmark_added_rounded
+                  : Icons.bookmark_add_outlined),
+              onPressed: () {
+                if (user != null) {
+                  if (isBookmarked) {
+                    updateBookmark(context, isBookmarked);
+                  } else {
+                    updateBookmark(context, isBookmarked);
+                  }
+                }
+              },
+            );
+          },
+        ),
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -50,21 +86,18 @@ class DetailPage extends StatelessWidget {
                         .doc(trainId.toString())
                         .get(),
                     builder: (context, snapshot) {
-                      if (snapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return const Center(
-                            child: CircularProgressIndicator());
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
                       }
                       if (!snapshot.hasData || !snapshot.data!.exists) {
                         return const Center(child: Text('No data found'));
                       }
-                      var data =
-                          snapshot.data!.data() as Map<String, dynamic>?;
+                      var data = snapshot.data!.data() as Map<String, dynamic>?;
                       if (data == null) {
                         return const Center(child: Text('No data found'));
                       }
                       //logger.i('Transport data: $data');
-            
+
                       return Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
@@ -72,8 +105,7 @@ class DetailPage extends StatelessWidget {
                           children: [
                             Text(data['title'] ?? 'No title',
                                 style: const TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold)),
+                                    fontSize: 22, fontWeight: FontWeight.bold)),
                             const SizedBox(height: 8),
                             Text(data['un'] ?? 'No un number',
                                 style: const TextStyle(fontSize: 18)),
@@ -98,16 +130,16 @@ class DetailPage extends StatelessWidget {
                                   return const Center(
                                       child: CircularProgressIndicator());
                                 }
-            
+
                                 Map<String, dynamic>? highestLocation;
-            
+
                                 if (locationSnapshot.hasData &&
                                     locationSnapshot.data!.isNotEmpty) {
                                   var locationData = locationSnapshot.data!;
                                   highestLocation = locationData.last.data()
                                       as Map<String, dynamic>?;
                                 }
-            
+
                                 return Center(
                                   child: Column(
                                     children: [
@@ -125,8 +157,10 @@ class DetailPage extends StatelessWidget {
                                           );
                                         },
                                         style: ElevatedButton.styleFrom(
-                                          foregroundColor: Theme.of(context).primaryColorLight,
-                                          backgroundColor: Theme.of(context).primaryColor,
+                                          foregroundColor: Theme.of(context)
+                                              .primaryColorLight,
+                                          backgroundColor:
+                                              Theme.of(context).primaryColor,
                                         ),
                                       ),
                                     ],
@@ -160,8 +194,7 @@ class DetailPage extends StatelessWidget {
     });
   }
 
-  Future<void> writeToUserFavorites(BuildContext context) async {
-    CustomSnackbar.show(context, "Bookmark saved");
+  Future<void> isTrainFavorite(BuildContext context) async {
     try {
       var currentUser = Provider.of<UserProvider>(context, listen: false).user;
       if (currentUser == null) {
@@ -178,6 +211,40 @@ class DetailPage extends StatelessWidget {
       logger.i('Document written successfully!');
     } catch (e) {
       logger.i('Error writing document: $e');
+    }
+  }
+
+  Future<void> updateBookmark(BuildContext context, bool remove) async {
+    try {
+      var currentUser = Provider.of<UserProvider>(context, listen: false).user;
+      if (currentUser == null) {
+        logger.e('User cannot be found!');
+        throw Exception();
+      }
+
+      if (remove) {
+        await FirebaseFirestore.instance
+            .collection('user_favorites')
+            .doc(currentUser.email)
+            .update({
+          'transport_ids': FieldValue.arrayRemove([trainId])
+        });
+      } else {
+        await FirebaseFirestore.instance
+            .collection('user_favorites')
+            .doc(currentUser.email)
+            .update({
+          'transport_ids': FieldValue.arrayUnion([trainId])
+        });
+      }
+
+      CustomSnackbar.show(
+          context, remove ? "Bookmark removed" : "Bookmark saved");
+
+      logger.i('Document updated successfully!');
+    } catch (e) {
+      logger.i('Error updating document: $e');
+      CustomSnackbar.show(context, "Could not update Bookmark");
     }
   }
 
@@ -280,11 +347,12 @@ class DetailPage extends StatelessWidget {
   /// The [highestLocation] parameter is an optional map containing the latitude
   /// and longitude of the highest location.
   /// Returns a DataTable widget displaying the flight details in a tabular format.
-  DataTable dataTable(
-      Map<String, dynamic> data, Map<String, dynamic>? highestLocation, BuildContext context) {
+  DataTable dataTable(Map<String, dynamic> data,
+      Map<String, dynamic>? highestLocation, BuildContext context) {
     return DataTable(
       headingRowHeight: 0,
-      dataTextStyle: TextStyle(color: Theme.of(context).primaryColor, fontSize: 15),
+      dataTextStyle:
+          TextStyle(color: Theme.of(context).primaryColor, fontSize: 15),
       headingTextStyle: TextStyle(color: Theme.of(context).primaryColor),
       columns: const [
         DataColumn(label: Text('')),
