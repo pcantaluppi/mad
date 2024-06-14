@@ -3,6 +3,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:train_tracker/components/common/custom_snackbar.dart';
 import 'package:train_tracker/components/confirmation.dart';
 import 'package:train_tracker/state/models/user_model.dart';
 import 'package:train_tracker/state/user_provider.dart';
@@ -60,8 +61,9 @@ class PasswordResetState extends State<PasswordReset> {
                         CustomInputField(
                             controller: _emailController,
                             labelText: 'Email',
-                            hintText: '',
+                            hintText: 'Email',
                             isDense: true,
+                            icon: Icon(Icons.account_circle, color: Theme.of(context).primaryColor),
                             validator: (textValue) {
                               if (textValue == null || textValue.isEmpty) {
                                 return 'Email is required!';
@@ -115,9 +117,7 @@ class PasswordResetState extends State<PasswordReset> {
   /// Handles the password reset process.
   Future<void> _handlePasswordReset() async {
     if (_passwordResetFormKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Submitting data..')),
-      );
+      CustomSnackbar.showLoading(context, 'Submitting data..');
 
       try {
         await widget.firebaseAuth
@@ -132,9 +132,11 @@ class PasswordResetState extends State<PasswordReset> {
         }
       } catch (e) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Unexpected error occurred.')),
-          );
+          CustomSnackbar.show(context, 'Unexpected error occurred.');
+        }
+      } finally {
+        if (mounted) {
+          CustomSnackbar.hide(context);
         }
       }
     }

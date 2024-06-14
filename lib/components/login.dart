@@ -6,11 +6,11 @@ import 'package:email_validator/email_validator.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:train_tracker/components/common/custom_snackbar.dart';
 import '/components/home.dart';
 import '/components/reset.dart';
 import '/components/common/custom_input_field.dart';
 import '/components/common/page_header_login.dart';
-import '/components/common/page_heading.dart';
 import '/components/common/custom_form_button.dart';
 import '../state/user_provider.dart';
 import '../state/models/user_model.dart';
@@ -34,8 +34,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    _emailController.text = 'pascal@cantaluppi.dev';
-    //_passwordController.text = '*****';
+    _emailController.text = '';
+    _passwordController.text = '';
   }
 
   @override
@@ -59,78 +59,80 @@ class _LoginPageState extends State<LoginPage> {
               child: Container(
                 decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(20),
-                  ),
                 ),
                 child: SingleChildScrollView(
                   child: Form(
                     key: _loginFormKey,
-                    child: Column(
-                      children: [
-                        const PageHeading(title: 'Anmeldung'),
-                        CustomInputField(
-                          controller: _emailController,
-                          labelText: 'Email',
-                          hintText: '',
-                          validator: (textValue) {
-                            if (textValue == null || textValue.isEmpty) {
-                              return 'Email is required';
-                            }
-                            if (!EmailValidator.validate(textValue)) {
-                              return 'Please enter a valid email';
-                            }
-                            return null;
-                          },
-                          suffixIcon: false,
-                          obscureText: false,
-                        ),
-                        const SizedBox(height: 16),
-                        CustomInputField(
-                          controller: _passwordController,
-                          labelText: 'Password',
-                          hintText: '',
-                          obscureText: true,
-                          suffixIcon: true,
-                          validator: (textValue) {
-                            if (textValue == null || textValue.isEmpty) {
-                              return 'Password is required';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 16),
-                        Container(
-                          width: size.width * 0.80,
-                          alignment: Alignment.centerRight,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PasswordReset(
-                                    firebaseAuth: FirebaseAuth.instance,
-                                  ),
-                                ),
-                              );
+                    child: Container(
+                      padding: const EdgeInsets.all(25),
+                      child: Column(
+                        children: [
+                          CustomInputField(
+                            controller: _emailController,
+                            labelText: 'Email',
+                            hintText: 'Email',
+                            validator: (textValue) {
+                              if (textValue == null || textValue.isEmpty) {
+                                return 'Email is required';
+                              }
+                              if (!EmailValidator.validate(textValue)) {
+                                return 'Please enter a valid email';
+                              }
+                              return null;
                             },
-                            child: const Text(
-                              'Forgot password?',
-                              style: TextStyle(
-                                color: Color(0xff939393),
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
+                            suffixIcon: false,
+                            obscureText: false,
+                            icon: Icon(Icons.account_circle, color: Theme.of(context).primaryColor),
+                          ),
+                          const SizedBox(height: 16),
+                          CustomInputField(
+                            controller: _passwordController,
+                            labelText: 'Password',
+                            hintText: 'Password',
+                            obscureText: true,
+                            suffixIcon: true,
+                            validator: (textValue) {
+                              if (textValue == null || textValue.isEmpty) {
+                                return 'Password is required';
+                              }
+                              return null;
+                            },
+                            icon: Icon(Icons.lock, color: Theme.of(context).primaryColor),
+                          ),
+                          const SizedBox(height: 16),
+                          Container(
+                            margin: const EdgeInsets.only(top: 10, bottom: 10),
+                            width: size.width * 0.80,
+                            alignment: Alignment.center,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PasswordReset(
+                                      firebaseAuth: FirebaseAuth.instance,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: const Text(
+                                'Forgot password?',
+                                style: TextStyle(
+                                  color: Color(0xff939393),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 20),
-                        CustomFormButton(
-                          innerText: 'Login',
-                          onPressed: _handleLoginUser,
-                        ),
-                        const SizedBox(height: 18),
-                      ],
+                          const SizedBox(height: 20),
+                          CustomFormButton(
+                            innerText: 'Login',
+                            onPressed: () => _handleLoginUser(context),
+                          ),
+                          const SizedBox(height: 18),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -154,11 +156,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   /// Handles the login process for the user.
-  void _handleLoginUser() async {
+  void _handleLoginUser(BuildContext context) async {
     if (_loginFormKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Submitting data...')),
-      );
+      CustomSnackbar.showLoading(context, "Logging in");
 
       try {
         UserCredential userCredential =
@@ -182,16 +182,18 @@ class _LoginPageState extends State<LoginPage> {
               logo = querySnapshot.docs.first['logo'];
             }
 
-            // Set user email and company in provider
-            final userProvider =
-                Provider.of<UserProvider>(context, listen: false);
-            userProvider.setUser(UserModel(
-                email: _emailController.text, logo: logo, company: company));
+            if (context.mounted) {
+              // Set user email and company in provider
+              final userProvider =
+                  Provider.of<UserProvider>(context, listen: false);
+              userProvider.setUser(UserModel(
+                  email: _emailController.text, logo: logo, company: company));
 
-            // Navigate to home page
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
+              // Navigate to home page
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const HomePage()),
+              );
+            }
           }
         } else {
           throw Exception('No user found');
@@ -205,15 +207,21 @@ class _LoginPageState extends State<LoginPage> {
             errorMessage = 'Wrong password provided.';
           }
 
-          ScaffoldMessenger.of(context).showSnackBar(
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(errorMessage)),
           );
+          }
         }
       } catch (e) {
-        if (mounted) {
+        if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Unexpected error occurred.')),
           );
+        }
+      } finally {
+        if (context.mounted) {
+          CustomSnackbar.hide(context);
         }
       }
     }

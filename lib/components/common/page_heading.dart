@@ -11,7 +11,7 @@ class PageHeading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment: Alignment.centerLeft,
+      alignment: Alignment.center,
       padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 25),
       child: Text(
         title,
