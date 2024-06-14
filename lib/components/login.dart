@@ -182,16 +182,18 @@ class _LoginPageState extends State<LoginPage> {
               logo = querySnapshot.docs.first['logo'];
             }
 
-            // Set user email and company in provider
-            final userProvider =
-                Provider.of<UserProvider>(context, listen: false);
-            userProvider.setUser(UserModel(
-                email: _emailController.text, logo: logo, company: company));
+            if (context.mounted) {
+              // Set user email and company in provider
+              final userProvider =
+                  Provider.of<UserProvider>(context, listen: false);
+              userProvider.setUser(UserModel(
+                  email: _emailController.text, logo: logo, company: company));
 
-            // Navigate to home page
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
+              // Navigate to home page
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const HomePage()),
+              );
+            }
           }
         } else {
           throw Exception('No user found');
