@@ -205,18 +205,22 @@ class _LoginPageState extends State<LoginPage> {
             errorMessage = 'Wrong password provided.';
           }
 
-          ScaffoldMessenger.of(context).showSnackBar(
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(errorMessage)),
           );
+          }
         }
       } catch (e) {
-        if (mounted) {
+        if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Unexpected error occurred.')),
           );
         }
       } finally {
-        CustomSnackbar.hide(context);
+        if (context.mounted) {
+          CustomSnackbar.hide(context);
+        }
       }
     }
   }

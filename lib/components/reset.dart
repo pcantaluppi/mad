@@ -135,7 +135,9 @@ class PasswordResetState extends State<PasswordReset> {
           CustomSnackbar.show(context, 'Unexpected error occurred.');
         }
       } finally {
-        CustomSnackbar.hide(context);
+        if (mounted) {
+          CustomSnackbar.hide(context);
+        }
       }
     }
   }
