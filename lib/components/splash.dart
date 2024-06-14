@@ -39,7 +39,7 @@ class SplashScreenState extends State<SplashScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset('assets/images/splashscreen-train.gif',
-                      width: 100),
+                      width: 80),
                   const SizedBox(height: 10),
                   Text(
                     'Loading ...',

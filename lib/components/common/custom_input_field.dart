@@ -59,6 +59,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
             ),
           ),
           TextFormField(
+            autocorrect: false,
             controller: widget.controller,
             obscureText: widget.obscureText && _obscureText,
             decoration: InputDecoration(

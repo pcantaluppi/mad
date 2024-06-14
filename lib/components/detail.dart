@@ -1,6 +1,5 @@
 // detail.dart
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -238,13 +237,17 @@ class DetailPage extends StatelessWidget {
         });
       }
 
-      CustomSnackbar.show(
-          context, remove ? "Bookmark removed" : "Bookmark saved");
+      if (context.mounted) {
+        CustomSnackbar.show(
+            context, remove ? "Bookmark removed" : "Bookmark saved");
+      }
 
       logger.i('Document updated successfully!');
     } catch (e) {
       logger.i('Error updating document: $e');
-      CustomSnackbar.show(context, "Could not update Bookmark");
+      if (context.mounted) {
+        CustomSnackbar.show(context, "Could not update Bookmark");
+      }
     }
   }
 
@@ -308,9 +311,11 @@ class DetailPage extends StatelessWidget {
 
       logger.i('Data for state: ${locations.map((e) => e.toMap()).toList()}');
 
-      final locationProvider =
-          Provider.of<LocationProvider>(context, listen: false);
-      locationProvider.setLocations(locations);
+      if (context.mounted) {
+        final locationProvider =
+            Provider.of<LocationProvider>(context, listen: false);
+        locationProvider.setLocations(locations);
+      }
 
       // Get the stop with the highest id
       var highestStopDoc = filteredStops.last;
