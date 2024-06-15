@@ -87,7 +87,7 @@ class DetailPage extends StatelessWidget {
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: Container(
                                   constraints: const BoxConstraints(
-                                      maxWidth: 150, maxHeight: 75),
+                                      maxWidth: 300, maxHeight: 200),
                                   child: CachedNetworkImage(
                                     imageUrl: data['image'] ?? '',
                                     placeholder: (context, url) =>
@@ -228,7 +228,8 @@ class DetailPage extends StatelessWidget {
 
       logger.i('Data for state: ${locations.map((e) => e.toMap()).toList()}');
 
-      final locationProvider = Provider.of<LocationProvider>(context, listen: false);
+      final locationProvider =
+          Provider.of<LocationProvider>(context, listen: false);
       locationProvider.setLocations(locations);
 
       // Get the stop with the highest id
