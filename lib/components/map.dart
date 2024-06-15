@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:train_tracker/state/location_provider.dart';
 import 'package:train_tracker/state/models/location_model.dart';
 
@@ -31,7 +30,6 @@ class _MapPageState extends State<MapPage> {
   @override
   void initState() {
     super.initState();
-    _checkPermissions();
     _loadMapStyle();
     _addMarker();
     _createRoute();
@@ -41,16 +39,6 @@ class _MapPageState extends State<MapPage> {
   Future<void> _loadMapStyle() async {
     _mapStyle = await rootBundle.loadString('assets/map/style.json');
     setState(() {});
-  }
-
-  /// Checks for location permissions and requests them if not granted.
-  void _checkPermissions() async {
-    if (await Permission.location.isGranted) {
-      // Permissions are already granted, do nothing
-    } else {
-      // Request permissions
-      await Permission.location.request();
-    }
   }
 
   /// Adds a marker to the map.
@@ -107,7 +95,6 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    _checkPermissions();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
