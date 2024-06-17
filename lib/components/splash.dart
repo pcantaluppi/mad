@@ -31,8 +31,7 @@ class SplashScreenState extends State<SplashScreen> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          Image.asset('assets/images/header-curve.png',
-              width: double.infinity), // Header image at the top
+          Image.asset('assets/images/header-curve.png', width: double.infinity),
           Expanded(
             child: Center(
               child: Column(
