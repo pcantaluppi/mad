@@ -49,6 +49,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     _logLandingPageVisit();
     Size size = MediaQuery.of(context).size;
+    final double paddingValue = size.width > 600 ? 100 : 25;
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xffEEF1F3),
@@ -64,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Form(
                     key: _loginFormKey,
                     child: Container(
-                      padding: const EdgeInsets.all(25),
+                      padding: EdgeInsets.all(paddingValue),
                       child: Column(
                         children: [
                           CustomInputField(
@@ -208,16 +209,12 @@ class _LoginPageState extends State<LoginPage> {
           }
 
           if (context.mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(errorMessage)),
-          );
+            CustomSnackbar.showLoading(context, errorMessage);
           }
         }
       } catch (e) {
         if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Unexpected error occurred.')),
-          );
+          CustomSnackbar.show(context, 'Unexpected error occurred.');
         }
       } finally {
         if (context.mounted) {

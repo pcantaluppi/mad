@@ -24,7 +24,7 @@ class MapPage extends StatefulWidget {
 /// The state class for the MapPage widget.
 class _MapPageState extends State<MapPage> {
   late GoogleMapController mapController;
-  LatLng _start = const LatLng(47.5596, 7.5886); // Basel, Switzerland
+  late LocationModel _start;
   final Set<Marker> _markers = {};
   final Set<Polyline> _polylines = {};
   String? _mapStyle;
@@ -34,8 +34,8 @@ class _MapPageState extends State<MapPage> {
     super.initState();
     _checkPermissions();
     _loadMapStyle();
-    _addMarker();
     _createRoute();
+    _addMarker();
   }
 
   /// Loads the map style from the assets.
@@ -59,9 +59,9 @@ class _MapPageState extends State<MapPage> {
     _markers.add(
       Marker(
         markerId: const MarkerId('basel'),
-        position: _start,
-        infoWindow: const InfoWindow(
-            title: 'Current Location', snippet: 'Basel, Switzerland'),
+        position: LatLng(_start.latitude, _start.longitude),
+        infoWindow: InfoWindow(
+            title: 'Current Location', snippet: _start.location),
       ),
     );
   }
@@ -75,7 +75,7 @@ class _MapPageState extends State<MapPage> {
       return LatLng(x.latitude, x.longitude);
     }).toList();
 
-    _start = routePoints.first;
+    _start = locations.first;
 
     final Polyline route = Polyline(
       polylineId: const PolylineId('route'),
@@ -100,8 +100,8 @@ class _MapPageState extends State<MapPage> {
   /// Updates the camera bounds of the map.
   void _updateCameraBounds() {
     final LatLngBounds bounds = LatLngBounds(
-      southwest: const LatLng(47.5596, 7.5886),
-      northeast: const LatLng(47.9990, 7.8421),
+      southwest: LatLng(_start.latitude, _start.longitude),
+      northeast: LatLng(_start.latitude + 0.4, _start.longitude + 0.2),
     );
     mapController.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50));
   }
@@ -116,7 +116,7 @@ Widget build(BuildContext context) {
         GoogleMap(
           onMapCreated: _onMapCreated,
           initialCameraPosition: CameraPosition(
-            target: _start,
+            target: LatLng(_start.latitude, _start.longitude),
             zoom: 8.0,
           ),
           markers: _markers,
