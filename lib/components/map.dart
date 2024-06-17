@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:train_tracker/components/common/custom_appbar.dart';
 import 'package:train_tracker/state/location_provider.dart';
 import 'package:train_tracker/state/models/location_model.dart';
@@ -32,7 +31,6 @@ class _MapPageState extends State<MapPage> {
   @override
   void initState() {
     super.initState();
-    _checkPermissions();
     _loadMapStyle();
     _createRoute();
     _addMarker();
@@ -42,16 +40,6 @@ class _MapPageState extends State<MapPage> {
   Future<void> _loadMapStyle() async {
     _mapStyle = await rootBundle.loadString('assets/map/style.json');
     setState(() {});
-  }
-
-  /// Checks for location permissions and requests them if not granted.
-  void _checkPermissions() async {
-    if (await Permission.location.isGranted) {
-      // Permissions are already granted, do nothing
-    } else {
-      // Request permissions
-      await Permission.location.request();
-    }
   }
 
   /// Adds a marker to the map.
@@ -119,24 +107,14 @@ Widget build(BuildContext context) {
             target: LatLng(_start.latitude, _start.longitude),
             zoom: 8.0,
           ),
-          markers: _markers,
-          polylines: _polylines,
-          mapType: MapType.normal,
-          zoomControlsEnabled: false,
-          myLocationButtonEnabled: false,
-          zoomGesturesEnabled: true,
-          scrollGesturesEnabled: true,
-          rotateGesturesEnabled: true,
-          tiltGesturesEnabled: true,
-        ),
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: CustomAppBar(title: 'Transport ${widget.trainId}'),
-        ),
-      ],
-    ),
-  );
-}
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: CustomAppBar(title: 'Transport ${widget.trainId}'),
+          ),
+        ],
+      ),
+    );
+  }
 }

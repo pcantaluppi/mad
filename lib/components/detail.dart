@@ -111,7 +111,7 @@ class DetailPage extends StatelessWidget {
                             const SizedBox(height: 8),
                             Container(
                               constraints: const BoxConstraints(
-                                  maxWidth: 150, maxHeight: 75),
+                                  maxWidth: 300, maxHeight: 200),
                               child: CachedNetworkImage(
                                 imageUrl: data['image'] ?? '',
                                 placeholder: (context, url) =>
