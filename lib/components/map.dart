@@ -48,8 +48,8 @@ class _MapPageState extends State<MapPage> {
       Marker(
         markerId: const MarkerId('basel'),
         position: LatLng(_start.latitude, _start.longitude),
-        infoWindow: InfoWindow(
-            title: 'Current Location', snippet: _start.location),
+        infoWindow:
+            InfoWindow(title: 'Current Location', snippet: _start.location),
       ),
     );
   }
@@ -94,18 +94,28 @@ class _MapPageState extends State<MapPage> {
     mapController.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50));
   }
 
-@override
-Widget build(BuildContext context) {
-  _checkPermissions();
-  return Scaffold(
-    backgroundColor: Colors.transparent, // Set background color to transparent
-    body: Stack(
-      children: [
-        GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: LatLng(_start.latitude, _start.longitude),
-            zoom: 8.0,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor:
+          Colors.transparent, // Set background color to transparent
+      body: Stack(
+        children: [
+          GoogleMap(
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: CameraPosition(
+              target: LatLng(_start.latitude, _start.longitude),
+              zoom: 8.0,
+            ),
+            markers: _markers,
+            polylines: _polylines,
+            mapType: MapType.normal,
+            zoomControlsEnabled: false,
+            myLocationButtonEnabled: false,
+            zoomGesturesEnabled: true,
+            scrollGesturesEnabled: true,
+            rotateGesturesEnabled: true,
+            tiltGesturesEnabled: true,
           ),
           Positioned(
             top: 0,
